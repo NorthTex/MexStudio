@@ -2,6 +2,7 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
+    $$PWD/TransformCharacters.hpp \
     $$PWD/aboutdialog.h \
     $$PWD/arraydialog.h \
     $$PWD/bibtexdialog.h \
