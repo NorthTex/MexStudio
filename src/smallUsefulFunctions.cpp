@@ -24,19 +24,26 @@ QChar transformCharacter(const QChar & character,const QChar & context){
     return QChar(transformation -> second);
 }
 
-QString latexToPlainWord(const QString &word)
-{
+QString latexToPlainWord(const QString & word){
 
 	/*	QString result=word;
 	for (QList<QPair<QString,QString> >::const_iterator it=latexToPlainWordReplaceList.begin(); it!=latexToPlainWordReplaceList.end(); ++it)
 	result.replace(it->first,it->second);*/
+
 	QString result;
+
 	result.reserve(word.length());
+
 	for (int i = 0; i < word.length(); i++) {
 		if (word[i] == '\\') {
+
 			//decode all meta characters starting with a backslash (c++ syntax: don't use an actual backslash there or it creates a multi line comment)
+
 			i++;
-			if (i >= word.length()) break;
+
+			if(i >= word.length())
+				break;
+
 			switch (word[i].toLatin1()) {
 			case '-': //Trennung [separation] (german-babel-package also: \")
 			case '/': //ligatur preventing (german-package also: "|)
@@ -48,178 +55,204 @@ QString latexToPlainWord(const QString &word)
 			case '`':
 			case '~':
 			case 'c':
+
 				if (i + 3 < word.length()) {
 					if (word[i + 1] == '{' && word[i + 3] == '}') {
 						result.append(transformCharacter(word[i + 2], word[i]));
 						i += 3;
+
 						break;
 					}
 				}
+
 				if (i + 1 < word.length()) {
 					if (word[i + 1] == '\\' || word[i + 1] == '"')
 						break;  //ignore "
+
 					result.append(transformCharacter(word[i + 1], word[i]));
 					i++;
+
 					break;
 				}
+
 				i--; //repeat with "
+
 				break;
 			default:
 				i--; //repeat with current char
 			}
-		} /* else if (word[i] == '"') {     // replacement from german package is handled extra
-			//decode all meta characters starting with "
-			i++;
-			if (i>=word.length()) break;
-			switch (word[i].toLatin1()) {
-			case '~':
-				result.append('-'); //- ohne Trennung (without separation)
-				break;
-			case '-':
-			case '|': //babel package, separation
-			case '"':  //ignore ""
-				break;
-			default:
-                result.append(transformCharacter(word[i], '"'));
-
-			}
-        }*/ else result.append(word[i]);
+		} else result.append(word[i]);
 	}
 
 	return result;
 }
-QString latexToPlainWordwithReplacementList(const QString &word, QMap<QString, QString> &replacementList )
-{
+
+QString latexToPlainWordwithReplacementList(const QString & latex,QMap<QString,QString> & replacementList){
+
 	QString result;
-	QString w = latexToPlainWord(word);
-    if (!replacementList.isEmpty()){
-        while (!w.isEmpty()) {
+	QString word = latexToPlainWord(latex);
+
+    if(!replacementList.isEmpty()){
+        while (!word.isEmpty()) {
+
             bool replaced = false;
+
             foreach (const QString elem, replacementList.keys()) {
-                if (w.startsWith(elem)) {
+                if (word.startsWith(elem)) {
                     result.append(replacementList.value(elem));
-                    w = w.mid(elem.length());
+                    word = word.mid(elem.length());
                     replaced = true;
                     break;
                 }
             }
+
             if (!replaced) {
-                result.append(w.left(1));
-                w = w.mid(1);
+                result.append(word.left(1));
+                word = word.mid(1);
             }
         }
-    }else{
-        result=w;
+    } else {
+        result = word;
     }
+
     // remove leading and trailing "
-    if(result.startsWith("\"")){
+
+    if(result.startsWith("\""))
         result=result.mid(1);
-    }
-    if(result.endsWith("\"")){
+
+    if(result.endsWith("\""))
         result.chop(1);
-    }
-	return result;
+
+    return result;
 }
 
-QString textToLatex(const QString &text)
-{
-	QList<QPair<QString, QString> > replaceList;
+using StringPair = QPair<QString,QString>;
+
+QString textToLatex(const QString & text){
+
+	QVector<StringPair> replaceList;
+
 	// replacements for resevered characters according to
 	// http://en.wikibooks.org/wiki/LaTeX/Basics#Reserved_Characters
-    QString result = text;
-    result.replace("{", "\\{");
-    result.replace("}", "\\}");
+
+	QString result = text;
+
+    result.replace("{","\\{");
+    result.replace("}","\\}");
     result.replace(QRegularExpression("\\\\(?![{}])"),"\\textbackslash{}");
-	replaceList.append(QPair<QString, QString> ("#", "\\#"));
-	replaceList.append(QPair<QString, QString> ("$", "\\$"));
-	replaceList.append(QPair<QString, QString> ("%", "\\%"));
-	replaceList.append(QPair<QString, QString> ("&", "\\&"));
-	replaceList.append(QPair<QString, QString> ("~", "\\~{}"));
-	replaceList.append(QPair<QString, QString> ("_", "\\_"));
-	replaceList.append(QPair<QString, QString> ("^", "\\^{}"));
+
+	replaceList.append(StringPair("#","\\#"));
+	replaceList.append(StringPair("$","\\$"));
+	replaceList.append(StringPair("%","\\%"));
+	replaceList.append(StringPair("&","\\&"));
+	replaceList.append(StringPair("~","\\~{}"));
+	replaceList.append(StringPair("_","\\_"));
+	replaceList.append(StringPair("^","\\^{}"));
 
 
-	for (QList<QPair<QString, QString> >::const_iterator it = replaceList.begin(); it != replaceList.end(); ++it)
-		result.replace(it->first, it->second);
+	for(auto && replace : qAsConst(replaceList))
+		result.replace(replace.first,replace.second);
 
-	result.replace(QRegularExpression("\"(.*?)\""), "``\\1''");
+	result.replace(QRegularExpression("\"(.*?)\""),"``\\1''");
 
 	return result;
 }
 
 
-int startOfArg(const QString &s, int index) {
-	for (int i=index; i < s.length(); i++) {
-		if (s.at(i).isSpace()) continue;
-		if (s.at(i) == '{') return i;
-		return -1;
+int startOfArg(const QString & argument,int index){
+
+	for(int i = index; i < argument.length(); i++){
+
+		auto & c = argument.at(i);
+
+		if(c.isSpace())
+			continue;
+
+		return (c == '{') ? i : -1;
 	}
+
 	return -1;
 }
+
 
 /*!
  * Parses a Latex string to a plain string.
  * Specifically, this substitues \texorpdfstring and removes explicit hyphens.
  */
-QString latexToText(QString s)
-{
+
+QString latexToText(QString latex){
+
 	// substitute \texorpdfstring
 	int start, stop;
 	int texorpdfstringLength = 15;
-	start = s.indexOf("\\texorpdfstring");
-	while (start >= 0 && start < s.length()) {
+
+	start = latex.indexOf("\\texorpdfstring");
+
+	while(start >= 0 && start < latex.length()){
 
 		// first arg
-		int i = startOfArg(s, start + texorpdfstringLength);
+		int i = startOfArg(latex, start + texorpdfstringLength);
+
 		if (i < 0) {  // no arguments for \\texorpdfstring
 			start += texorpdfstringLength;
-			start = s.indexOf("\\texorpdfstring", start);
+			start = latex.indexOf("\\texorpdfstring", start);
 			continue;
 		}
+
 		i++;
-		stop = findClosingBracket(s, i);
+
+		stop = findClosingBracket(latex, i);
+
 		if (stop < 0) {  // missing closing bracket for first argument of \\texorpdfstring
 			start += texorpdfstringLength;
-			start = s.indexOf("\\texorpdfstring", start);
+			start = latex.indexOf("\\texorpdfstring", start);
 			continue;
 		}
 
 		// second arg
-		i = startOfArg(s, stop + 1);
+
+		i = startOfArg(latex, stop + 1);
+
 		if (i < 0) {  // no second arg for \\texorpdfstring
 			start += texorpdfstringLength;
-			start = s.indexOf("\\texorpdfstring", start);
+			start = latex.indexOf("\\texorpdfstring", start);
 			continue;
 		}
+
 		i++;
-		stop = findClosingBracket(s, i);
+
+		stop = findClosingBracket(latex, i);
+
 		if (stop < 0) {
 			start += texorpdfstringLength;
-			start = s.indexOf("\\texorpdfstring", start);
+			start = latex.indexOf("\\texorpdfstring", start);
 			continue;  // no second arg for \\texorpdfstring
 		}
-		s.remove(stop, 1);
-		s.remove(start, i - start);
-		start = s.indexOf("\\texorpdfstring", start);
+
+		latex.remove(stop, 1);
+		latex.remove(start, i - start);
+		start = latex.indexOf("\\texorpdfstring", start);
 	}
+
 	// remove discretionary  hyphenations
-	s.remove("\\-");
-	return s;
+	latex.remove("\\-");
+	return latex;
 }
 
+
 // joins all the input lines trimming whitespace. A new line is started on comments and empty lines
-QStringList joinLinesExceptCommentsAndEmptyLines(const QStringList &lines){
+QStringList joinLinesExceptCommentsAndEmptyLines(const QStringList & lines){
 
 	QStringList joinedLines;
 	QString tmpLine;
 
-    #define flushTmpLine()                      \
+    #define flushTmpLine()                  \
         if(!tmpLine.isEmpty()){             \
             joinedLines.append(tmpLine);    \
             tmpLine.clear();                \
         }
 
-	foreach (const QString &l, lines) {
+	foreach (const QString &l,lines){
 		QString rtrimmedLine = trimRight(l);
 
 		if (rtrimmedLine.isEmpty()) { // empty line as separator
@@ -233,10 +266,11 @@ QStringList joinLinesExceptCommentsAndEmptyLines(const QStringList &lines){
 		} else {
 			tmpLine.append(" " + rtrimmedLine.trimmed());
 		}
+
 		int commentStart = LatexParser::commentStart(rtrimmedLine);
-		if (commentStart >= 0) {
+
+        if (commentStart >= 0)
             flushTmpLine();
-		}
 	}
 
     flushTmpLine();
@@ -246,29 +280,44 @@ QStringList joinLinesExceptCommentsAndEmptyLines(const QStringList &lines){
 	return joinedLines;
 }
 
+
 // splits lines after maximal number of chars while keeping track of indentation and comments
-QStringList splitLines(const QStringList &lines, int maxCharPerLine, const QRegularExpression &breakChars)
-{
+QStringList splitLines(const QStringList & lines,int maxCharPerLine,const QRegularExpression & breakChars){
+
 	QStringList splittedLines;
+
 	int maxIndent = maxCharPerLine / 2 * 3;
-	foreach (QString line, lines) {
+
+	foreach (QString line, lines){
+
 		int textStart = 0;
-		while (textStart < line.length() && line.at(textStart).isSpace() && textStart < maxIndent) textStart++;
+
+		while (textStart < line.length() && line.at(textStart).isSpace() && textStart < maxIndent)
+			textStart++;
+
 		if (textStart >= line.length()) { // empty line
 			splittedLines << line;
 			continue;
 		}
+
 		int maxCharPerLineWithoutIndent = maxCharPerLine - textStart;
 		QString indent = line.left(textStart);
 		line = line.mid(textStart);
 
 		bool inComment = false;
-		while (line.length() > maxCharPerLineWithoutIndent) {
-			if (inComment) line.prepend("% ");
+
+		while (line.length() > maxCharPerLineWithoutIndent){
+
+			if(inComment)
+				line.prepend("% ");
+
 			int breakAt = line.lastIndexOf(breakChars, maxCharPerLineWithoutIndent);
+
 			if (breakAt <= 3) breakAt = -1;
+
 			QString leftPart = line.left(breakAt);
 			splittedLines << indent + leftPart;
+
 			if (breakAt >= 0) {
 				line.remove(0, breakAt + 1);
 				inComment = inComment || (LatexParser::commentStart(leftPart) >= 0);
@@ -277,37 +326,50 @@ QStringList splitLines(const QStringList &lines, int maxCharPerLine, const QRegu
 				break;
 			}
 		}
+
 		if (line.length() > 0) {
 			if (inComment) line.prepend("% ");
 			splittedLines << indent + line;
 		}
 	}
+
 	return splittedLines;
 }
 
-bool localeAwareLessThan(const QString &s1, const QString &s2)
-{
-	return QString::localeAwareCompare(s1, s2) < 0;
+
+bool localeAwareLessThan(const QString & stringA, const QString & stringB){
+	return QString::localeAwareCompare(stringA,stringB) < 0;
 }
 
-// removes whitespace from the beginning of the string
-QString trimLeft(const QString &s)
-{
-	int j;
-	for (j = 0; j < s.length(); j++)
-		if (s[j] != ' ' && s[j] != '\t' && s[j] != '\r' && s[j] != '\n') break;
-	return s.mid(j);
+
+/*!
+ *  \brief Trims whitespace from the start of the given string.
+ */
+
+QString trimLeft(const QString & string){
+
+	for(int i = 0; i < string.length();i++)
+		if(!string[i].isSpace())
+			return string.mid(i);
+
+	return string;
 }
 
-// removes whitespace from the end of the string
-QString trimRight(const QString &s)
-{
-	if (s.isEmpty()) return QString();
-	int j;
-	for (j = s.length() - 1; j >= 0; j--)
-		if (s[j] != ' ' && s[j] != '\t' && s[j] != '\r' && s[j] != '\n') break;
-	return s.left(j + 1);
+
+/*!
+ *  \brief Trims whitespace from the end of the given string.
+ */
+
+QString trimRight(const QString & string){
+
+	for(int i = string.length();i > 0;i--)
+		if(!string[i - 1].isSpace())
+			return string.left(i);
+
+	return string;
 }
+
+
 /*!
  * \brief get argument after command 'token'
  *
@@ -317,18 +379,28 @@ QString trimRight(const QString &s)
  * \param token latexcommand
  * \return text after token
  */
-QString findToken(const QString &line, const QString &token)
-{
+
+QString findToken(const QString & line,const QString & token){
+
 	int tagStart = line.indexOf(token);
     int commentStart = line.indexOf(QRegularExpression("(^|[^\\\\])%")); // find start of comment (if any)
-	if (tagStart != -1 && (commentStart > tagStart || commentStart == -1)) {
+
+    if(tagStart != -1 && (commentStart > tagStart || commentStart == -1)){
+
 		tagStart += token.length();
+
 		int tagEnd = line.indexOf("}", tagStart);
-		if (tagEnd != -1) return line.mid(tagStart, tagEnd - tagStart);
-		else return line.mid(tagStart); //return everything after line if there is no }
+
+		if(tagEnd != -1)
+			tagEnd -= tagStart;
+
+		return line.mid(tagStart,tagEnd);
 	}
+
 	return "";
 }
+
+
 /*!
  * \brief get argument after command 'token'
  *
@@ -339,10 +411,12 @@ QString findToken(const QString &line, const QString &token)
  * \param start column number
  * \return text after token
  */
-QString findToken(const QString &line, const QString &token, int &start)
-{
+
+QString findToken(const QString & line,const QString & token,int & start){
+
 	int tagStart = line.indexOf(token, start);
     int commentStart = line.indexOf(QRegularExpression("(^|[^\\\\])%")); // find start of comment (if any)
+
 	if (tagStart != -1 && (commentStart > tagStart || commentStart == -1)) {
 		tagStart += token.length();
 		int tagEnd = line.indexOf("}", tagStart);
@@ -350,9 +424,12 @@ QString findToken(const QString &line, const QString &token, int &start)
 		if (tagEnd != -1) return line.mid(tagStart, tagEnd - tagStart);
 		else return line.mid(tagStart); //return everything after line if there is no }
 	}
+
 	start = -2;
 	return "";
 }
+
+
 /*!
  * \brief get argument after command 'token'
  *
@@ -362,73 +439,105 @@ QString findToken(const QString &line, const QString &token, int &start)
  * \param token regexp to search
  * \return text after token
  */
-QString findToken(const QString &line, QRegExp &token)
-{
-	//ATTENTION: token is not const because, you can't call cap on const qregexp in qt < 4.5
+
+QString findToken(const QString & line,const QRegExp & token){
+
 	int tagStart = 0;
 	QString s = line;
 	tagStart = token.indexIn(line);
     int commentStart = line.indexOf(QRegularExpression("(^|[^\\\\])%")); // find start of comment (if any)
+
 	if (tagStart != -1 && (commentStart > tagStart || commentStart == -1)) {
 		s = s.mid(tagStart + token.cap(0).length(), s.length());
 		return s;
 	}
+
 	return "";
 }
 
-bool findTokenWithArg(const QString &line, const QString &token, QString &outName, QString &outArg)
-{
+
+bool findTokenWithArg(const QString & line,const QString & token,QString & outName,QString & outArg){
+
 	outName = "";
 	outArg = "";
-	int tagStart = line.indexOf(token);
+
+    int tagStart = line.indexOf(token);
     int commentStart = line.indexOf(QRegularExpression("(^|[^\\\\])%")); // find start of comment (if any)
-	if (tagStart != -1 && (commentStart > tagStart || commentStart == -1)) {
+
+    if (tagStart != -1 && (commentStart > tagStart || commentStart == -1)) {
+
 		tagStart += token.length();
 		int tagEnd = line.indexOf("}", tagStart);
+
 		if (tagEnd != -1) {
+
 			outName = line.mid(tagStart, tagEnd - tagStart);
+
 			int curlyOpen = line.indexOf("{", tagEnd);
 			int optionStart = line.indexOf("[", tagEnd);
+
 			if (optionStart < curlyOpen || (curlyOpen == -1 && optionStart != -1)) {
+
 				int optionEnd = line.indexOf("]", optionStart);
-				if (optionEnd != -1) outArg = line.mid(optionStart + 1, optionEnd - optionStart - 1);
-				else outArg = line.mid(optionStart + 1);
+
+				if (optionEnd != -1)
+					outArg = line.mid(optionStart + 1, optionEnd - optionStart - 1);
+				else
+					outArg = line.mid(optionStart + 1);
 			}
-		} else outName = line.mid(tagStart); //return everything after line if there is no }
+		} else {
+			outName = line.mid(tagStart); //return everything after line if there is no }
+		}
+
 		return true;
 	}
+
 	return false;
 }
+
 
 /*! returns the command at pos (including \) in outCmd. pos may be anywhere in the command name (including \) but
  * not in command options. Return value is the index of the first char after the command (or pos if there was no command
  * \warning obsolete with lexer-based token system
  */
+
 // TODO: currently does not work for command '\\'
-int getCommand(const QString &line, QString &outCmd, int pos)
-{
+int getCommand(const QString & line,QString & outCmd,int pos){
+
 	int start = pos;
 
 	while (line.at(start) != '\\') { // find beginning
-		if (!isCommandChar(line.at(start)) || start == 0) return pos; // no command
+
+		if (!isCommandChar(line.at(start)) || start == 0)
+			return pos; // no command
+
 		start--;
 	}
 
 	int i = pos + 1;
+
 	for (; i < line.length(); i++)
-		if (!isCommandChar(line.at(i))) break;
+		if (!isCommandChar(line.at(i)))
+			break;
+
 	outCmd = line.mid(start, i - start);
+
 	return i;
 }
+
 
 /*! returns command option list. pos has to be at the beginning of the first bracket
  * posBehind returns the position after the last bracket, you may pass the same variable as in pos
  * \warning obsolete with lexer-based token system
  */
-QList<CommandArgument> getCommandOptions(const QString &line, int pos, int *posBehind)
-{
-	static QMap<QChar, QChar> cbs;
-	if (cbs.isEmpty()) {
+
+using CharMap = QMap<QChar,QChar>;
+
+QList<CommandArgument> getCommandOptions(const QString & line,int pos,int * posBehind){
+
+	static CharMap cbs;
+
+	if(cbs.isEmpty()) {
 		cbs[QChar('{')] = QChar('}');
 		cbs[QChar('[')] = QChar(']');
 	}
@@ -436,99 +545,155 @@ QList<CommandArgument> getCommandOptions(const QString &line, int pos, int *posB
 	QList<CommandArgument> options;
 
 	int start = pos;
-	if (posBehind) *posBehind = start;
-	if (pos >= line.length()) return options;
-	QChar oc = line[start];
-	if (!cbs.contains(oc)) return options;
 
-	for (int num = 1;; num++) {
+	if(posBehind)
+		*posBehind = start;
+
+	if(pos >= line.length())
+		return options;
+
+	QChar oc = line[start];
+
+	if(!cbs.contains(oc))
+		return options;
+
+	for(int num = 1 ;; num++){
+
 		int end = findClosingBracket(line, start, oc, cbs[oc]);
-		if (end < 0) break; // open without close
+
+		if(end < 0)
+			break; // open without close
+
 		CommandArgument arg;
+
 		arg.isOptional = (oc == '[');
 		arg.number = num;
 		arg.value = line.mid(start + 1, end - start - 1);
 		options.append(arg);
 		start = end + 1;
-		if (posBehind) *posBehind = start;
-		if (start >= line.length() || !cbs.contains(line[start])) break; // close on last char or last option reached
-		else oc = line[start];
+
+		if(posBehind)
+			* posBehind = start;
+
+		if(start >= line.length() || !cbs.contains(line[start]))
+			break; // close on last char or last option reached
+		else
+			oc = line[start];
 	}
+
 	return options;
 }
+
 
 /* returns the item at pos in a colon separated list of options (empty on colon
  * e.g. getParamItem("{one, two, three}", 7) returns "two"
  * \warning obsolete with lexer-based token system
  */
-QString getParamItem(const QString &line, int pos, bool stopAtWhiteSpace)
-{
+QString getParamItem(const QString &line, int pos, bool stopAtWhiteSpace){
+
 	REQUIRE_RET(pos <= line.length(), QString());
+
 	int start;
 	int curlCount = 0;
 	int squareCount = 0;
+
 	QString openDelim(",{[");
-	if (stopAtWhiteSpace) openDelim += " \t\n\r";
-	for (start = pos; start > 0; start--) {
+
+	if(stopAtWhiteSpace)
+		openDelim += " \t\n\r";
+
+	for(start = pos; start > 0; start--){
+
 		QChar c = line.at(start - 1);
-		if (c == '}' && openDelim.contains('{')) curlCount++;
-		if (c == '{') {
-			if (curlCount-- <= 0) break;
-			else continue;
+
+		if(c == '}' && openDelim.contains('{'))
+			curlCount++;
+
+		if(c == '{') {
+			if (curlCount-- <= 0)
+				break;
+			else
+				continue;
 		}
-		if (c == ']' && openDelim.contains('[')) squareCount++;
-		if (c == '[') {
-			if (squareCount-- <= 0) break;
-			else continue;
+
+		if(c == ']' && openDelim.contains('['))
+			squareCount++;
+
+		if(c == '[') {
+			if (squareCount-- <= 0)
+				break;
+			else
+				continue;
 		}
-		if (openDelim.contains(c)) break;
+
+		if(openDelim.contains(c))
+			break;
 	}
+
 	int end = pos;
 	QString closeDelim(",]}");
-	if (stopAtWhiteSpace) closeDelim += " \t\n\r";
+
+	if(stopAtWhiteSpace)
+		closeDelim += " \t\n\r";
+
 	curlCount = 0;
 	squareCount = 0;
-	for (end = pos; end < line.length(); end++) {
+
+	for(end = pos; end < line.length(); end++){
+
 		QChar c = line.at(end);
-		if (c == '{' && closeDelim.contains('}')) curlCount++;
-		if (c == '}') {
-			if (curlCount-- <= 0) break;
-			else continue;
+
+		if(c == '{' && closeDelim.contains('}'))
+			curlCount++;
+
+		if(c == '}'){
+			if(curlCount-- <= 0)
+				break;
+			else
+				continue;
 		}
-		if (c == '[' && closeDelim.contains(']')) squareCount++;
-		if (c == ']') {
-			if (squareCount-- <= 0) break;
-			else continue;
+
+		if(c == '[' && closeDelim.contains(']'))
+			squareCount++;
+
+		if(c == ']'){
+			if(squareCount-- <= 0)
+				break;
+			else
+				continue;
 		}
-		if (closeDelim.contains(c)) break;
+
+		if(closeDelim.contains(c))
+			break;
 	}
+
 	return line.mid(start, end - start);
 }
 
-QRegExp generateRegExp(const QString &text, const bool isCase, const bool isWord, const bool isRegExp)
-{
+
+QRegExp generateRegExp(const QString & text,const bool isCase,const bool isWord,const bool isRegExp){
+
 	Qt::CaseSensitivity cs = isCase ? Qt::CaseSensitive : Qt::CaseInsensitive;
 	QRegExp m_regexp;
-	if ( isRegExp ) {
-		m_regexp = QRegExp(text, cs, QRegExp::RegExp);
-	} else if ( isWord ) {
-		//todo: screw this? it prevents searching of "world!" and similar things
-		//(qtextdocument just checks the surrounding character when searching for whole words, this would also allow wholewords|regexp search)
-		m_regexp = QRegExp(
-		               QString("\\b%1\\b").arg(QRegExp::escape(text)),
-		               cs,
-		               QRegExp::RegExp
-		           );
-	} else {
-		m_regexp = QRegExp(text, cs, QRegExp::FixedString);
-	}
-	return m_regexp;
+
+	if( isRegExp )
+		return QRegExp(text,cs,QRegExp::RegExp);
+
+	//todo: screw this? it prevents searching of "world!" and similar things
+	//(qtextdocument just checks the surrounding character when searching for whole words, this would also allow wholewords|regexp search)
+
+	if( isWord )
+		return QRegExp(QString("\\b%1\\b").arg(QRegExp::escape(text)),cs,QRegExp::RegExp);
+
+	return QRegExp(text,cs,QRegExp::FixedString);
 }
 
-QRegularExpression generateRegularExpression(const QString &text, const bool isCase, const bool isWord, const bool isRegExp)
-{
+
+QRegularExpression generateRegularExpression(const QString &text, const bool isCase, const bool isWord, const bool isRegExp){
+
     QRegularExpression::PatternOption po = isCase ? QRegularExpression::NoPatternOption : QRegularExpression::CaseInsensitiveOption;
     QRegularExpression m_regexp;
+
     if ( isRegExp ) {
         m_regexp = QRegularExpression(text,  po);
     } else if ( isWord ) {

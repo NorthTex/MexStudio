@@ -4,10 +4,10 @@
 using std::map;
 using std::pair;
 
-using CharMap = map<pair<char,char>,int>;
+using Transformations = map<pair<char,char>,int>;
 
 
-const CharMap characters {
+const Transformations characters {
 
     //  Umlaut
 
