@@ -1,35 +1,35 @@
 #ifndef Header_File_Dialog
 #define Header_File_Dialog
 
+
 #include <QWidget>
 #include <QString>
 #include <QStringList>
 
 
-class FileDialog
-{
-public:
+using String = const QString &;
 
-  static QString getOpenFileName(QWidget *parent = nullptr,
-                                 const QString &caption = QString(),
-                                 const QString &dir = QString(),
-                                 const QString &filter = QString(),
-                                 QString *selectedFilter = nullptr,
-                                 int options = 0);
 
-  static QString getSaveFileName(QWidget *parent = nullptr,
-                                 const QString &caption = QString(),
-                                 const QString &dir = QString(),
-                                 const QString &filter = QString(),
-                                 QString *selectedFilter = nullptr,
-                                 int options = 0);
+class FileDialog {
 
-  static QStringList getOpenFileNames(QWidget *parent = nullptr,
-                                      const QString &caption = QString(),
-                                     const QString &dir = QString(),
-                                      const QString &filter = QString(),
-                                      QString *selectedFilter = nullptr,
-                                      int options = 0);
+    public:
+
+        #define parameter                           \
+            QWidget * parent = nullptr,             \
+            String caption = QString(),             \
+            String dir = QString(),                 \
+            String filter = QString(),              \
+            QString * selectedFilter = nullptr,     \
+            int options = 0
+
+
+        static QString getOpenFileName(parameter);
+        static QString getSaveFileName(parameter);
+        static QStringList getOpenFileNames(parameter);
+
+
+        #undef parameter
+
 };
 
-#endif // FILEDIALOG_H
+#endif
