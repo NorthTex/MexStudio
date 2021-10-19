@@ -12,6 +12,7 @@
  ***************************************************************************/
 
 #include "mostQtHeaders.h"
+
 /*! \mainpage TexStudio
  *
  * \see Texstudio
@@ -27,103 +28,121 @@
 #include <QSplashScreen>
 
 #ifdef Q_OS_WIN32
-#include "windows.h"
-typedef BOOL (WINAPI *AllowSetForegroundWindowFunc)(DWORD);
+	#include "windows.h"
+	typedef BOOL (WINAPI *AllowSetForegroundWindowFunc)(DWORD);
 #endif
 
-class TexstudioApp : public QtSingleApplication
-{
-public:
-	bool initialized;
-	QString delayedFileLoad;
-	Texstudio *mw;  // Moved from private:
-	TexstudioApp(int &argc, char **argv);
-	TexstudioApp(QString &id, int &argc, char **argv);
-	~TexstudioApp();
-	void init(QStringList &cmdLine);   // This function does all the initialization instead of the constructor.
-	/*bool notify(QObject* obj, QEvent* event){
-		//really slow global event logging:
-		//qWarning(qPrintable(QString("%1 obj %2 named %3 typed %4 child of %5 received %6").arg(QTime::currentTime().toString("HH:mm:ss:zzz")).arg((long)obj,8,16).arg(obj->objectName()).arg(obj->metaObject()->className()).arg(obj->parent()?obj->parent()->metaObject()->className():"").arg(event->type())));
-		try {
-			return QApplication::notify(obj,event);
-		} catch (const std::exception& e){
-			qDebug() << "Catched exception: " << e.what();
-			return false;
-		}
-	}*/
 
+class TexstudioApp : public QtSingleApplication {
 
-protected:
-	bool event(QEvent *event);
+	public:
+
+		QString delayedFileLoad;
+		Texstudio * mw;
+		bool initialized;
+
+		TexstudioApp(int & args,char ** arguments);
+		TexstudioApp(QString & id,int & args,char ** arguments);
+		~TexstudioApp();
+
+		void init(QStringList & cmdLine);
+
+	protected:
+
+		bool event(QEvent * event);
 };
 
-TexstudioApp::TexstudioApp(int &argc, char **argv) : QtSingleApplication(argc, argv)
-{
+
+TexstudioApp::TexstudioApp(int & args,char ** arguments)
+	: QtSingleApplication(args,arguments){
+
 	mw = nullptr;
 	initialized = false;
 }
 
-TexstudioApp::TexstudioApp(QString &id, int &argc, char **argv) : QtSingleApplication(id, argc, argv)
-{
+
+TexstudioApp::TexstudioApp(QString & id,int & args,char ** arguments)
+	: QtSingleApplication(id,args,arguments){
+
 	mw = nullptr;
 	initialized = false;
 }
 
-void TexstudioApp::init(QStringList &cmdLine)
-{
+
+void TexstudioApp::init(QStringList & cmdLine){
+
 	QPixmap pixmap(":/images/splash.png");
-	QSplashScreen *splash = new QSplashScreen(pixmap);
-	splash->show();
+	QSplashScreen * splash = new QSplashScreen(pixmap);
+
+	splash -> show();
 	processEvents();
 
-    mw = new Texstudio(nullptr, Qt::WindowFlags(), splash);
-	connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quit()));
+	mw = new Texstudio(nullptr,Qt::WindowFlags(),splash);
+
+	connect(this,SIGNAL(lastWindowClosed()),this,SLOT(quit()));
+
 	splash->finish(mw);
+
 	delete splash;
 
 	initialized = true;
 
-	if (!delayedFileLoad.isEmpty()) cmdLine << delayedFileLoad;
-	mw->executeCommandLine(cmdLine, true);
-	if(!cmdLine.contains("--auto-tests")){
+	if(!delayedFileLoad.isEmpty())
+		cmdLine << delayedFileLoad;
+
+	mw -> executeCommandLine(cmdLine,true);
+
+	if(!cmdLine.contains("--auto-tests"))
 		mw->startupCompleted();
-	}
 }
 
-TexstudioApp::~TexstudioApp()
-{
+
+TexstudioApp::~TexstudioApp(){
 	delete mw;
 }
 
-bool TexstudioApp::event(QEvent *event)
-{
-	if (event->type() == QEvent::FileOpen) {
-		QFileOpenEvent *oe = static_cast<QFileOpenEvent *>(event);
-		if (initialized) mw->load(oe->file());
-		else delayedFileLoad = oe->file();
+
+bool TexstudioApp::event(QEvent * event){
+
+	if(event -> type() == QEvent::FileOpen){
+
+		QFileOpenEvent * openEvent = static_cast<QFileOpenEvent *>(event);
+
+		if(initialized)
+			mw->load(openEvent -> file());
+		else
+			delayedFileLoad = openEvent -> file();
+
 		event->accept();
+
 		return true;
 	}
+
 	return QApplication::event(event);
 }
 
-QString generateAppId()
-{
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	QString user = env.value("USER");
-	if (user.isEmpty()) {
-		user = env.value("USERNAME");
-	}
+
+QString generateAppId(){
+
+	QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+	QString user = environment.value("USER");
+
+	if(user.isEmpty())
+		user = environment.value("USERNAME");
+
     return QString("%1_%2").arg(TEXSTUDIO,user);
 }
 
-QStringList parseArguments(const QStringList &args, bool &outStartAlways)
-{
+
+QStringList parseArguments(const QStringList & args,bool & outStartAlways){
+
 	QStringList cmdLine;
-	for (int i = 1; i < args.count(); ++i) {
+
+	for(int i = 1;i < args.count();++i){
+
 		QString cmdArgument =  args[i];
 
-		if (cmdArgument.startsWith('-')) {
+		if(cmdArgument.startsWith('-')){
 			// various commands
 			if (cmdArgument == "--start-always")
 				outStartAlways = true;
@@ -131,20 +150,23 @@ QStringList parseArguments(const QStringList &args, bool &outStartAlways)
 				ConfigManager::dontRestoreSession = true;
 			else if ((cmdArgument == "-line" || cmdArgument == "--line") && (++i < args.count()))
 				cmdLine << "--line" << args[i];
+
 			else if ((cmdArgument == "-page" || cmdArgument == "--page") && (++i < args.count()))
 				cmdLine << "--page" << args[i];
+
 			else if ((cmdArgument == "-insert-cite" || cmdArgument == "--insert-cite") && (++i < args.count()))
 				cmdLine << "--insert-cite" << args[i];
+
 			else if (cmdArgument == "--ini-file" && (++i < args.count())) {
 				// deprecated: use --config instead
 				ConfigManager::configDirOverride = QFileInfo(args[i]).absolutePath();
 			}
 			else if (cmdArgument == "--config" && (++i < args.count()))
 				ConfigManager::configDirOverride = args[i];
-#ifdef DEBUG_LOGGER
+		#ifdef DEBUG_LOGGER
 			else if ((cmdArgument == "--debug-logfile") && (++i < args.count()))
 				debugLoggerStart(args[i]);
-#endif
+		#endif
 			else
 				cmdLine << cmdArgument;
         } else {
@@ -156,10 +178,13 @@ QStringList parseArguments(const QStringList &args, bool &outStartAlways)
 			cmdLine << QFileInfo(cmdArgument).absoluteFilePath();
         }
 	}
+
 	return cmdLine;
 }
 
-bool handleCommandLineOnly(const QStringList &cmdLine) {
+
+bool handleCommandLineOnly(const QStringList & cmdLine){
+
 	// note: stdout is not supported for Win GUI applications. Will simply not output anything there.
 	if (cmdLine.contains("--help")) {
 		QTextStream(stdout) << "Usage: texstudio [options] [file]\n"
@@ -182,7 +207,7 @@ bool handleCommandLineOnly(const QStringList &cmdLine) {
 		return true;
 	}
 
-	if (cmdLine.contains("--version")) {
+    if(cmdLine.contains("--version")){
         QTextStream(stdout) << "TeXstudio " << TXSVERSION << " (" << TEXSTUDIO_GIT_REVISION << ")\n";
 		return true;
 	}
@@ -190,18 +215,21 @@ bool handleCommandLineOnly(const QStringList &cmdLine) {
 	return false;
 }
 
-int main(int argc, char **argv)
-{
+
+int main(int args,char ** argument){
+
 	QString appId = generateAppId();
-#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
-    if(qEnvironmentVariableIntValue("TEXSTUDIO_HIDPI_SCALE")>0){
-        QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    } else {
-        QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-    }
-#endif
+
+	#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+		QApplication::setAttribute(
+			(qEnvironmentVariableIntValue("TEXSTUDIO_HIDPI_SCALE") > 0)
+			? Qt::AA_EnableHighDpiScaling
+			: Qt::AA_DisableHighDpiScaling
+		);
+	#endif
+
 	// This is a dummy constructor so that the programs loads fast.
-	TexstudioApp a(appId, argc, argv);
+	TexstudioApp a(appId,args,argument);
 	bool startAlways = false;
 	QStringList cmdLine = parseArguments(QCoreApplication::arguments(), startAlways);
 
@@ -211,36 +239,43 @@ int main(int argc, char **argv)
 
 	if (!startAlways) {
 		if (a.isRunning()) {
-#ifdef Q_OS_WIN32
+		#ifdef Q_OS_WIN32
 			AllowSetForegroundWindowFunc asfw = (AllowSetForegroundWindowFunc) GetProcAddress(GetModuleHandleA("user32.dll"), "AllowSetForegroundWindow");
 			if (asfw) asfw(/*ASFW_ANY*/(DWORD)(-1));
-#endif
+		#endif
 			a.sendMessage(cmdLine.join("#!#"));
 			return 0;
 		}
 	}
 
 	a.setApplicationName( TEXSTUDIO );
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)) && defined(Q_OS_LINUX)
-	a.setDesktopFileName("texstudio");
-#endif
+
+	#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)) && defined(Q_OS_LINUX)
+		a.setDesktopFileName("texstudio");
+	#endif
+
 	a.init(cmdLine); // Initialization takes place only if there is no other instance running.
 
-    QObject::connect(&a, SIGNAL(messageReceived(const QString&)),
-                     a.mw, SLOT(onOtherInstanceMessage(const QString&)));
+    QObject::connect(
+        &a,SIGNAL(messageReceived(QString)),
+        a.mw,SLOT(onOtherInstanceMessage(QString)));
 
 	try {
 		int execResult = a.exec();
-#ifdef DEBUG_LOGGER
+
+		#ifdef DEBUG_LOGGER
 		if (debugLoggerIsLogging()) {
 			debugLoggerStop();
 		}
-#endif
+		#endif
+
 		return execResult;
 	} catch (...) {
-#ifndef NO_CRASH_HANDLER
-		catchUnhandledException();
-#endif
+
+		#ifndef NO_CRASH_HANDLER
+			catchUnhandledException();
+		#endif
+
 		throw;
 	}
 }
