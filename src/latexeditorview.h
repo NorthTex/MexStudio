@@ -20,7 +20,8 @@
 #include "bibtexreader.h"
 #include "cursorposition.h"
 #include "latexcompleter.h"
-#include "help.h"
+//#include "help.h"
+#include "Help.hpp"
 #include "latexdocument.h"
 
 

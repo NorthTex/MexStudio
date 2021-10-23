@@ -3,7 +3,8 @@
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
-#include "help.h"
+//#include "help.h"
+#include "Help.hpp"
 #include "testutil.h"
 #include "buildmanager.h"
 #include <QtTest/QtTest>

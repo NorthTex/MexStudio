@@ -69,6 +69,8 @@
 #include "symbolwidget.h"
 #include "execprogram.h"
 
+#include "help.h"
+
 #include <QScreen>
 
 #ifndef QT_NO_DEBUG

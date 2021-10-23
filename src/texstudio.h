@@ -47,7 +47,7 @@
 #include "diffoperations.h"
 #include "svn.h"
 #include "git.h"
-#include "help.h"
+//#include "help.h"
 
 #include <QProgressDialog>
 

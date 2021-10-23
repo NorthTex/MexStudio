@@ -2,8 +2,8 @@
 #define Header_TexDoc_Dialog
 
 #include "mostQtHeaders.h"
-#include "help.h"
-
+//#include "help.h"
+#include "Help.hpp"
 
 namespace Ui { class TexdocDialog; }
 

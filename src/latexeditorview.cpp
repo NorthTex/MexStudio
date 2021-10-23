@@ -48,7 +48,7 @@
 #include "scriptengine.h"
 #include "diffoperations.h"
 
-#include "help.h"
+#include "LatexReference.hpp"
 
 #include "bidiextender.h"
 
@@ -2520,7 +2520,7 @@ void LatexEditorView::mouseHovered(QPoint pos)
 			if (config->toolTipPreview && showMathEnvPreview(cursor, command, value, pos)) {
                 // action is already performed as a side effect
 			} else if (config->toolTipHelp && completer->getLatexReference()) {
-				QString topic = completer->getLatexReference()->getTextForTooltip(command);
+				QString topic = completer->getLatexReference() -> tooltipText(command);
 				if (!topic.isEmpty()) QToolTip::showText(editor->mapToGlobal(editor->mapFromFrame(pos)), topic);
 			}
 		}
@@ -2530,7 +2530,7 @@ void LatexEditorView::mouseHovered(QPoint pos)
 			if (config->toolTipPreview && showMathEnvPreview(cursor, "\\begin", value, pos)) {
                 // action is already performed as a side effect
 			} else if (config->toolTipHelp && completer->getLatexReference()) {
-				QString topic = completer->getLatexReference()->getTextForTooltip("\\begin{" + value);
+				QString topic = completer->getLatexReference() -> tooltipText("\\begin{" + value);
 				if (!topic.isEmpty()) QToolTip::showText(editor->mapToGlobal(editor->mapFromFrame(pos)), topic);
 			}
 		}

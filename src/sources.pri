@@ -33,7 +33,8 @@ HEADERS += \
     $$PWD/git.h \
     $$PWD/grammarcheck.h \
     $$PWD/grammarcheck_config.h \
-    $$PWD/help.h \
+    $$PWD/LatexReference.hpp \
+    $$PWD/Help.hpp \
     #$$PWD/icondelegate.h \
     $$PWD/insertgraphics.h \
     $$PWD/insertgraphics_config.h \
@@ -139,7 +140,9 @@ SOURCES += \
     $$PWD/flowlayout.cpp \
     $$PWD/git.cpp \
     $$PWD/grammarcheck.cpp \
-    $$PWD/help.cpp \
+#    $$PWD/help.cpp \
+    $$PWD/Help.cpp \
+    $$PWD/LatexReference.cpp \
     #$$PWD/icondelegate.cpp \
     $$PWD/insertgraphics.cpp \
     $$PWD/kpathseaParser.cpp \

@@ -1,7 +1,7 @@
 #include "latexcompleter.h"
 #include "latexcompleter_p.h"
 #include "latexcompleter_config.h"
-#include "help.h"
+#include "LatexReference.hpp"
 #include "usermacro.h"
 
 #include "smallUsefulFunctions.h"
@@ -2013,7 +2013,7 @@ void LatexCompleter::selectionChanged(const QModelIndex &index)
 		return;
 	} else {
 		if (latexReference && config->tooltipHelp)
-			topic = latexReference->getTextForTooltip(cmd);
+			topic = latexReference -> tooltipText(cmd);
 		if (topic.isEmpty()) {
 			QToolTip::hideText();
 			return;

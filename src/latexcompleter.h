@@ -20,11 +20,11 @@
 #include "directoryreader.h"
 #include "bibtexreader.h"
 #include <set>
+#include "LatexReference.hpp"
 
 
 class CompletionListModel;
 class LatexCompleterConfig;
-class LatexReference;
 class LatexParser;
 
 
