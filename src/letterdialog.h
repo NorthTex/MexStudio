@@ -12,18 +12,22 @@
 #ifndef Header_Letter_Dialog
 #define Header_Letter_Dialog
 
-#include "mostQtHeaders.h"
 
+#include "mostQtHeaders.h"
 #include "ui_letterdialog.h"
 
-class LetterDialog : public QDialog
-{
+
+class LetterDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-	LetterDialog(QWidget *parent = 0, const char *name = 0);
-	~LetterDialog();
-	Ui::LetterDialog ui;
+	public:
+
+		LetterDialog(QWidget * parent = 0,const char * name = 0);
+		~LetterDialog();
+
+		Ui::LetterDialog ui;
+
 };
 
 

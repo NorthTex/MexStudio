@@ -1,37 +1,50 @@
 #ifndef Header_SVN
 #define Header_SVN
 
+
 #include "mostQtHeaders.h"
+
+
 /*!
  * \brief SVN class
  * This class provides easy access to the svn command.
  */
-class SVN : public QObject
-{
+
+class SVN : public QObject {
+
 	Q_OBJECT
 
-public:
-	enum Status {Unknown, Unmanaged, Modified, Locked, CheckedIn, InConflict};
+	private:
 
-	explicit SVN(QObject *parent = Q_NULLPTR);
+		using Path = QString;
+		using Action = QString;
+		using Args = QString;
 
-	static QString quote(QString filename);
-	static QString makeCmd(QString action, QString args);
-	static QString makeAdminCmd(QString action, QString args);
+	public:
 
-    void commit(QString filename, QString message);
-    void lock(QString filename);
-    Status status(QString filename);
-    QStringList log(QString filename);
-    void createRepository(QString filename);
+		enum Status {Unknown, Unmanaged, Modified, Locked, CheckedIn, InConflict};
 
-    QString runSvn(QString action, QString args);
-    QString runSvnAdmin(QString action, QString args);
+		explicit SVN(QObject * parent = Q_NULLPTR);
 
-signals:
-    void runCommand(const QString &commandline, QString *output);
-    void statusMessage(const QString &message);
+		static QString quote(Path);
+		static QString makeCmd(Action,Args);
+		static QString makeAdminCmd(Action,Args);
+
+		void commit(Path,QString message);
+		void lock(Path);
+		void createRepository(Path);
+
+		Status status(Path);
+		QStringList log(Path);
+
+		QString runSvn(Action,Args);
+		QString runSvnAdmin(Action,Args);
+
+	signals:
+
+		void runCommand(const QString & commandline,QString * output);
+		void statusMessage(const QString & message);
 
 };
 
-#endif // SVN_H
+#endif

@@ -1,60 +1,77 @@
 #ifndef Header_Latex_Log_Widget
 #define Header_Latex_Log_Widget
 
+
 #include "logeditor.h"
 #include "latexlog.h"
-
 #include <QSortFilterProxyModel>
-
 #include "mostQtHeaders.h"
 
-class LatexLogWidget : public QWidget
-{
+
+class LatexLogWidget : public QWidget {
+
 	Q_OBJECT
 
-public:
-	explicit LatexLogWidget(QWidget *parent = 0);
+	public:
 
-	bool loadLogFile(const QString &logname, const QString &compiledFileName, QTextCodec* fallbackCodec);
-	LatexLogModel *getLogModel() { return logModel; }
+		explicit LatexLogWidget(QWidget * parent = 0);
 
-	bool logEntryNumberValid(int logEntryNumber);
-	bool logPresent();
-	void resetLog();
-	void selectLogEntry(int logEntryNumber);
 
-	void copy();
+		LatexLogModel * getLogModel(){
+			return logModel;
+		}
 
-	bool childHasFocus() const { return log->hasFocus() || errorTable->hasFocus(); }
-	QList<QAction *> displayActions();
+		bool childHasFocus() const {
+			return log -> hasFocus() || errorTable -> hasFocus();
+		}
 
-signals:
-	void logEntryActivated(int);
-	void logLoaded();
-	void logResetted();
+		bool loadLogFile(const QString & logname,const QString & compiledFileName,QTextCodec * fallback);
+		bool logEntryNumberValid(int logEntryNumber);
+		bool logPresent();
 
-public slots:
+		void selectLogEntry(int logEntryNumber);
+		void resetLog();
+		void copy();
 
-private slots:
-	void clickedOnLogModelIndex(const QModelIndex &index);
-	void gotoLogEntry(int logEntryNumber);
-	void gotoLogLine(int logLine);
-	void copyMessage();
-	void copyAllMessages();
-	void copyAllMessagesWithLineNumbers();
-	void setWidgetVisibleFromAction(bool visible);
-	void setInfo(const QString &message);
-	void filterChanged(bool);
+		QList<QAction *> displayActions();
 
-private:
-	LatexLogModel *logModel;
-	QSortFilterProxyModel *proxyModel;
-	bool logpresent;
+	signals:
 
-	QTableView *errorTable;
-	LogEditor *log;
-	QLabel *infoLabel;
-	QAction *displayTableAction, *displayLogAction, *filterErrorAction, *filterWarningAction, *filterBadBoxAction;
+		void logEntryActivated(int);
+		void logLoaded();
+		void logResetted();
+
+	private slots:
+
+		void clickedOnLogModelIndex(const QModelIndex &);
+		void setWidgetVisibleFromAction(bool visible);
+		void gotoLogEntry(int logEntryNumber);
+		void filterChanged(bool);
+		void gotoLogLine(int logLine);
+		void setInfo(const QString &message);
+
+		void copyAllMessagesWithLineNumbers();
+		void copyMessage();
+		void copyAllMessages();
+
+	private:
+
+		QSortFilterProxyModel * proxyModel;
+		LatexLogModel * logModel;
+
+		QTableView * errorTable;
+		LogEditor * log;
+		QLabel * infoLabel;
+
+		QAction
+			* displayTableAction,
+			* displayLogAction,
+			* filterErrorAction,
+			* filterWarningAction,
+			* filterBadBoxAction;
+
+		bool logpresent;
 };
 
-#endif // LATEXLOGWIDGET_H
+
+#endif

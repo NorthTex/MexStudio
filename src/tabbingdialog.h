@@ -12,18 +12,23 @@
 #ifndef Header_Tabbing_Dialog
 #define Header_Tabbing_Dialog
 
-#include "mostQtHeaders.h"
 
+#include "mostQtHeaders.h"
 #include "ui_tabbingdialog.h"
 
-class TabbingDialog : public QDialog
-{
+
+class TabbingDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-	TabbingDialog(QWidget *parent = 0, const char *name = 0);
-	~TabbingDialog();
-	Ui::TabbingDialog ui;
+	public:
+
+		TabbingDialog(QWidget * parent = 0,const char * name = 0);
+		~TabbingDialog();
+
+		Ui::TabbingDialog ui;
+
 };
+
 
 #endif

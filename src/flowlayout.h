@@ -41,38 +41,51 @@
 #ifndef Header_FlowLayoutX
 #define Header_FlowLayoutX
 
+
 #include <QLayout>
 #include <QRect>
 #include <QStyle>
-//! [0]
-class FlowLayoutX : public QLayout
-{
-public:
-    explicit FlowLayoutX(QWidget *parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
-    explicit FlowLayoutX(int margin = -1, int hSpacing = -1, int vSpacing = -1);
-    ~FlowLayoutX();
 
-    void addItem(QLayoutItem *item);
-    int horizontalSpacing() const;
-    int verticalSpacing() const;
-    Qt::Orientations expandingDirections() const;
-    bool hasHeightForWidth() const;
-    int heightForWidth(int) const;
-    int count() const;
-    QLayoutItem *itemAt(int index) const;
-    QSize minimumSize() const;
-    void setGeometry(const QRect &rect);
-    QSize sizeHint() const;
-    QLayoutItem *takeAt(int index);
 
-private:
-    int doLayout(const QRect &rect, bool testOnly) const;
-    int smartSpacing(QStyle::PixelMetric pm) const;
+class FlowLayoutX : public QLayout {
 
-    QList<QLayoutItem *> itemList;
-    int m_hSpace;
-    int m_vSpace;
+    public:
+
+        explicit FlowLayoutX(QWidget * parent,int margin = -1,int hSpacing = -1,int vSpacing = -1);
+        explicit FlowLayoutX(int margin = -1,int hSpacing = -1,int vSpacing = -1);
+
+        ~FlowLayoutX();
+
+        void setGeometry(const QRect & rect);
+        void addItem(QLayoutItem * item);
+
+        Qt::Orientations expandingDirections() const;
+
+        bool hasHeightForWidth() const;
+
+        int heightForWidth(int) const;
+
+        int horizontalSpacing() const;
+        int verticalSpacing() const;
+        int count() const;
+
+        QLayoutItem * itemAt(int) const;
+        QLayoutItem * takeAt(int);
+
+        QSize minimumSize() const;
+        QSize sizeHint() const;
+
+    private:
+
+        int doLayout(const QRect &,bool testOnly) const;
+        int smartSpacing(QStyle::PixelMetric) const;
+
+        QList<QLayoutItem *> itemList;
+
+        int m_hSpace;
+        int m_vSpace;
+
 };
-//! [0]
 
-#endif // FlowLayoutX_H
+
+#endif

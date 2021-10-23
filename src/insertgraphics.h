@@ -12,75 +12,95 @@
 #ifndef Header_InsertGraphics
 #define Header_InsertGraphics
 
-#include "ui_insertgraphics.h"
 
+#include "ui_insertgraphics.h"
 #include "QFileInfo"
 #include "QListWidgetItem"
+
 
 class InsertGraphicsConfig;
 
 
-class PlacementValidator : public QRegularExpressionValidator
-{
+class PlacementValidator : public QRegularExpressionValidator {
+
 	Q_OBJECT
 
-public:
-    explicit PlacementValidator(QObject *parent = nullptr);
-	void fixup (QString &input) const;
-	State validate(QString &input, int &pos) const;
+	public:
+
+		explicit PlacementValidator(QObject * parent = nullptr);
+
+		State validate(QString & input,int & pos) const;
+		void fixup (QString & input) const;
+
 };
 
 
-class InsertGraphics : public QDialog
-{
+class InsertGraphics : public QDialog {
+
 	Q_OBJECT
 
-public:
-    InsertGraphics(QWidget *parent = nullptr, InsertGraphicsConfig *conf = nullptr);
-	Q_INVOKABLE QString graphicsFile() const;
-	QString getLatexText() const;
-	static QStringList imageFormats();
+	public:
 
-private:
-	enum PlacementType {PlaceHere = QListWidgetItem::UserType, PlaceTop, PlaceBottom, PlacePage};
+		InsertGraphics(QWidget * parent = nullptr,InsertGraphicsConfig * = nullptr);
 
-	InsertGraphicsConfig getConfig() const;
-	void setConfig(const InsertGraphicsConfig &conf);
-	bool parseCode(const QString &code, InsertGraphicsConfig &conf);
-	bool fileNeedsInputCommand(const QString &filename) const;
-	QString getFormattedFilename(const QString filename) const;
-	QString getCaptionLabelString(const InsertGraphicsConfig &conf) const;
+		Q_INVOKABLE QString graphicsFile() const;
+		QString getLatexText() const;
 
-	QString generateLabel(QString fname);
-	Ui::InsertGraphics ui;
-	QFileInfo texFile;
-	QFileInfo masterTexFile;
-	bool autoLabel;
+		static QStringList imageFormats();
 
-	static QStringList m_imageFormats;
-	static QStringList widthUnits;
-	static QStringList heightUnits;
+	private:
 
-	InsertGraphicsConfig *defaultConfig;
+		enum PlacementType {PlaceHere = QListWidgetItem::UserType, PlaceTop, PlaceBottom, PlacePage};
 
-public slots:
-	void setTexFile(const QFileInfo &fi);
-	void setMasterTexFile(const QFileInfo &fi);
-	void setGraphicsFile(const QString &file);
-	void setCode(const QString &code);
+		InsertGraphicsConfig getConfig() const;
 
-signals:
-	void fileNameChanged(const QString &);
+		bool parseCode(const QString & code,InsertGraphicsConfig &);
+		bool fileNeedsInputCommand(const QString & filename) const;
 
-private slots:
-	void chooseFile();
-	void includeOptionChanged();
-	void leFileChanged(const QString &filename);
-	void labelChanged(const QString &label);
-	void updateLabel(const QString &fname);
-	void togglePlacementCheckboxes(bool forceHide = false);
-	void updatePlacement();
-	void saveDefault();
+		void setConfig(const InsertGraphicsConfig &);
+
+		QString getCaptionLabelString(const InsertGraphicsConfig &) const;
+		QString getFormattedFilename(const QString filename) const;
+
+		QString generateLabel(QString fname);
+
+		Ui::InsertGraphics ui;
+
+		QFileInfo texFile;
+		QFileInfo masterTexFile;
+
+		bool autoLabel;
+
+		static QStringList m_imageFormats;
+		static QStringList heightUnits;
+		static QStringList widthUnits;
+
+		InsertGraphicsConfig * defaultConfig;
+
+	public slots:
+
+		void setMasterTexFile(const QFileInfo &);
+		void setGraphicsFile(const QString & file);
+		void setTexFile(const QFileInfo &);
+		void setCode(const QString & code);
+
+	signals:
+
+		void fileNameChanged(const QString &);
+
+	private slots:
+
+		void includeOptionChanged();
+		void updatePlacement();
+		void saveDefault();
+		void chooseFile();
+
+		void togglePlacementCheckboxes(bool forceHide = false);
+		void leFileChanged(const QString & filename);
+		void labelChanged(const QString & label);
+		void updateLabel(const QString & fname);
+
 };
+
 
 #endif

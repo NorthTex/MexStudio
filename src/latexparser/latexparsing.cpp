@@ -33,23 +33,33 @@ TokenList simpleLexLatexLine(QDocumentLineHandle *dlh)
 	dlh->lockForWrite();
 	QString s = dlh->text();
 	Token present, previous;
+
 	present.type = Token::none;
 	present.dlh = dlh;
 	present.argLevel = 0;
+
     const QString specialChars = "{([<})]>";
-	int i = 0;
-	for (; i < s.length(); i++) {
-		QChar c = s.at(i);
+
+    int i = 0;
+
+    for (; i < s.length(); i++) {
+
+        QChar c = s.at(i);
+
 		if (present.type == Token::command && c == '@') {
 			continue; // add @ as letter to command
 		}
-		if (present.type == Token::command && present.start == i - 1 && (c.isSymbol() || c.isPunct())) {
+
+		if (present.type == Token::command
+				&& present.start == i - 1
+				&& (c.isSymbol() || c.isPunct())) {
 			// handle \$ etc
 			present.length = i - present.start + 1;
 			lexed.append(present);
 			present.type = Token::none;
 			continue;
 		}
+
 		if (c == '%') {
 			if (present.type != Token::none) {
 				present.length = i - present.start;
@@ -62,6 +72,7 @@ TokenList simpleLexLatexLine(QDocumentLineHandle *dlh)
 			present.type = Token::none;
 			continue;
 		}
+
 
 		if (specialChars.contains(c) || c.isSpace() || c.isPunct() || c.isSymbol()) {
 			//close token
@@ -96,6 +107,7 @@ TokenList simpleLexLatexLine(QDocumentLineHandle *dlh)
 			}
 			continue;
 		}
+
 		//start new Token
 		present.start = i;
 		if (c == '\\') {
@@ -134,11 +146,13 @@ TokenList simpleLexLatexLine(QDocumentLineHandle *dlh)
 		}
 
 	}
+
 	if (present.type != Token::none) {
 		present.length = i - present.start;
 		lexed.append(present);
 		previous = present;
 	}
+
 	dlh->setCookie(QDocumentLine::LEXER_RAW_COOKIE, QVariant::fromValue<TokenList>(lexed));
     dlh->removeCookie(QDocumentLine::LEXER_COOKIE);
 	dlh->unlock();

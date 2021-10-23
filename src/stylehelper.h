@@ -37,36 +37,47 @@
 #include <QPalette>
 #include <QColor>
 
+
 // Helper class holding all custom color values
 
-class StyleHelper
-{
-public:
-    // Height of the project explorer navigation bar
-    static int navigationWidgetHeight() { return 32; }
-    static qreal sidebarFontSize();
-    static QPalette sidebarFontPalette(const QPalette &original);
+class StyleHelper {
 
-    // This is our color table, all colors derive from baseColor
-    static QColor baseColor();
-    static QColor panelTextColor();
-    static QColor highlightColor();
-    static QColor shadowColor();
-    static QColor borderColor();
-    static QColor buttonTextColor() { return QColor(0x4c4c4c); }
+    private:
 
-    // Sets the base color and makes sure all top level widgets are updated
-    static void setBaseColor(const QColor &color);
+        using Painter = QPainter *;
+        using Rectangle = const QRect &;
 
-    // Gradients used for panels
-    static void horizontalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
-    static void verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
-    static void menuGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect);
+    public:
 
-    // Pixmap cache should only be enabled for X11 due to slow gradients
-    static bool usePixmapCache() { return true; }
+        // Height of the project explorer navigation bar
+        static int navigationWidgetHeight() { return 32; }
+        static qreal sidebarFontSize();
+        static QPalette sidebarFontPalette(const QPalette & original);
 
-private:
-    static QColor m_baseColor;
+        // This is our color table, all colors derive from baseColor
+        static QColor baseColor();
+        static QColor panelTextColor();
+        static QColor highlightColor();
+        static QColor shadowColor();
+        static QColor borderColor();
+        static QColor buttonTextColor() { return QColor(0x4c4c4c); }
+
+        // Sets the base color and makes sure all top level widgets are updated
+        static void setBaseColor(const QColor & color);
+
+        // Gradients used for panels
+        static void horizontalGradient(Painter,Rectangle,Rectangle);
+        static void verticalGradient(Painter,Rectangle,Rectangle);
+        static void menuGradient(Painter,Rectangle,Rectangle);
+
+        // Pixmap cache should only be enabled for X11 due to slow gradients
+        static bool usePixmapCache() { return true; }
+
+    private:
+
+        static QColor m_baseColor;
+
 };
-#endif // STYLEHELPER_H
+
+
+#endif

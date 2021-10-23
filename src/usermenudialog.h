@@ -16,59 +16,68 @@
 #include "ui_usermenudialog.h"
 #include "usermacro.h"
 
+
 class QCodeEdit;
 class QLanguageFactory;
 class QSearchReplacePanel;
 
-class UserMenuDialog : public QDialog
-{
+
+class UserMenuDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-    UserMenuDialog(QWidget *parent, QString name, QLanguageFactory *languageFactory);
-	~UserMenuDialog();
-	Ui::UserMenuDialog ui;
+	public:
 
-    void addMacro(const Macro &m,bool insertRow=false);
-    QList<Macro> getMacros() const;
-    QList<Macro> getMacros(QTreeWidgetItem *item,const QString &path) const;
+		UserMenuDialog(QWidget * parent,QString name,QLanguageFactory * languageFactory);
+		~UserMenuDialog();
 
-    void selectFirst();
+		Ui::UserMenuDialog ui;
 
-private:
-	void setLanguageFromText(void);
-    QTreeWidgetItem* findCreateFolder(const QString &menu);
-    QTreeWidgetItem* findCreateFolder(QTreeWidgetItem *parent, QStringList folders);
+		void addMacro(const Macro & macro,bool insertRow = false);
 
-	QCodeEdit *codeedit;
-	QLanguageFactory *languages;
-	QSearchReplacePanel *searchReplacePanel;
+		QList<Macro> getMacros() const;
+		QList<Macro> getMacros(QTreeWidgetItem * item,const QString & path) const;
 
-signals:
-	void runScript(const QString &script);
+		void selectFirst();
 
-private slots:
-    void change(QTreeWidgetItem *current,QTreeWidgetItem *previous);
-	void slotOk();
-	void slotRunScript();
-	void slotAdd();
-	void slotRemove();
-    void slotAddFolder();
-	void slotMoveUp();
-	void slotMoveDown();
-    void importMacro();
-    void exportMacro();
-    void browseMacrosOnRepository();
-	void textChanged();
-	void nameChanged();
-    void descriptionChanged();
-    void shortcutChanged();
-	void abbrevChanged();
-	void triggerChanged();
-	void showTooltip();
-	void changeTypeToNormal();
-	void changeTypeToEnvironment();
-	void changeTypeToScript();
+	private:
+
+		void setLanguageFromText(void);
+		QTreeWidgetItem * findCreateFolder(const QString & menu);
+		QTreeWidgetItem * findCreateFolder(QTreeWidgetItem * parent,QStringList folders);
+
+		QCodeEdit * codeedit;
+		QLanguageFactory * languages;
+		QSearchReplacePanel * searchReplacePanel;
+
+	signals:
+
+		void runScript(const QString & script);
+
+	private slots:
+
+		void change(QTreeWidgetItem * current,QTreeWidgetItem * previous);
+		void slotOk();
+		void slotRunScript();
+		void slotAdd();
+		void slotRemove();
+		void slotAddFolder();
+		void slotMoveUp();
+		void slotMoveDown();
+		void importMacro();
+		void exportMacro();
+		void browseMacrosOnRepository();
+		void textChanged();
+		void nameChanged();
+		void descriptionChanged();
+		void shortcutChanged();
+		void abbrevChanged();
+		void triggerChanged();
+		void showTooltip();
+		void changeTypeToNormal();
+		void changeTypeToEnvironment();
+		void changeTypeToScript();
+
 };
 
-#endif // USERMENUDIALOG_H
+#endif

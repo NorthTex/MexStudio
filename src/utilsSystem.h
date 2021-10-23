@@ -15,7 +15,7 @@
 #define REQUIRE_RET(x,e) do { Q_ASSERT((x)); if (!(x)) return (e); } while (0)
 
 
-extern const char *TEXSTUDIO_GIT_REVISION;
+extern const char * TEXSTUDIO_GIT_REVISION;
 
 bool getDiskFreeSpace(const QString &path, quint64 &freeBytes);
 
@@ -54,33 +54,37 @@ extern bool darkMode;
  * \brief use system icons if available
  */
 extern bool useSystemTheme;
-
 extern QCache<QString, QIcon>iconCache;
 
-QString getRealIconFile(const QString &icon);
-QIcon getRealIcon(const QString &icon);
-QIcon getRealIconCached(const QString &icon, bool forceReload=false);
+using Path = const QString &;
+
+QString getRealIconFile(Path);
+QIcon getRealIcon(Path);
+QIcon getRealIconCached(Path,bool forceReload = false);
 
 ///returns if the file is writable (QFileInfo.isWritable works in different ways on Windows and Linux)
-bool isFileRealWritable(const QString &filename);
+bool isFileRealWritable(Path);
+
 //returns if the file exists and is writable
-bool isExistingFileRealWritable(const QString &filename);
-QString ensureTrailingDirSeparator(const QString &dirPath);
-QString joinPath(const QString &dirname, const QString &filename);
-QString joinPath(const QString &dirname, const QString &dirname2, const QString &filename);
+QString ensureTrailingDirSeparator(Path);
+bool isExistingFileRealWritable(Path);
+
+QString joinPath(Path,Path);
+QString joinPath(Path,Path,Path);
+
 // replaces "somdir/file.ext" to "somedir/file.newext"
-QString replaceFileExtension(const QString &filename, const QString &newExtension, bool appendIfNoExt = false);
-QString getRelativeBaseNameToPath(const QString &file, QString basepath, bool baseFile = false, bool keepSuffix = false);
-QString getPathfromFilename(const QString &compFile);
-QString findAbsoluteFilePath(const QString &relName, const QString &extension, const QStringList &searchPaths, const QString &fallbackPath);
-QString getNonextistentFilename(const QString &guess, const QString &fallback = QString());
+QString replaceFileExtension(Path,const QString & newExtension,bool appendIfNoExt = false);
+QString getRelativeBaseNameToPath(Path,QString basepath,bool baseFile = false,bool keepSuffix = false);
+QString getPathfromFilename(Path);
+QString findAbsoluteFilePath(const QString & relName,const QString & extension,const QStringList & searchPaths,const QString & fallbackPath);
+QString getNonextistentFilename(const QString & guess,const QString & fallback = QString());
 QFileInfo getNonSymbolicFileInfo(const QFileInfo &info);
 
 QString getEnvironmentPath();
 QStringList getEnvironmentPathList();
-void updatePathSettings(QProcess *proc, QString additionalPaths);
+void updatePathSettings(QProcess * proc,QString additionalPaths);
 
-void showInGraphicalShell(QWidget *parent, const QString &pathIn);
+void showInGraphicalShell(QWidget * parent,const QString & pathIn);
 QString msgGraphicalShellAction();
 
 //returns kde version 0,3,4
@@ -88,31 +92,38 @@ int x11desktop_env();
 
 bool isRetinaMac();
 
-QSet<QString> convertStringListtoSet(const QStringList &list);
+QSet<QString> convertStringListtoSet(const QStringList & list);
 
 ///check if the run-time qt version is higher than the given version (e.g. 4,3)
-bool hasAtLeastQt(int major, int minor);
+bool hasAtLeastQt(int major,int minor);
 
-bool connectUnique(const QObject *sender, const char *signal, const QObject *receiver, const char *method);
+bool connectUnique(const QObject * sender,const char * signal,const QObject * receiver, const char * method);
 
-class ThreadBreaker : public QThread
-{
-public:
-	static void sleep(unsigned long s);
-	static void msleep(unsigned long ms);
-	static void forceTerminate(QThread *t = nullptr);
+
+class ThreadBreaker : public QThread {
+
+	public:
+
+		static void sleep(unsigned long seconds);
+		static void msleep(unsigned long milliseconds);
+		static void forceTerminate(QThread * thread = nullptr);
+
 };
 
 
-class SafeThread: public QThread
-{
+class SafeThread: public QThread {
+
 	Q_OBJECT
 
-public:
-	SafeThread();
-	SafeThread(QObject *parent);
-	void wait(unsigned long time = 60000);
-	bool crashed;
+	public:
+
+		SafeThread();
+		SafeThread(QObject * parent);
+
+		void wait(unsigned long time = 60000);
+		bool crashed;
+
 };
 
-#endif // UTILSSYSTEM_H
+
+#endif

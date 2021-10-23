@@ -1,32 +1,41 @@
 #ifndef Header_MakeTemplate_Dialog
 #define Header_MakeTemplate_Dialog
 
+
 #include <QDialog>
 #include <QFileInfo>
 
-namespace Ui {
-class MakeTemplateDialog;
-}
 
-class MakeTemplateDialog : public QDialog
-{
+namespace Ui { class MakeTemplateDialog; }
+
+
+class MakeTemplateDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-    explicit MakeTemplateDialog(QString templateDir, QString editorFilename, QWidget *parent = nullptr);
-	~MakeTemplateDialog();
+	public:
 
-	QString generateMetaData();
-	QString suggestedFile() const { return m_suggestedFile.absoluteFilePath(); }
+        explicit MakeTemplateDialog(QString templateDir,QString editorFilename,QWidget * parent = nullptr);
+        ~MakeTemplateDialog();
 
-private slots:
-	void tryAccept();
+        QString generateMetaData();
 
-private:
-	Ui::MakeTemplateDialog *ui;
-	QString m_templateDir;
-	QString m_editorFilename;
-	QFileInfo m_suggestedFile;
+        QString suggestedFile() const {
+            return m_suggestedFile.absoluteFilePath();
+        }
+
+    private slots:
+
+        void tryAccept();
+
+    private:
+
+        Ui::MakeTemplateDialog *ui;
+
+        QString m_templateDir;
+        QString m_editorFilename;
+        QFileInfo m_suggestedFile;
+
 };
 
-#endif // MAKETEMPLATEDIALOG_H
+#endif

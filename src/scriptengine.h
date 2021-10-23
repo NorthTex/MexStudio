@@ -1,128 +1,136 @@
 #ifndef Header_ScriptEngine
 #define Header_ScriptEngine
 
-#include "mostQtHeaders.h"
-//#if defined(__GNUC__) && !defined(__INTEL_COMPILER) && !defined(__clang__) && (__GNUC__ >= 8)
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wcast-function-type"
-//#endif
 
+#include "mostQtHeaders.h"
 #include <QJSEngine>
 #include <QJSValueIterator>
 #include <QQmlEngine>
-
-//#if defined(__GNUC__) && !defined(__INTEL_COMPILER) && !defined(__clang__) && (__GNUC__ >= 8)
-//#pragma GCC diagnostic pop
-//#endif
-
 #include "qeditor.h"
-//#include "latexeditorview.h"
+
+
 class BuildManager;
 class Texstudio;
 class ProcessX;
-
 class LatexEditorView;
 class Macro;
-class scriptengine : public QObject
-{
+
+
+class scriptengine : public QObject {
+
 	Q_OBJECT
 
-public:
-    scriptengine(QObject *parent = nullptr);
-	~scriptengine();
-    void run(const bool quiet=false);
-	void setScript(const QString &script, bool allowWrite = false);
-	void setEditorView(LatexEditorView *edView);
+	public:
 
-	static BuildManager *buildManager;
-	static Texstudio *app;
+		scriptengine(QObject * parent = nullptr);
+		~scriptengine();
 
-	QStringList triggerMatches;
-	int triggerId;
+		void run(const bool quiet = false);
+		void setScript(const QString & script,bool allowWrite = false);
+		void setEditorView(LatexEditorView *);
 
-	static QList<Macro> *macros;
+		static BuildManager * buildManager;
+		static Texstudio * app;
 
-protected slots:
-    void insertSnippet(const QString& arg);
-    QJSValue replaceSelectedText(QJSValue replacementText,QJSValue options=QJSValue());
-    QJSValue searchFunction(QJSValue searchFor, QJSValue arg1=QJSValue(), QJSValue arg2=QJSValue(), QJSValue arg3=QJSValue());
-    QJSValue replaceFunction(QJSValue searchFor, QJSValue arg1=QJSValue(), QJSValue arg2=QJSValue(), QJSValue arg3=QJSValue());
-    void alert(const QString& message);
-    void information(const QString &message);
-    void critical(const QString &message);
-    void warning(const QString &message);
-    bool confirm(const QString &message);
-    bool confirmWarning(const QString &message);
-    void debug(const QString &message);
+		QStringList triggerMatches;
+		int triggerId;
 
-#ifndef QT_NO_DEBUG
-    void crash_assert();
-#endif
-    void crash_sigsegv();
-    void crash_sigfpe();
-    void crash_stack();
-    void crash_loop();
-    void crash_throw();
+		static QList<Macro> * macros;
 
-    ProcessX *system(const QString &commandline, const QString &workingDirectory=QString());
+	protected slots:
 
-    void writeFile(const QString &filename, const QString &content);
-    QVariant readFile(const QString &filename);
+		QJSValue replaceSelectedText(QJSValue replacementText,QJSValue options = QJSValue());
+		QJSValue searchFunction(QJSValue searchFor,QJSValue arg1 = QJSValue(),QJSValue arg2 = QJSValue(),QJSValue arg3 = QJSValue());
+		QJSValue replaceFunction(QJSValue searchFor,QJSValue arg1 = QJSValue(),QJSValue arg2 = QJSValue(),QJSValue arg3 = QJSValue());
 
-    bool hasPersistent(const QString &name);
-    void setPersistent(const QString &name, const QVariant &value);
-    QVariant getPersistent(const QString &name);
+		void insertSnippet(const QString & arg);
+		void information(const QString & message);
+		void critical(const QString & message);
+		void warning(const QString & message);
+		void alert(const QString & message);
+		void debug(const QString & message);
 
-    void registerAsBackgroundScript(const QString &name = "");
+		bool confirmWarning(const QString & message);
+		bool confirm(const QString & message);
 
-    bool setTimeout(const QString &fun,const int timeout);
+		#ifndef QT_NO_DEBUG
+			void crash_assert();
+		#endif
 
-    void save(const QString fn="");
-    void saveCopy(const QString& fileName);
-    void runTimed(const QString fun);
+		void crash_sigsegv();
+		void crash_sigfpe();
+		void crash_stack();
+		void crash_loop();
+		void crash_throw();
 
-protected:
-    QByteArray getScriptHash();
-    void registerAllowedWrite();
+		ProcessX * system(const QString & commandline,const QString & workingDirectory = QString());
 
-    bool hasReadPrivileges();
-    bool hasWritePrivileges();
+		QVariant readFile(const QString & filename);
+		QVariant getPersistent(const QString &name);
 
-    bool needReadPrivileges(const QString &fn, const QString &param);
-    bool needWritePrivileges(const QString &fn, const QString &param);
+		bool setTimeout(const QString &fun,const int timeout);
+		bool hasPersistent(const QString & name);
 
-    QJSEngine *engine;
+		void writeFile(const QString & filename,const QString & content);
+		void setPersistent(const QString & name,const QVariant & value);
+		void registerAsBackgroundScript(const QString & name = "");
+		void save(const QString fn = "");
+		void saveCopy(const QString & fileName);
+		void runTimed(const QString fun);
 
-    QJSValue searchReplaceFunction(QJSValue searchText, QJSValue arg1, QJSValue arg2, QJSValue arg3, bool replace);
+	protected:
 
-    QPointer<LatexEditorView> m_editorView;
-    QPointer<QEditor> m_editor;
-	QString m_script;
-	bool m_allowWrite;
-    static int writeSecurityMode,readSecurityMode;
-    static QStringList privilegedReadScripts, privilegedWriteScripts;
+		QByteArray getScriptHash();
+		void registerAllowedWrite();
+
+		bool hasReadPrivileges();
+		bool hasWritePrivileges();
+
+		bool needReadPrivileges(const QString & fn, const QString & param);
+		bool needWritePrivileges(const QString & fn, const QString & param);
+
+		QJSEngine * engine;
+
+		QJSValue searchReplaceFunction(QJSValue searchText,QJSValue,QJSValue,QJSValue,bool replace);
+
+		QPointer<LatexEditorView> m_editorView;
+		QPointer<QEditor> m_editor;
+		QString m_script;
+
+		bool m_allowWrite;
+
+		static int writeSecurityMode , readSecurityMode;
+		static QStringList privilegedReadScripts , privilegedWriteScripts;
+
 };
+
 
 #include "universalinputdialog.h"
 
-class UniversalInputDialogScript: public UniversalInputDialog
-{
+
+class UniversalInputDialogScript: public UniversalInputDialog {
+
     Q_OBJECT
 
-public:
-    Q_INVOKABLE UniversalInputDialogScript(QWidget *parent = nullptr);
-    ~UniversalInputDialogScript();
+    public:
 
-public slots:
-    QWidget* add(const QJSValue &def, const QJSValue &description, const QJSValue &id = QJSValue());
+        Q_INVOKABLE UniversalInputDialogScript(QWidget * parent = nullptr);
+        ~UniversalInputDialogScript();
 
-    QJSValue execDialog();
+    public slots:
 
-    QJSValue getAll();
-    QVariant get(const QJSValue &id);
+        QWidget * add(const QJSValue & def,const QJSValue & description,const QJSValue & id = QJSValue());
 
-private:
-    QJSEngine *engine;
+        QJSValue execDialog();
+
+        QJSValue getAll();
+        QVariant get(const QJSValue & id);
+
+    private:
+
+        QJSEngine * engine;
+
 };
 
-#endif // SCRIPTENGINE_H
+
+#endif

@@ -4,40 +4,46 @@
 #include "latexdocument.h"
 #include "mostQtHeaders.h"
 
-namespace Ui {
-class CleanDialog;
-}
 
-class CleanDialog : public QDialog
-{
+namespace Ui { class CleanDialog; }
+
+
+class CleanDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-    explicit CleanDialog(QWidget *parent = nullptr);
-	~CleanDialog();
+	public:
 
-	bool checkClean(const LatexDocuments &docs);
+        explicit CleanDialog(QWidget * parent = nullptr);
+        ~CleanDialog();
 
-private slots:
-	void updateFilesToRemove();
-	void resetExtensions();
-	void onAccept();
-	void onReject();
+        bool checkClean(const LatexDocuments &);
 
-private:
-	enum Scope {None, Project, CurrentTexFile, CurrentFileFolder, OpenTexFiles, MAX_SCOPE};
+    private slots:
 
-	Ui::CleanDialog *ui;
-	static QString defaultExtensions;
-	static QString currentExtensions;
-	static int scopeID;
+        void updateFilesToRemove();
+        void resetExtensions();
 
-	QString masterFile;
-	QString currentTexFile;
-	QStringList openTexFiles;
+        void onAccept();
+        void onReject();
 
-	QStringList filesToRemove(CleanDialog::Scope scope, const QStringList &extensionFilter);
-	QStringList filesToRemoveFromDir(const QDir &dir, const QStringList &extensionFilter, bool recursive = true);
+    private:
+
+        enum Scope { None , Project , CurrentTexFile , CurrentFileFolder , OpenTexFiles , MAX_SCOPE };
+
+        Ui::CleanDialog * ui;
+
+        static QString defaultExtensions;
+        static QString currentExtensions;
+        static int scopeID;
+
+        QString masterFile;
+        QString currentTexFile;
+        QStringList openTexFiles;
+
+        QStringList filesToRemove(CleanDialog::Scope scope,const QStringList & extensionFilter);
+        QStringList filesToRemoveFromDir(const QDir & dir,const QStringList & extensionFilter,bool recursive = true);
+
 };
 
-#endif // CLEANDIALOG_H
+#endif

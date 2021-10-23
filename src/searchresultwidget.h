@@ -2,66 +2,82 @@
 #define Header_SearchResult_Widget
 
 #include "mostQtHeaders.h"
-
 #include "searchquery.h"
 #include "qdocumentsearch.h"
 #include "qdocument.h"
 
-class SearchResultWidget : public QWidget
-{
+
+class SearchResultWidget : public QWidget {
+
 	Q_OBJECT
 
-public:
-    explicit SearchResultWidget(QWidget *parent = nullptr);
+	public:
 
-	void setQuery(SearchQuery *sq);
-	SearchQuery::Scope searchScope() const;
-	void updateSearchExpr(QString searchText);
+		explicit SearchResultWidget(QWidget * parent = nullptr);
 
-	void saveConfig();
+		void setQuery(SearchQuery *);
+		SearchQuery::Scope searchScope() const;
+		void updateSearchExpr(QString searchText);
 
-signals:
-	void jumpToSearchResult(QDocument *doc, int lineNumber, const SearchQuery *query);
-	void runSearch(SearchQuery *query);
+		void saveConfig();
 
-public slots:
-	void clearSearch();
+	signals:
 
-private slots:
-	void clickedSearchResult(const QModelIndex &index);
-	void updateSearch();
-	void searchCompleted();
+		void jumpToSearchResult(QDocument *,int lineNumber,const SearchQuery *);
+		void runSearch(SearchQuery *);
 
-private:
-	QLabel *searchTypeLabel;
-	QLabel *searchTextLabel;
-	QPushButton *searchAgainButton;
-	QLineEdit *replaceTextEdit;
-	QPushButton *replaceButton;
-	QComboBox *searchScopeBox;
-	QTreeView *searchTree;
+	public slots:
 
-	SearchQuery *query;
+		void clearSearch();
 
-	void retranslateUi();
-	void updateSearchScopeBox(SearchQuery::Scope sc);
+	private slots:
+
+		void clickedSearchResult(const QModelIndex &);
+		void updateSearch();
+		void searchCompleted();
+
+	private:
+
+		QPushButton * searchAgainButton;
+		QPushButton * replaceButton;
+		QLineEdit * replaceTextEdit;
+		QComboBox * searchScopeBox;
+		QLabel * searchTypeLabel;
+		QLabel * searchTextLabel;
+		QTreeView * searchTree;
+
+		SearchQuery * query;
+
+		void retranslateUi();
+		void updateSearchScopeBox(SearchQuery::Scope);
+
 };
 
 
-class SearchTreeDelegate: public QItemDelegate
-{
+class SearchTreeDelegate : public QItemDelegate {
+
 	Q_OBJECT
 
-public:
-    SearchTreeDelegate(QString editorFontFamily, QObject *parent = nullptr);
+	private:
 
-protected:
-	void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		using Option = const QStyleOptionViewItem &;
+		using Index = const QModelIndex &;
+		using Painter = QPainter *;
 
-private:
-	QString m_editorFontFamily;
+	public:
+
+		SearchTreeDelegate(QString editorFontFamily,QObject * parent = nullptr);
+
+	protected:
+
+		void paint(Painter,Option,Index) const;
+		QSize sizeHint(Option,Index) const;
+
+	private:
+
+		QString m_editorFontFamily;
+
 };
 
 
-#endif // SEARCHRESULTWIDGET_H
+#endif

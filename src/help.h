@@ -1,77 +1,97 @@
 #ifndef Header_Help
 #define Header_Help
 
+
 #include "mostQtHeaders.h"
 
-class Help : public QObject
-{
+
+class Help : public QObject {
+
 	Q_OBJECT
 
-public:
-    explicit Help(QObject *parent=nullptr);
+	public:
 
-    bool isMiktexTexdoc();
-    bool isTexdocExpectedToFinish();
-    QString packageDocFile(const QString &package, bool silent = false);
+		explicit Help(QObject * parent = nullptr);
 
-signals:
-	void texdocAvailableReply(const QString &package, bool available, QString errorMessage);
-    void runCommand(const QString &commandline, QString *output);
-    void runCommandAsync(const QString &commandline, const char * returnCmd);
-    void statusMessage(const QString &message);
+		bool isMiktexTexdoc();
+		bool isTexdocExpectedToFinish();
+		QString packageDocFile(const QString & package,bool silent = false);
 
-public slots:
-	void execTexdocDialog(const QStringList &packages, const QString &defaultPackage);
-	void viewTexdoc(QString package);
-	void texdocAvailableRequest(const QString &package);
-    void texdocAvailableRequestFinished(int,QProcess::ExitStatus status);
+	signals:
 
-private:
-    QString runTexdoc(QString args);
-    bool runTexdocAsync(QString args,const char * finishedCMD);
-    int texDocSystem;
+		void texdocAvailableReply(const QString & package,bool available,QString errorMessage);
+		void runCommandAsync(const QString & commandline,const char * returnCmd);
+		void statusMessage(const QString & message);
+		void runCommand(const QString & commandline,QString * output);
+
+	public slots:
+
+		void texdocAvailableRequestFinished(int,QProcess::ExitStatus);
+		void texdocAvailableRequest(const QString & package);
+		void execTexdocDialog(const QStringList & packages,const QString & defaultPackage);
+		void viewTexdoc(QString package);
+
+	private:
+
+		QString runTexdoc(QString args);
+
+		bool runTexdocAsync(QString args,const char * finishedCMD);
+
+		int texDocSystem;
+
 };
 
 
-class LatexReference : public QObject
-{
+class LatexReference : public QObject {
+
 	Q_OBJECT
 
-public:
-	explicit LatexReference(QObject *parent = 0);
+	private:
 
-	void setFile(QString filename);
-	bool contains(const QString &command);
-	QString getTextForTooltip(const QString &command);
-	QString getSectionText(const QString &command);
-	QString getPartialText(const QString &command);
+		using Command = const QString &;
 
-protected:
-	void makeIndex();
+	public:
 
-private:
-	struct Anchor {
-		Anchor()
-		{
-			name = QString();
-			start_pos = -1;
-			end_pos = -1;
-		}
-		Anchor(const QString &n)
-		{
-			name = n;
-			start_pos = -1;
-			end_pos = -1;
-		}
-		QString name;
-		int start_pos;
-		int end_pos;
-	};
+		explicit LatexReference(QObject * parent = 0);
 
-	QString m_filename;
-	QString m_htmltext;
-	QHash<QString, Anchor> m_anchors; // maps commands to their anchor
-	QHash<QString, Anchor> m_sectionAnchors; // maps commands to the anchor of their section
+		bool contains(Command);
+		void setFile(QString filename);
+
+		QString getTextForTooltip(Command);
+		QString getSectionText(Command);
+		QString getPartialText(Command);
+
+	protected:
+
+		void makeIndex();
+
+	private:
+
+		struct Anchor {
+
+			Anchor()
+				: name(QString())
+				, start_pos(-1)
+				, end_pos(-1) {}
+
+			Anchor(const QString & name)
+				: name(name)
+				, start_pos(-1)
+				, end_pos(-1) {}
+
+			QString name;
+			int start_pos;
+			int end_pos;
+
+		};
+
+		QString m_filename;
+		QString m_htmltext;
+
+		QHash<QString, Anchor> m_anchors; // maps commands to their anchor
+		QHash<QString, Anchor> m_sectionAnchors; // maps commands to the anchor of their section
+
 };
 
-#endif // HELP_H
+
+#endif

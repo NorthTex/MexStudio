@@ -1,48 +1,63 @@
 #ifndef Header_Latex_Repository
 #define Header_Latex_Repository
 
+
 #include "mostQtHeaders.h"
 
-class LatexPackageInfo
-{
-public:
-	LatexPackageInfo(const QString &name = QString(), const QString &shortDescr = QString(), bool inst = false)
-	{
-		this->name = name;
-		shortDescription = shortDescr;
-		installed = inst;
-	}
 
-	QString name;
-	QString shortDescription;
-	bool installed;
+class LatexPackageInfo {
+
+	public:
+
+		QString name , shortDescription;
+		bool installed;
+
+	public:
+
+		LatexPackageInfo(const QString & name = QString(),const QString & description = QString(),bool installed = false)
+			: name(name)
+			, shortDescription(description)
+			, installed(installed) {}
+
 };
+
+
 Q_DECLARE_METATYPE(LatexPackageInfo)
 
-class LatexRepository : public QObject
-{
+
+class LatexRepository : public QObject {
+
 	Q_OBJECT
 
-public:
-	static LatexRepository *instance();
+	private:
 
-	enum DataSource { None, Static, Texlive, Miktex };
+		using Name = const QString &;
+		using Repository = const LatexRepository &;
 
-	DataSource dataSource();
-	bool packageExists(const QString &name);
-	QString shortDescription(const QString &name);
+	public:
 
-private:
-	LatexRepository();
-	LatexRepository(const LatexRepository &);
-	LatexRepository &operator=(const LatexRepository &);
+		static LatexRepository * instance();
 
-	bool loadStaticPackageList(const QString &file);
+		enum DataSource { None , Static , Texlive , Miktex };
 
-	static LatexRepository *m_Instance;
+		DataSource dataSource();
+		bool packageExists(Name);
+		QString shortDescription(Name);
 
-	QHash<QString, LatexPackageInfo> packages; // name, short description
-	DataSource m_dataSource;
+	private:
+
+		LatexRepository();
+		LatexRepository(Repository);
+		LatexRepository & operator = (Repository);
+
+		bool loadStaticPackageList(const QString & file);
+
+		static LatexRepository * m_Instance;
+
+		QHash<QString, LatexPackageInfo> packages; // name, short description
+		DataSource m_dataSource;
+
 };
 
-#endif // LATEXREPOSITORY_H
+
+#endif

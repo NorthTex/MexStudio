@@ -12,20 +12,21 @@
 #ifndef Header_Latex_Completer
 #define Header_Latex_Completer
 
+
 #include "mostQtHeaders.h"
-
 #include "codesnippet.h"
-
 #include "qcodeedit.h"
 #include "qeditor.h"
 #include "directoryreader.h"
 #include "bibtexreader.h"
 #include <set>
 
+
 class CompletionListModel;
 class LatexCompleterConfig;
 class LatexReference;
 class LatexParser;
+
 
 /*!
  * \brief Implements the actual completer
@@ -33,114 +34,145 @@ class LatexParser;
  * It uses codesnippet, also called completionwords for inserting into text.
  * \see Codesnippet
  */
-class LatexCompleter : public QObject
-{
+
+class LatexCompleter : public QObject {
+
 	Q_OBJECT
 
-public:
-	enum CompletionFlag {CF_FORCE_VISIBLE_LIST = 1, ///< force visible of completer
-						 CF_NORMAL_TEXT = 2, ///< complete normal text words
-						 CF_FORCE_REF = 4, ///< completes labels in a reference, e.g. \ref{label}
-						 CF_OVERRIDEN_BACKSLASH = 8,
-						 CF_FORCE_GRAPHIC = 16, ///< complete a filename for an image
-						 CF_FORCE_CITE = 32, ///< complete a citation
-						 CF_FORCE_PACKAGE = 64, ///< complete a package name
-						 CF_FORCE_KEYVAL = 128, ///< complete key/value pair
-						 CF_FORCE_SPECIALOPTION = 256,
-						 CF_FORCE_LENGTH = 512,
-						 CF_FORCE_REFLIST = 1024};
-	Q_DECLARE_FLAGS(CompletionFlags, CompletionFlag)
+	public:
+		enum CompletionFlag {
+			CF_FORCE_VISIBLE_LIST = 1, ///< force visible of completer
+			CF_NORMAL_TEXT = 2, ///< complete normal text words
+			CF_FORCE_REF = 4, ///< completes labels in a reference, e.g. \ref{label}
+			CF_OVERRIDEN_BACKSLASH = 8,
+			CF_FORCE_GRAPHIC = 16, ///< complete a filename for an image
+			CF_FORCE_CITE = 32, ///< complete a citation
+			CF_FORCE_PACKAGE = 64, ///< complete a package name
+			CF_FORCE_KEYVAL = 128, ///< complete key/value pair
+			CF_FORCE_SPECIALOPTION = 256,
+			CF_FORCE_LENGTH = 512,
+			CF_FORCE_REFLIST = 1024
+		};
 
-    LatexCompleter(const LatexParser &latexParser, QObject *p = nullptr); ///< constructor
-	virtual ~LatexCompleter();
+		Q_DECLARE_FLAGS(CompletionFlags, CompletionFlag)
 
-	void complete(QEditor *newEditor, const CompletionFlags &flags); ///< initiate completion with given flags
-	void setAdditionalWords(const CodeSnippetList &newwords, CompletionType completionType = CT_COMMANDS);
-	void setAdditionalWords(const QSet<QString> &newwords, CompletionType completionType);
-    void setAdditionalWords(const std::set<QString> &newwords, CompletionType completionType);
-	void setKeyValWords(const QString &name, const QSet<QString> &newwords);
-	void setContextWords(const QSet<QString> &newwords, const QString &context);
-	void updateAbbreviations();
+		LatexCompleter(const LatexParser &,QObject * = nullptr); ///< constructor
 
-	static void setLatexReference(LatexReference *ref) { latexReference = ref; } ///< set latexreference which is used for showing help per tooltip on selecetd completion commands
-	static LatexReference *getLatexReference() { return latexReference; } ///< get used latexreference
+		virtual ~LatexCompleter();
 
-	bool acceptTriggerString(const QString &trigger);
+		void complete(QEditor *,const CompletionFlags &); ///< initiate completion with given flags
+		void setAdditionalWords(const CodeSnippetList & newwords,CompletionType = CT_COMMANDS);
+		void setAdditionalWords(const QSet<QString> & newwords, CompletionType);
+		void setAdditionalWords(const std::set<QString> & newwords, CompletionType);
+		void setKeyValWords(const QString & name,const QSet<QString> & newwords);
+		void setContextWords(const QSet<QString> & newwords,const QString & context);
+		void updateAbbreviations();
 
-	void setConfig(LatexCompleterConfig *config);
-	LatexCompleterConfig *getConfig() const;
+		static void setLatexReference(LatexReference * reference){
+			latexReference = reference;
+		} ///< set latexreference which is used for showing help per tooltip on selecetd completion commands
 
-    void setPackageList(std::set<QString> *lst); ///< set a list with available latex package names
+		static LatexReference * getLatexReference(){
+			return latexReference;
+		} ///< get used latexreference
 
-	bool close(); ///< close completer (without insertion)
-	bool isVisible() { return list->isVisible(); }
-	bool existValues(); ///< are still completion ssuggestions available
+		bool acceptTriggerString(const QString & trigger);
 
-	void setWorkPath(const QString cwd) { workingDir = cwd; }
-	bool completingGraphic() { return forcedGraphic; }
-	bool completingKey() { return forcedKeyval; }
+		void setConfig(LatexCompleterConfig *);
+		LatexCompleterConfig * getConfig() const;
 
-	int countWords();
-	void setTab(int index); ///< bring given 'tab' to front
+		void setPackageList(std::set<QString> *lst); ///< set a list with available latex package names
 
-	void insertText(QString txt); ///< insert 'txt'
+		bool close(); ///< close completer (without insertion)
+		bool existValues(); ///< are still completion ssuggestions available
 
-	void showTooltip(QString text); ///< show tooltip
+		bool isVisible(){
+			return list -> isVisible();
+		}
 
-signals:
-	void setDirectoryForCompletion(QString fn); ///< set the used directory for filename completion
-	void searchBibtexSection(QString file, QString bibId);
-	void showImagePreview(QString fn); ///< show preview of selected image
-	void showPreview(QString text); ///< show preview of selected item, usually references or citations
+		void setWorkPath(const QString cwd){
+			workingDir = cwd;
+		}
 
-public slots:
+		bool completingGraphic(){
+			return forcedGraphic;
+		}
 
-    void bibtexSectionFound(QString content);
+		bool completingKey(){
+			return forcedKeyval;
+		}
 
-private:
-	friend class CompleterInputBinding;
-	friend class CompletionListModel;
-	static LatexCompleterConfig *config;
-	const LatexParser &latexParser;
-	int maxWordLen;
-	QListView *list;
-	CompletionListModel *listModel;
-	directoryReader *dirReader;
-	QEditor *editor;
+		int countWords();
+		void setTab(int index); ///< bring given 'tab' to front
 
-    std::set<QString> *packageList;
+		void insertText(QString); ///< insert 'txt'
 
-	QWidget *widget;
-	QTabBar *tbBelow, *tbAbove;
+		void showTooltip(QString); ///< show tooltip
 
-	bool editorAutoCloseChars;
+	signals:
 
-	void filterList(QString word, int showMostUsed = -1);
-	bool acceptChar(QChar c, int pos);
-	void adjustWidget();
+		void setDirectoryForCompletion(QString fn); ///< set the used directory for filename completion
+		void searchBibtexSection(QString file,QString bibId);
+		void showImagePreview(QString fn); ///< show preview of selected image
+		void showPreview(QString text); ///< show preview of selected item, usually references or citations
 
-	static LatexReference *latexReference;
+	public slots:
 
-	bool forcedRef;
-	bool forcedGraphic;
-	bool forcedCite;
-	bool forcedPackage;
-	bool forcedKeyval;
-	bool forcedSpecialOption;
-	bool forcedLength;
-	bool startedFromTriggerKey;
-	QString workingDir;
+		void bibtexSectionFound(QString content);
 
-	QPoint lastPos;
-	bibtexReader *bibReader;
+	private:
 
-private slots:
-	void cursorPositionChanged();
-	void selectionChanged(const QModelIndex &index);
-	void editorDestroyed();
-	void changeView(int pos);
-	void listClicked(QModelIndex index);
-	void directoryLoaded(QString dn, QSet<QString> content);
+		friend class CompleterInputBinding;
+		friend class CompletionListModel;
+
+		static LatexCompleterConfig * config;
+
+		const LatexParser & latexParser;
+		int maxWordLen;
+		CompletionListModel * listModel;
+		directoryReader * dirReader;
+		QListView * list;
+		QEditor * editor;
+
+		std::set<QString> * packageList;
+
+		QWidget * widget;
+		QTabBar
+			* tbBelow,
+			* tbAbove;
+
+		bool editorAutoCloseChars;
+
+		void filterList(QString word,int showMostUsed = -1);
+		bool acceptChar(QChar c,int pos);
+		void adjustWidget();
+
+		static LatexReference * latexReference;
+
+		bool forcedRef;
+		bool forcedGraphic;
+		bool forcedCite;
+		bool forcedPackage;
+		bool forcedKeyval;
+		bool forcedSpecialOption;
+		bool forcedLength;
+		bool startedFromTriggerKey;
+
+		bibtexReader * bibReader;
+		QString workingDir;
+		QPoint lastPos;
+
+	private slots:
+
+		void selectionChanged(const QModelIndex &);
+		void directoryLoaded(QString dn,QSet<QString> content);
+		void listClicked(QModelIndex index);
+		void changeView(int pos);
+
+		void cursorPositionChanged();
+		void editorDestroyed();
+
 };
+
 
 #endif

@@ -12,20 +12,26 @@
 #ifndef Header_About_Dialog
 #define Header_About_Dialog
 
-#include "mostQtHeaders.h"
 
+#include "mostQtHeaders.h"
 #include "ui_aboutdialog.h"
 
-class AboutDialog : public QDialog
-{
+
+class AboutDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-    AboutDialog(QWidget *parent = nullptr); ///< set-up about dialog
-	~AboutDialog();
-	Ui::AboutDialog ui;
-private slots:
-	void largeLogo(); ///< show enlarged logo, triggered via context menu on image in about-dialog
+	public:
+
+        AboutDialog(QWidget * parent = nullptr); ///< set-up about dialog
+        ~AboutDialog();
+
+        Ui::AboutDialog ui;
+
+    private slots:
+
+        void largeLogo(); ///< show enlarged logo, triggered via context menu on image in about-dialog
+
 };
 
 

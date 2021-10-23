@@ -11,61 +11,81 @@
 #ifndef Header_CursorHistory
 #define Header_CursorHistory
 
+
 #include "mostQtHeaders.h"
 #include "latexdocument.h"
 #include "cursorposition.h"
 
-typedef std::list<CursorPosition> CursorPosList;
 
-class CursorHistory : public QObject
-{
+using CursorPosList = std::list<CursorPosition>;
+
+
+class CursorHistory : public QObject {
+
 	Q_OBJECT
 
-public:
-	explicit CursorHistory(LatexDocuments *docs);
+	public:
 
-    uint maxLength() { return m_maxLength; }
+		explicit CursorHistory(LatexDocuments *);
 
-	bool insertPos(QDocumentCursor cur, bool deleteBehindCurrent = true);
-	QDocumentCursor currentPos();
+		uint maxLength(){
+			return m_maxLength;
+		}
 
-	void setInsertionEnabled(bool b);
+		bool insertPos(QDocumentCursor,bool deleteBehindCurrent = true);
+		QDocumentCursor currentPos();
 
-	void setBackAction(QAction *back);
-	void setForwardAction(QAction *forward);
-	QAction *backAction() { return m_backAction; }
-	QAction *forwardAction() { return m_forwardAction; }
+		void setInsertionEnabled(bool);
+		void setForwardAction(QAction * forward);
+		void setBackAction(QAction * back);
 
-	void clear();
-    int count() { return history.size(); }
+		QAction * forwardAction(){
+			return m_forwardAction;
+		}
 
-	void debugPrint();
-signals:
+		QAction * backAction(){
+			return m_backAction;
+		}
 
-public slots:
-	QDocumentCursor back(const QDocumentCursor &currentCursor = QDocumentCursor());
-	QDocumentCursor forward(const QDocumentCursor &currentCursor = QDocumentCursor());
+		int count(){
+			return history.size();
+		}
 
-private slots:
-	void aboutToDeleteDoc(LatexDocument *doc);
-	void documentClosed(QObject *obj);
-    void lineDeleted(QDocumentLineHandle *dlh,int hint=-1);
+		void debugPrint();
+		void clear();
 
-private:
-	void updateNavActions();
-	void removeEntry(CursorPosList::iterator &it);
-	bool currentEntryValid();
-	void validate();
+	public slots:
 
-	CursorPosList::iterator prevValidEntry(const CursorPosList::iterator &start);
-	CursorPosList::iterator nextValidEntry(const CursorPosList::iterator &start);
+		QDocumentCursor forward(const QDocumentCursor & current = QDocumentCursor());
+		QDocumentCursor back(const QDocumentCursor & current = QDocumentCursor());
 
-	CursorPosList::iterator currentEntry;
-	CursorPosList history;
-	QAction *m_backAction;
-	QAction *m_forwardAction;
-    uint m_maxLength;
-	bool m_insertionEnabled;
+	private slots:
+
+		void aboutToDeleteDoc(LatexDocument *);
+		void documentClosed(QObject *);
+
+		void lineDeleted(QDocumentLineHandle *,int hint = -1);
+
+	private:
+
+		void updateNavActions();
+		void removeEntry(CursorPosList::iterator &);
+		bool currentEntryValid();
+		void validate();
+
+		CursorPosList::iterator prevValidEntry(const CursorPosList::iterator & start);
+		CursorPosList::iterator nextValidEntry(const CursorPosList::iterator & start);
+
+		CursorPosList::iterator currentEntry;
+		CursorPosList history;
+
+		QAction * m_backAction;
+		QAction * m_forwardAction;
+
+		bool m_insertionEnabled;
+		uint m_maxLength;
+
 };
 
-#endif // CURSORHISTORY_H
+
+#endif

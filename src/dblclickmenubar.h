@@ -1,22 +1,27 @@
 #ifndef Header_DblClick_MenuBar
 #define Header_DblClick_MenuBar
 
+
 #include <QMenuBar>
 
-class DblClickMenuBar : public QMenuBar
-{
+
+class DblClickMenuBar : public QMenuBar {
+
 	Q_OBJECT
 
-public:
-    explicit DblClickMenuBar(QWidget *parent = nullptr);
+	public:
 
-signals:
-	void doubleClicked(); // emitted when double clicking empty part of menu bar
-	
-public slots:
+		explicit DblClickMenuBar(QWidget * parent = nullptr);
 
-protected:
-	virtual void mouseDoubleClickEvent(QMouseEvent *);
+	signals:
+
+		void doubleClicked(); // emitted when double clicking empty part of menu bar
+
+	protected:
+
+		virtual void mouseDoubleClickEvent(QMouseEvent *);
+
 };
 
-#endif // DBLCLICKMENUBAR_H
+
+#endif

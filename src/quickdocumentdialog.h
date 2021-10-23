@@ -12,48 +12,59 @@
 #ifndef Header_QuickDocument_Dialog
 #define Header_QuickDocument_Dialog
 
-#include "mostQtHeaders.h"
 
+#include "mostQtHeaders.h"
 #include "ui_quickdocumentdialog.h"
+
 
 class ConfigManagerInterface;
 struct GeometryOption;
-class QuickDocumentDialog : public QDialog  {
+
+
+class QuickDocumentDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-    QuickDocumentDialog(QWidget *parent=nullptr, const QString& name=nullptr);
-	~QuickDocumentDialog();
-	Ui::QuickDocumentDialog ui;
+	public:
 
-	QString getNewDocumentText();
+		QuickDocumentDialog(QWidget * parent = nullptr,const QString & name = nullptr);
+		~QuickDocumentDialog();
 
-	static QString document_encoding;
-	static QString font_encoding;
+		Ui::QuickDocumentDialog ui;
 
-private:
-	static QStringList otherClassList, otherPaperList, otherInputEncodingList, otherFontEncodingList, otherBabelOptionsList, otherOptionsList;
-	static QString document_class, typeface_size, paper_size, babel_language, author;
-	static bool ams_packages, makeidx_package, graphicx_package;
-	static ConfigManagerInterface* configManagerInterface;
+		QString getNewDocumentText();
 
-public:
-	static void registerOptions(ConfigManagerInterface& configManager);
+		static QString document_encoding;
+		static QString font_encoding;
 
-public slots:
-	void Init();
-	virtual void accept();
+	private:
 
-	void geometryUnitsChanged();
-	void geometryValuesChanged();
+		static QStringList otherClassList, otherPaperList, otherInputEncodingList, otherFontEncodingList, otherBabelOptionsList, otherOptionsList;
+		static QString document_class, typeface_size, paper_size, babel_language, author;
+		static bool ams_packages, makeidx_package, graphicx_package;
+		static ConfigManagerInterface* configManagerInterface;
 
-private slots:
-	void addUserClass();
-	void addUserPaper();
-	void addUserInputEncoding();
-	void addUserFontEncoding();
-	void addBabelOption();
-	void addUserOptions();
+	public:
+
+		static void registerOptions(ConfigManagerInterface & configManager);
+
+	public slots:
+
+		void Init();
+		virtual void accept();
+
+		void geometryUnitsChanged();
+		void geometryValuesChanged();
+
+	private slots:
+
+		void addUserClass();
+		void addUserPaper();
+		void addUserInputEncoding();
+		void addUserFontEncoding();
+		void addBabelOption();
+		void addUserOptions();
+
 };
 
 

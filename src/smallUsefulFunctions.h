@@ -11,8 +11,10 @@
 #ifndef Header_SmallUsefulFunctions
 #define Header_SmallUsefulFunctions
 
+
 #include "mostQtHeaders.h"
 #include "qglobal.h"
+
 
 /*! \file smallUsefulFunctions.h
  * Defines helper functions for various purposes
@@ -45,6 +47,7 @@ struct CommandArgument {
 	int number;
 	QString value;
 };
+
 Q_DECLARE_METATYPE( CommandArgument )
 
 //void txs_assert(const char *assertion, const char *file, int line);
@@ -52,25 +55,24 @@ Q_DECLARE_METATYPE( CommandArgument )
 
 class LatexCompleterConfig;
 
-typedef QString (QObject::*StringToStringCallback)(const QString &) ;
+//typedef QString (QObject::*StringToStringCallback)(const QString &);
 
 
 /// removes special latex characters
-QString latexToPlainWord(const QString &word);
-QString latexToPlainWordwithReplacementList(const QString &word, QMap<QString, QString> &replacementList );
+QString latexToPlainWord(const QString & word);
+QString latexToPlainWordwithReplacementList(const QString & word,QMap<QString,QString> & replacementList );
 /// replaces character with corresponding LaTeX commands
-QString textToLatex(const QString &text);
+QString textToLatex(const QString & text);
 QString latexToText(QString s);
 
-QStringList joinLinesExceptCommentsAndEmptyLines(const QStringList &lines);
-QStringList splitLines(const QStringList &lines, int maxCharPerLine, const QRegularExpression &breakChars);
+QStringList joinLinesExceptCommentsAndEmptyLines(const QStringList & lines);
+QStringList splitLines(const QStringList & lines,int maxCharPerLine,const QRegularExpression & breakChars);
 
 /// compares two strings locale aware
-bool localeAwareLessThan(const QString &s1, const QString &s2);
+bool localeAwareLessThan(const QString &,const QString &);
 
 /// true for characters that are valid in latex command names, e.g. \section*
-inline bool isCommandChar(const QChar &c)
-{
+inline bool isCommandChar(const QChar & c){
 	return c.isLetter() || c == '*';
 }
 /// returns the position of the first non-whitespace at or after pos

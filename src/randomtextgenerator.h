@@ -1,41 +1,47 @@
 #ifndef Header_RandomText_Generator
 #define Header_RandomText_Generator
 
+
 #include "mostQtHeaders.h"
 #include "qdocument.h"
 
-namespace Ui {
-class RandomTextGenerator;
-}
+
+namespace Ui { class RandomTextGenerator; }
 
 
-class RandomTextGenerator : public QDialog
-{
+class RandomTextGenerator : public QDialog {
+
 	Q_OBJECT
 	Q_DISABLE_COPY(RandomTextGenerator)
 
-public:
-	explicit RandomTextGenerator(QWidget *parent = 0, const QStringList &textLines = QStringList());
-	virtual ~RandomTextGenerator();
+	public:
 
-protected:
-	virtual void changeEvent(QEvent *e);
+		explicit RandomTextGenerator(QWidget * parent = 0,const QStringList & textLines = QStringList());
+		virtual ~RandomTextGenerator();
 
-private:
-	Ui::RandomTextGenerator *ui;
-	QString chars;
-	QList<QString> words;
-	QStringList lines;
+	protected:
 
-	QString text;
-	QTextStream textStream;
+		virtual void changeEvent(QEvent *);
 
-	void newWordForText(const QString &w);
-	void newWordForStream(const QString &w);
+	private:
 
-private slots:
-	void generateText();
-	void resetWords();
+		Ui::RandomTextGenerator * ui;
+
+		QString chars;
+		QList<QString> words;
+		QStringList lines;
+
+		QString text;
+		QTextStream textStream;
+
+		void newWordForText(const QString & w);
+		void newWordForStream(const QString & w);
+
+	private slots:
+
+		void generateText();
+		void resetWords();
+
 };
 
-#endif // RANDOMTEXTGENERATOR_H
+#endif

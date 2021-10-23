@@ -6,51 +6,52 @@
 
 namespace UtilsUi {
 
-enum txsWarningState {DontRemember,RememberFalse,RememberTrue};
+    enum txsWarningState {DontRemember,RememberFalse,RememberTrue};
 
-bool txsConfirm(const QString &message);
-bool txsConfirmWarning(const QString &message);
-bool txsConfirmWarning(const QString &message,txsWarningState &rememberChoice);
-QMessageBox::StandardButton txsConfirmWarning(const QString &message, QMessageBox::StandardButtons buttons);
-void txsInformation(const QString &message);
-void txsWarning(const QString &message);
-void txsWarning(const QString &message, bool &noWarnAgain);
-void txsCritical(const QString &message);
+    bool txsConfirm(const QString & message);
+    bool txsConfirmWarning(const QString & message);
+    bool txsConfirmWarning(const QString & message,txsWarningState & rememberChoice);
+    QMessageBox::StandardButton txsConfirmWarning(const QString & message,QMessageBox::StandardButtons buttons);
+    void txsInformation(const QString & message);
+    void txsWarning(const QString & message);
+    void txsWarning(const QString & message,bool & noWarnAgain);
+    void txsCritical(const QString & message);
 
-//setup toolbutton as substitute for const combobox
-QToolButton* createComboToolButton(QWidget *parent, const QStringList &list, const QList<QIcon> &icons, int height, const QObject *receiver, const char *member, int defaultIndex = -1, QToolButton *combo = 0);
+    //setup toolbutton as substitute for const combobox
+    QToolButton * createComboToolButton(QWidget * parent,const QStringList & list,const QList<QIcon> & icons,int height,const QObject * receiver,const char * member,int defaultIndex = -1,QToolButton * combo = 0);
 
-//find the tool button which contains a given action
-QToolButton *comboToolButtonFromAction(QAction *action);
+    //find the tool button which contains a given action
+    QToolButton * comboToolButtonFromAction(QAction * action);
 
-QToolButton *createToolButtonForAction(QAction *action);
+    QToolButton * createToolButtonForAction(QAction * action);
 
-void setSubtreeExpanded(QTreeView *view, QModelIndex idx, bool expand);
-void setSubtreeExpanded(QTreeWidgetItem *item, bool expand);
+    void setSubtreeExpanded(QTreeView * view,QModelIndex idx,bool expand);
+    void setSubtreeExpanded(QTreeWidgetItem * item,bool expand);
 
-// opens a selection dialog and inserts the selected file(s) or path into widget
-bool browse(QWidget *w, const QString &title, const QString &extension, const QString &startPath = QDir::homePath(), bool list = false);
+    // opens a selection dialog and inserts the selected file(s) or path into widget
+    bool browse(QWidget * w,const QString & title,const QString & extension,const QString & startPath = QDir::homePath(),bool list = false);
 
-QColor colorFromRGBAstr(const QString &hex, QColor fallback = QColor());
-QColor mediumLightColor(QColor color, int factor = 150);
+    QColor colorFromRGBAstr(const QString & hex,QColor fallback = QColor());
+    QColor mediumLightColor(QColor color,int factor = 150);
 
-QWidget *windowForObject(QObject *obj, QWidget *fallback);
+    QWidget *windowForObject(QObject * obj,QWidget * fallback);
 
-void updateToolTipWithShortcut(QAction *action, bool showShortcut);
+    void updateToolTipWithShortcut(QAction * action,bool showShortcut);
 
-void enableTouchScrolling(QWidget *w, bool enable = true);
+    void enableTouchScrolling(QWidget * w,bool enable = true);
 
-void resizeInFontHeight(QWidget *w, int width, int height);
+    void resizeInFontHeight(QWidget * w,int width,int height);
 
-// Given font metrics returns the text pixel size
-int getFmWidth(const QFontMetrics &fm, QChar ch);
-qreal getFmWidth(const QFontMetricsF &fm, QChar ch);
-int getFmWidth(const QFontMetrics &fm, const QString &text, int len = -1);
-qreal getFmWidth(const QFontMetricsF &fm, const QString &text, int len = -1);
+    // Given font metrics returns the text pixel size
+    int getFmWidth(const QFontMetrics & metric,QChar character);
+    int getFmWidth(const QFontMetrics & metric,const QString & text,int length = -1);
 
-// Return the screen geometry for a given point
-QRect getAvailableGeometryAt(const QPoint &pos);
+    qreal getFmWidth(const QFontMetricsF & metric, QChar character);
+    qreal getFmWidth(const QFontMetricsF & metric, const QString & text,int length = -1);
 
-}  // namespace UtilsUi
+    // Return the screen geometry for a given point
+    QRect getAvailableGeometryAt(const QPoint & position);
 
-#endif // UTILSUI_H
+}
+
+#endif

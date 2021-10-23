@@ -30,25 +30,28 @@
 #ifndef Header_MiniSplitter
 #define Header_MiniSplitter
 
-//#include "core_global.h"
 
 #include <QSplitter>
 
+
 QT_BEGIN_NAMESPACE
-class QSplitterHandle;
+    class QSplitterHandle;
 QT_END_NAMESPACE
 
 
 /*! This is a simple helper-class to obtain mac-style 1-pixel wide splitters */
-class MiniSplitter : public QSplitter
-{
-public:
-    MiniSplitter(QWidget *parent = 0);
-    MiniSplitter(Qt::Orientation orientation, QWidget *parent = 0);
+class MiniSplitter : public QSplitter {
 
-protected:
-    QSplitterHandle *createHandle();
+    public:
+
+        MiniSplitter(QWidget * parent = 0);
+        MiniSplitter(Qt::Orientation orientation, QWidget * parent = 0);
+
+    protected:
+
+        QSplitterHandle * createHandle();
+
 };
 
 
-#endif // MINISPLITTER_H
+#endif

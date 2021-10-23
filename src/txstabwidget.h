@@ -5,74 +5,89 @@
 
 class LatexEditorView;
 
-class TxsTabWidget : public QTabWidget
-{
+
+class TxsTabWidget : public QTabWidget {
+
 	Q_OBJECT
 
-public:
-	explicit TxsTabWidget(QWidget *parent = 0);
-	void moveTab(int from, int to);
+	public:
 
-	QList<LatexEditorView *> editors() const;
-	bool containsEditor(LatexEditorView *edView) const;
+		explicit TxsTabWidget(QWidget * parent = 0);
+		void moveTab(int from,int to);
 
-	LatexEditorView *currentEditor() const;
-	void setCurrentEditor(LatexEditorView *edView);
-	LatexEditorView *editorAt(QPoint p);
-	void setActive(bool active);
+		QList<LatexEditorView *> editors() const;
+		bool containsEditor(LatexEditorView * edView) const;
 
-	bool isEmpty() const;
-	bool currentEditorViewIsFirst() const;
-	bool currentEditorViewIsLast() const;
+		LatexEditorView * currentEditor() const;
+		void setCurrentEditor(LatexEditorView * edView);
+		LatexEditorView * editorAt(QPoint p);
+		void setActive(bool active);
 
-signals:
-	void tabMoved(int from, int to);
-	void tabBarContextMenuRequested(QPoint point);
-	void editorAboutToChangeByTabClick(LatexEditorView *from, LatexEditorView *to);
-	void closeEditorRequested(LatexEditorView *edView);
-	void currentEditorChanged();
-	void activationRequested();
+		bool isEmpty() const;
+		bool currentEditorViewIsFirst() const;
+		bool currentEditorViewIsLast() const;
 
-public slots:
-	void gotoNextDocument();
-	void gotoPrevDocument();
-	void gotoFirstDocument();
-	void gotoLastDocument();
+	signals:
 
-	// low level public functions
-	void insertEditor(LatexEditorView *edView, int pos = -1 /*append*/, bool asCurrent = true);
-	void removeEditor(LatexEditorView *edView);
+		void tabMoved(int from,int to);
+		void tabBarContextMenuRequested(QPoint point);
+		void editorAboutToChangeByTabClick(LatexEditorView * from,LatexEditorView * to);
+		void closeEditorRequested(LatexEditorView * edView);
+		void currentEditorChanged();
+		void activationRequested();
 
-protected:
-	LatexEditorView *editorAt(int index);
-	void connectEditor(LatexEditorView *edView);
-	void disconnectEditor(LatexEditorView *edView);
-	void updateTab(int index);
-protected slots:
-	void updateTabFromSender();
+	public slots:
 
-private slots:
-	void currentTabAboutToChange(int from, int to);
-	void onTabCloseRequest(int i);
+		void gotoNextDocument();
+		void gotoPrevDocument();
+		void gotoFirstDocument();
+		void gotoLastDocument();
 
-private:
-	bool m_active;
+		// low level public functions
+		void insertEditor(LatexEditorView * edView,int pos = -1 /*append*/,bool asCurrent = true);
+		void removeEditor(LatexEditorView * edView);
+
+	protected:
+
+		LatexEditorView * editorAt(int index);
+		void connectEditor(LatexEditorView * edView);
+		void disconnectEditor(LatexEditorView * edView);
+		void updateTab(int index);
+
+	protected slots:
+
+		void updateTabFromSender();
+
+	private slots:
+
+		void currentTabAboutToChange(int from,int to);
+		void onTabCloseRequest(int i);
+
+	private:
+
+		bool m_active;
+
 };
+
+
 Q_DECLARE_METATYPE(TxsTabWidget *)
 
 
-class ChangeAwareTabBar : public QTabBar
-{
+class ChangeAwareTabBar : public QTabBar {
+
 	Q_OBJECT
-public:
 
-signals:
-	void currentTabAboutToChange(int from, int to);
-	void tabLeftClicked();
-	void middleMouseButtonPressed(int tabNr);
+	public:
+	signals:
 
-protected:
-	virtual void mousePressEvent(QMouseEvent *event);
+		void currentTabAboutToChange(int from,int to);
+		void tabLeftClicked();
+		void middleMouseButtonPressed(int tabNr);
+
+	protected:
+
+		virtual void mousePressEvent(QMouseEvent * event);
+
 };
 
-#endif // TXSTABWIDGET_H
+#endif

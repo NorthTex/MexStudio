@@ -5,46 +5,50 @@
 #include <QNetworkAccessManager>
 #include "utilsVersion.h"
 
-class UpdateChecker : public QObject
-{
+
+class UpdateChecker : public QObject {
+
 	Q_OBJECT
 
-public:
-	~UpdateChecker();
+	public:
 
-	static UpdateChecker *instance();
+		~UpdateChecker();
 
-	static QString lastCheckAsString();
-	QString latestVersion() { return latestStableVersion.versionNumber; }  // returns the version number retrieved in last check(), empty if no check has been performed so far
-	void autoCheck();
-	void check(bool m_silent = true);
+		static UpdateChecker * instance();
 
-signals:
-	void checkCompleted();
+		static QString lastCheckAsString();
+		QString latestVersion() { return latestStableVersion.versionNumber; }  // returns the version number retrieved in last check(), empty if no check has been performed so far
+		void autoCheck();
+		void check(bool m_silent = true);
 
-public slots:
+	signals:
 
-private slots:
-	void onRequestError();
-	void onRequestCompleted();
+		void checkCompleted();
 
-private:
-	UpdateChecker();
-	UpdateChecker(const UpdateChecker &);
-	UpdateChecker &operator=(const UpdateChecker &);
+	private slots:
 
-	static UpdateChecker *m_Instance;
+		void onRequestError();
+		void onRequestCompleted();
 
-	QNetworkAccessManager *networkManager;
-	bool silent; // do not show error or up-to-date messages
+	private:
 
-	Version latestStableVersion;
-	Version latestReleaseCandidateVersion;
-	Version latestDevVersion;
+		UpdateChecker();
+		UpdateChecker(const UpdateChecker &);
+		UpdateChecker & operator = (const UpdateChecker &);
 
-	void parseData(const QByteArray &data);
-	void checkForNewVersion();
-	void notify(QString message);
+		static UpdateChecker * m_Instance;
+
+		QNetworkAccessManager * networkManager;
+		bool silent; // do not show error or up-to-date messages
+
+		Version latestStableVersion;
+		Version latestReleaseCandidateVersion;
+		Version latestDevVersion;
+
+		void parseData(const QByteArray & data);
+		void checkForNewVersion();
+		void notify(QString message);
+
 };
 
-#endif // UPDATECHECKER_H
+#endif

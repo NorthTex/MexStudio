@@ -12,33 +12,41 @@
 #ifndef Header_LogEditor
 #define Header_LogEditor
 
-#include "mostQtHeaders.h"
 
+#include "mostQtHeaders.h"
 #include "loghighlighter.h"
 
-class LogEditor : public QTextEdit
-{
+
+class LogEditor : public QTextEdit {
+
 	Q_OBJECT
 
-public:
-	LogEditor(QWidget *parent);
-	~LogEditor();
+	public:
 
-	void wheelEvent(QWheelEvent *event);
+		LogEditor(QWidget * parent);
+		~LogEditor();
 
-public slots:
-	void insertLine(const QString &l);
-	void setCursorPosition(int parag, int index);
+		void wheelEvent(QWheelEvent * event);
 
-protected:
-	virtual void mouseDoubleClickEvent(QMouseEvent *e);
-	void paintEvent(QPaintEvent *event);
+	public slots:
 
-signals:
-	void clickOnLogLine(int l); //0 based
+		void insertLine(const QString &);
+		void setCursorPosition(int parag,int index);
 
-private:
-	LogHighlighter *highlighter;
+	protected:
+
+		virtual void mouseDoubleClickEvent(QMouseEvent *);
+		void paintEvent(QPaintEvent *);
+
+	signals:
+
+		void clickOnLogLine(int l); //0 based
+
+	private:
+
+		LogHighlighter *highlighter;
+
 };
+
 
 #endif

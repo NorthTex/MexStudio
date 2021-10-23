@@ -16,70 +16,82 @@
 #include "templatemanager.h"
 #include "ui_templateselector.h"
 
+
 // a label to show pixmaps. It shinks the pixmap if necessary to fit it into the available space.
 // but it does not magnify it if more space is available
-class PreviewLabel : public QLabel
-{
+
+class PreviewLabel : public QLabel {
+
 	Q_OBJECT
 
-public:
-	explicit PreviewLabel(QWidget *parent = 0): QLabel(parent)
-	{
-		setScaledPixmap(QPixmap());
-	}
-	void setScaledPixmap(const QPixmap &pm);
+	public:
 
-protected:
-	virtual void resizeEvent(QResizeEvent *event);
+		explicit PreviewLabel(QWidget * parent = 0)
+			: QLabel(parent) {
 
-private:
-	void setPixmapWithResizing(const QPixmap &pm);
-	QPixmap currentPixmap;
+			setScaledPixmap(QPixmap());
+		}
+
+		void setScaledPixmap(const QPixmap & pm);
+
+	protected:
+
+		virtual void resizeEvent(QResizeEvent * event);
+
+	private:
+
+		void setPixmapWithResizing(const QPixmap & pm);
+		QPixmap currentPixmap;
+
 };
 
 
-class TemplateSelector : public QDialog
-{
+class TemplateSelector : public QDialog {
+
 	Q_OBJECT
 
-public:
-	explicit TemplateSelector(QString name = "", QWidget *parent = 0);
-	~TemplateSelector();
+	public:
 
-	TemplateHandle selectedTemplate() const;
-	bool createInFolder() const;
-	QString creationFolder() const;
-	void addResource(AbstractTemplateResource *res);
-	void hideFolderSelection();
+		explicit TemplateSelector(QString name = "",QWidget * parent = 0);
+		~TemplateSelector();
 
-signals:
-	void editTemplateRequest(TemplateHandle th);
-	void editTemplateInfoRequest(TemplateHandle th);
+		TemplateHandle selectedTemplate() const;
+		bool createInFolder() const;
+		QString creationFolder() const;
+		void addResource(AbstractTemplateResource *);
+		void hideFolderSelection();
 
-private slots:
-	void showInfo(QTreeWidgetItem *currentItem, QTreeWidgetItem *previousItem);
-	void templatesTreeContextMenu(QPoint point);
+	signals:
 
-	void on_templatesTree_doubleClicked(const QModelIndex &index);
-	void on_btPath_clicked();
-	void checkTargetPath();
+		void editTemplateRequest(TemplateHandle);
+		void editTemplateInfoRequest(TemplateHandle);
 
-	void editTemplate();
-	void editTemplateInfo();
-	void removeTemplate();
-	void openTemplateLocation();
+	private slots:
 
-private:
-	QString orDefault(const QString &val, const QString &defaultIfValEmpty) const
-	{
-		return (val.isEmpty()) ? defaultIfValEmpty : val;
-	}
+		void showInfo(QTreeWidgetItem * current,QTreeWidgetItem * previous);
+		void templatesTreeContextMenu(QPoint);
 
-	Ui::templateSelectorDialog ui;
-	PreviewLabel *previewLabel;
+		void on_templatesTree_doubleClicked(const QModelIndex &);
+		void on_btPath_clicked();
+		void checkTargetPath();
 
-	static const int TemplateHandleRole;
-	static const int ResourceRole;
+		void editTemplate();
+		void editTemplateInfo();
+		void removeTemplate();
+		void openTemplateLocation();
+
+	private:
+
+		QString orDefault(const QString & value,const QString & defaultIfValEmpty) const {
+			return (value.isEmpty()) ? defaultIfValEmpty : value;
+		}
+
+		Ui::templateSelectorDialog ui;
+		PreviewLabel * previewLabel;
+
+		static const int TemplateHandleRole;
+		static const int ResourceRole;
 };
 
-#endif // TEMPLATESELECTOR_H
+
+#endif

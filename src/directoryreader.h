@@ -1,25 +1,29 @@
 #ifndef Header_Directory_Reader
 #define Header_Directory_Reader
 
+
 #include "mostQtHeaders.h"
 #include "smallUsefulFunctions.h"
 #include <QThread>
 
-class directoryReader : public SafeThread
-{
+
+class directoryReader : public SafeThread {
+
 	Q_OBJECT
 
-public:
-	explicit directoryReader(QObject *parent = 0);
+	public:
 
-signals:
-	void directoryLoaded(QString path, QSet<QString> content);
+		explicit directoryReader(QObject * parent = 0);
 
-public slots:
-	void readDirectory(QString path);
+	signals:
 
-private:
+		void directoryLoaded(QString path,QSet<QString> content);
+
+	public slots:
+
+		void readDirectory(QString path);
 
 };
 
-#endif // DIRECTORYREADER_H
+
+#endif

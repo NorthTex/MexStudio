@@ -1,35 +1,51 @@
 #ifndef Header_Git
 #define Header_Git
 
+
 #include "mostQtHeaders.h"
+
+
 /*!
  * \brief GIT class
  * This class provides easy access to the git command.
  */
-class GIT : public QObject
-{
+
+class GIT : public QObject {
+
 	Q_OBJECT
 
-public:
-    enum Status {Unknown, Unmanaged, Modified, Locked, CheckedIn, InConflict, NoRepository};
+	public:
 
-    explicit GIT(QObject *parent = Q_NULLPTR);
+		enum Status {
+			Unknown,
+			Unmanaged,
+			Modified,
+			Locked,
+			CheckedIn,
+			InConflict,
+			NoRepository
+		};
 
-	static QString quote(QString filename);
-	static QString makeCmd(QString action, QString args);
+		explicit GIT(QObject * parent = Q_NULLPTR);
 
-    void commit(QString filename, QString message);
-    Status status(QString filename);
-    QStringList log(QString filename);
-    void createRepository(QString filename);
+		static QString makeCmd(QString action,QString args);
+		static QString quote(QString filename);
 
-    QString runGit(QString action, QString args);
-    QString runGit(QString action, QString path,QString args);
+		void commit(QString filename,QString message);
+		void createRepository(QString filename);
 
-signals:
-    void runCommand(const QString &commandline, QString *output);
-    void statusMessage(const QString &message);
+		QStringList log(QString filename);
+		Status status(QString filename);
+
+		QString runGit(QString action,QString args);
+		QString runGit(QString action,QString path,QString args);
+
+	signals:
+
+		void statusMessage(const QString & message);
+		void runCommand(const QString & commandline,QString * output);
 
 };
 
-#endif // GIT_H
+
+#endif

@@ -11,95 +11,125 @@
 #ifndef Header_Speller_Utility
 #define Header_Speller_Utility
 
+
 #include "mostQtHeaders.h"
 #include <QMutex>
 
+
 #ifdef HUNSPELL_STATIC
-#include "hunspell/hunspell.hxx"
+	#include "hunspell/hunspell.hxx"
 #else
-#include <hunspell.hxx>
+	#include <hunspell.hxx>
 #endif
 
-class SpellerUtility: public QObject {
+
+class SpellerUtility : public QObject {
+
 	Q_OBJECT
 
-public:
-	friend class SpellerManager;
-	void addToIgnoreList(QString toIgnore);
-	void removeFromIgnoreList(QString toIgnore);
-	QStringListModel* ignoreListModel();
+	public:
 
-	bool check(QString word);
-	QStringList suggest(QString word);
+		friend class SpellerManager;
 
-	QString name() {return mName;}
-	QString getCurrentDic() {return currentDic;}
+		void addToIgnoreList(QString toIgnore);
+		void removeFromIgnoreList(QString toIgnore);
 
-	static int spellcheckErrorFormat;
-    static bool inlineSpellChecking,hideNonTextSpellingErrors;
+		bool check(QString word);
 
-signals:
-	void aboutToDelete();
-	void dictionaryLoaded();
-	void ignoredWordAdded(const QString& newlyIgnoredWord);
+		QStringListModel* ignoreListModel();
+		QStringList suggest(QString word);
 
-private:
-	SpellerUtility(QString name);
-	~SpellerUtility();
-	bool loadDictionary(QString dic, QString ignoreFilePrefix);
-	void saveIgnoreList();
-	void unload();
+		QString name(){
+			return mName;
+		}
 
-	QString mName;
-	QString mLastError;
-	QString currentDic, ignoreListFileName, spell_encoding;
-	Hunspell * pChecker;
-	QTextCodec *spellCodec;
-	QStringList ignoredWordList;
-	QSet<QString> ignoredWords;
-	QStringListModel ignoredWordsModel;
-    QMutex mSpellerMutex;
+		QString getCurrentDic(){
+			return currentDic;
+		}
+
+		static int spellcheckErrorFormat;
+		static bool inlineSpellChecking , hideNonTextSpellingErrors;
+
+	signals:
+
+		void aboutToDelete();
+		void dictionaryLoaded();
+		void ignoredWordAdded(const QString & newlyIgnoredWord);
+
+	private:
+
+		SpellerUtility(QString name);
+		~SpellerUtility();
+
+		bool loadDictionary(QString dictionary,QString ignoreFilePrefix);
+		void saveIgnoreList();
+		void unload();
+
+		QString mName;
+		QString mLastError;
+		QString currentDic , ignoreListFileName , spell_encoding;
+
+		Hunspell * pChecker;
+		QTextCodec * spellCodec;
+		QStringList ignoredWordList;
+		QSet<QString> ignoredWords;
+		QStringListModel ignoredWordsModel;
+		QMutex mSpellerMutex;
 };
 
 
-class SpellerManager: public QObject {
+class SpellerManager : public QObject {
+
 	Q_OBJECT
 
-public:
-	SpellerManager();
-	~SpellerManager();
+	private:
 
-	static bool isOxtDictionary(const QString &fileName);
-	static bool importDictionary(const QString &fileName, const QString &targetDir);
+		using Name = const QString &;
 
-	void setIgnoreFilePrefix(const QString &ignoreFilePrefix);
-	QStringList dictPaths() {return m_dictPaths;}
-	void setDictPaths(const QStringList &dictPaths);
-	void scanForDictionaries(const QString &path, bool scansubdirs=true);
+	public:
 
-	QStringList availableDicts();
+		SpellerManager();
+		~SpellerManager();
 
-	bool hasSpeller(const QString &name);
-	bool hasSimilarSpeller(const QString &name, QString &bestName);
-	SpellerUtility *getSpeller(QString name);
+		static bool isOxtDictionary(const QString & fileName);
+		static bool importDictionary(const QString & fileName,const QString & targetDir);
 
-	QString defaultSpellerName();
-	bool setDefaultSpeller(const QString &name);
-	void unloadAll();
+		void setIgnoreFilePrefix(const QString & ignoreFilePrefix);
+		void setDictPaths(const QStringList & dictPaths);
+		void scanForDictionaries(const QString & path,bool scansubdirs = true);
+		void unloadAll();
 
-	static QString prettyName(const QString &name);
+		QStringList dictPaths(){
+			return m_dictPaths;
+		}
 
-signals:
-	void dictPathChanged();
-	void defaultSpellerChanged();
+		QStringList availableDicts();
 
-private:
-	QStringList m_dictPaths;
-	QString ignoreFilePrefix;
-	QHash<QString, SpellerUtility *> dicts;
-	QHash<QString, QString> dictFiles;
-	SpellerUtility *emptySpeller;
-	QString mDefaultSpellerName;
+		bool hasSpeller(Name);
+		bool hasSimilarSpeller(Name,QString & bestName);
+		bool setDefaultSpeller(Name);
+
+		SpellerUtility * getSpeller(QString name);
+
+		QString defaultSpellerName();
+
+		static QString prettyName(Name);
+
+	signals:
+
+		void dictPathChanged();
+		void defaultSpellerChanged();
+
+	private:
+
+		QStringList m_dictPaths;
+		QString ignoreFilePrefix;
+		QString mDefaultSpellerName;
+
+		SpellerUtility * emptySpeller;
+
+		QHash<QString, SpellerUtility *> dicts;
+		QHash<QString, QString> dictFiles;
 };
 
 

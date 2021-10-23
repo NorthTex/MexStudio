@@ -29,66 +29,85 @@
 
 #ifndef Header_ManhattenStyle
 #define Header_ManhattenStyle
-#include <QStyle>
 
+
+#include <QStyle>
 #include <QProxyStyle>
 
+
 QT_BEGIN_NAMESPACE
-class QLinearGradient;
-class QBrush;
+	class QLinearGradient;
+	class QBrush;
 QT_END_NAMESPACE
+
 
 class ManhattanStylePrivate;
 
-class ManhattanStyle : public QProxyStyle
-{
+
+class ManhattanStyle : public QProxyStyle {
+
 	Q_OBJECT
 
-public:
-	ManhattanStyle(const QString &);
+	private:
 
-	~ManhattanStyle();
+		using Painter = QPainter *;
+		using Widget = const QWidget *;
+		using Style = const QStyleOption *;
+		using ComplexStyle = const QStyleOptionComplex *;
+		using Pixmap = const QPixmap &;
+		using Rectangle = const QRect &;
 
-	bool isValid();
+	public:
 
-    void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = nullptr) const;
-    void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = nullptr) const;
-    void drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget = nullptr) const;
+		ManhattanStyle(const QString &);
 
-	QSize sizeFromContents(ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const;
-	QRect subElementRect(SubElement element, const QStyleOption *option, const QWidget *widget) const;
-	QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc, const QWidget *widget) const;
+		~ManhattanStyle();
 
-    SubControl hitTestComplexControl(ComplexControl control, const QStyleOptionComplex *option, const QPoint &pos, const QWidget *widget = nullptr) const;
-    QPixmap standardPixmap(StandardPixmap standardPixmap, const QStyleOption *opt, const QWidget *widget = nullptr) const;
-    int styleHint(StyleHint hint, const QStyleOption *option = nullptr, const QWidget *widget = nullptr, QStyleHintReturn *returnData = nullptr) const;
-	QRect itemRect(QPainter *p, const QRect &r, int flags, bool enabled, const QPixmap *pixmap, const QString &text, int len = -1) const;
-	QPixmap generatedIconPixmap(QIcon::Mode iconMode, const QPixmap &pixmap, const QStyleOption *opt) const;
+		bool isValid();
 
-    int pixelMetric(PixelMetric metric, const QStyleOption *option = nullptr, const QWidget *widget = nullptr) const;
+		void drawComplexControl(ComplexControl,ComplexStyle,Painter,Widget = nullptr) const;
+		void drawPrimitive(PrimitiveElement,Style,Painter,Widget = nullptr) const;
+		void drawControl(ControlElement,Style,Painter,Widget = nullptr) const;
 
-	QPalette standardPalette() const;
+		QSize sizeFromContents(ContentsType,Style,const QSize & size,Widget) const;
+		QRect subControlRect(ComplexControl,ComplexStyle,SubControl,Widget) const;
+		QRect subElementRect(SubElement element,Style,Widget) const;
 
-	void polish(QWidget *widget);
-	void polish(QPalette &pal);
-	void polish(QApplication *app);
+		SubControl hitTestComplexControl(ComplexControl,ComplexStyle,const QPoint & pos,Widget = nullptr) const;
+		QRect itemRect(Painter,Rectangle,int flags,bool enabled,Pixmap,const QString & text,int len = -1) const;
 
-	void unpolish(QWidget *widget);
-	void unpolish(QApplication *app);
+		QPixmap standardPixmap(StandardPixmap,Style,Widget = nullptr) const;
+		QPixmap generatedIconPixmap(QIcon::Mode iconMode,Pixmap,Style) const;
 
-protected:
-	bool event(QEvent *e);
+		int styleHint(StyleHint,Style = nullptr,Widget = nullptr,QStyleHintReturn * returnData = nullptr) const;
+		int pixelMetric(PixelMetric,Style = nullptr,Widget = nullptr) const;
 
-protected Q_SLOTS:
-	QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
-	int layoutSpacingImplementation(QSizePolicy::ControlType control1,
-	                                QSizePolicy::ControlType control2,
-	                                Qt::Orientation orientation,
-                                    const QStyleOption *option = nullptr,
-                                    const QWidget *widget = nullptr) const;
+		QPalette standardPalette() const;
 
-private:
-	ManhattanStylePrivate *d;
-	Q_DISABLE_COPY(ManhattanStyle)
+		void polish(QWidget *);
+		void polish(QPalette &);
+		void polish(QApplication *);
+
+		void unpolish(QWidget *);
+		void unpolish(QApplication *);
+
+	protected:
+
+		bool event(QEvent *);
+
+	protected Q_SLOTS:
+
+		QIcon standardIconImplementation(StandardPixmap icon,Style,Widget) const;
+		int layoutSpacingImplementation(QSizePolicy::ControlType,QSizePolicy::ControlType,
+										Qt::Orientation,Style = nullptr,
+										Widget = nullptr) const;
+
+	private:
+
+		ManhattanStylePrivate * d;
+		Q_DISABLE_COPY(ManhattanStyle)
+
 };
-#endif // MANHATTANSTYLE_H
+
+
+#endif

@@ -1,36 +1,50 @@
 #ifndef Header_FileSelector
 #define Header_FileSelector
 
+
 #include "mostQtHeaders.h"
 
-class FileSelector : public QWidget
-{
+
+class FileSelector : public QWidget {
+
 	Q_OBJECT
 
-public:
-	explicit FileSelector(QWidget *parent = 0, bool multiselect = false);
-	void init(const QStringList &files, int current);
-	void setCentered();
+	public:
 
-signals:
-	void fileChoosen(const QString &name, int duplicate, int lineNr, int column);
+		explicit FileSelector(QWidget * parent = 0,bool multiselect = false);
 
-private slots:
-	void filterChanged(const QString &newFilter);
+		void init(const QStringList & files,int current);
+		void setCentered();
 
-protected:
-	virtual void showEvent(QShowEvent *event);
-	virtual bool eventFilter(QObject *obj, QEvent *event);
+	signals:
 
-protected slots:
-	void emitChoosen();
+		void fileChoosen(const QString & name,int duplicate,int lineNr,int column);
 
-private:
-	QListWidget *list;
-	QLineEdit	*filter;
-	QStringList rawFiles;
-	QList<QPair<QString, int> > currentFiles();
-	bool multiselect;
+	private slots:
+
+		void filterChanged(const QString & newFilter);
+
+	protected:
+
+		virtual bool eventFilter(QObject *,QEvent *);
+		virtual void showEvent(QShowEvent *);
+
+	protected slots:
+
+		void emitChoosen();
+
+	private:
+
+		QListWidget * list;
+		QLineEdit * filter;
+
+		QStringList rawFiles;
+
+		QList<QPair<QString, int> > currentFiles();
+
+		bool multiselect;
+
 };
 
-#endif // FILESELECTOR_H
+
+#endif

@@ -7,92 +7,122 @@ class TxsTabWidget;
 class LatexEditorView;
 class EditorChangeProxy;
 
-class Editors : public QWidget
-{
+class Editors : public QWidget {
+
 	Q_OBJECT
-public:
-    explicit Editors(QWidget *parent = nullptr);
-	void addTabWidget(TxsTabWidget *w);
-	void addEditor(LatexEditorView *edView, bool asCurrent = true);
-	void insertEditor(LatexEditorView *edView, int index, bool asCurrent = true);
-	enum Position {AbsoluteFront, AbsoluteEnd, GroupFront, GroupEnd};
-	void moveEditor(LatexEditorView *edView, Position pos);
-public slots:
-	void requestCloseEditor(LatexEditorView *edView);
-	void removeEditor(LatexEditorView *edView);
-protected:
-    void insertEditor(LatexEditorView *edView, TxsTabWidget *tabWidget=nullptr /*current*/, int pos=-1 /*append*/, bool asCurrent = true);
-	void removeEditor(LatexEditorView *edView, TxsTabWidget *tabWidget);
-public:
-	bool containsEditor(LatexEditorView *edView) const;
 
-	TxsTabWidget * currentTabWidget() const;
+	public:
 
-	LatexEditorView * currentEditor() const;
-	void setCurrentEditor(LatexEditorView *edView, bool setFocus = true);
+		enum Position { AbsoluteFront , AbsoluteEnd , GroupFront , GroupEnd };
 
-	QList<LatexEditorView *> editors();
-	int tabGroupIndexFromEditor(LatexEditorView *edView) const;
-	void moveToTabGroup(LatexEditorView *edView, int groupIndex, int targetIndex);
+		explicit Editors(QWidget * parent = nullptr);
 
-signals:
-	void currentEditorChanged();
-	void editorAboutToChangeByTabClick(LatexEditorView *from, LatexEditorView *to);
-	void closeCurrentEditorRequested();
-	void listOfEditorsChanged();
-	void editorsReordered();
+		void insertEditor(LatexEditorView *,int index,bool asCurrent = true);
+		void addTabWidget(TxsTabWidget *);
+		void moveEditor(LatexEditorView *,Position pos);
+		void addEditor(LatexEditorView *,bool asCurrent = true);
 
-public slots:
-	void setCurrentEditorFromAction();
-	void setCurrentEditorFromSender();
-	void closeEditorFromAction();
-	void closeOtherEditorsFromAction();
-	void toggleReadOnlyFromAction();
-	bool activateNextEditor();
-	bool activatePreviousEditor();
+	public slots:
 
-protected slots:
-	void setCurrentGroup(int index);
-	bool activateTabWidgetFromSender();
-	void tabBarContextMenu(const QPoint &point);
-	void onEditorChangeByTabClick(LatexEditorView *from, LatexEditorView *to);
-	void moveToOtherTabGroup();
-	void moveAllToOtherTabGroup();
-	void moveToTabGroup(LatexEditorView *edView, TxsTabWidget *target, int targetIndex);
-	void changeSplitOrientation();
+		void requestCloseEditor(LatexEditorView *);
+		void removeEditor(LatexEditorView *);
 
-protected:
-	TxsTabWidget *tabWidgetFromEditor(LatexEditorView *edView) const;
+	protected:
 
-private:
-	QSplitter *splitter;
-	QList<TxsTabWidget *> tabGroups;
-	int currentGroupIndex;
+		void insertEditor(LatexEditorView *,TxsTabWidget * = nullptr /*current*/,int pos = -1 /*append*/,bool asCurrent = true);
+		void removeEditor(LatexEditorView *,TxsTabWidget *);
 
-	EditorChangeProxy *changes;
+	public:
+
+		bool containsEditor(LatexEditorView *) const;
+
+		TxsTabWidget * currentTabWidget() const;
+		LatexEditorView * currentEditor() const;
+		QList<LatexEditorView *> editors();
+
+		void setCurrentEditor(LatexEditorView *,bool setFocus = true);
+		void moveToTabGroup(LatexEditorView *,int groupIndex,int targetIndex);
+
+		int tabGroupIndexFromEditor(LatexEditorView *) const;
+
+	signals:
+
+		void editorAboutToChangeByTabClick(LatexEditorView * from,LatexEditorView * to);
+
+		void closeCurrentEditorRequested();
+		void currentEditorChanged();
+		void listOfEditorsChanged();
+		void editorsReordered();
+
+	public slots:
+
+		void closeOtherEditorsFromAction();
+		void setCurrentEditorFromAction();
+		void setCurrentEditorFromSender();
+		void toggleReadOnlyFromAction();
+		void closeEditorFromAction();
+
+		bool activatePreviousEditor();
+		bool activateNextEditor();
+
+	protected slots:
+
+		bool activateTabWidgetFromSender();
+		void changeSplitOrientation();
+		void moveAllToOtherTabGroup();
+		void moveToOtherTabGroup();
+
+		void onEditorChangeByTabClick(LatexEditorView * from,LatexEditorView * to);
+		void tabBarContextMenu(const QPoint &);
+		void moveToTabGroup(LatexEditorView *,TxsTabWidget * target,int targetIndex);
+		void setCurrentGroup(int index);
+
+	protected:
+
+		TxsTabWidget *tabWidgetFromEditor(LatexEditorView *) const;
+
+	private:
+
+		QList<TxsTabWidget *> tabGroups;
+		EditorChangeProxy * changes;
+		QSplitter * splitter;
+
+		int currentGroupIndex;
+
 };
 
 
 
-class EditorChangeProxy : public QObject
-{
-	Q_OBJECT
-public:
-	EditorChangeProxy(Editors *e);
+class EditorChangeProxy : public QObject {
 
-	bool block();
-	void release();
-signals:
-	void currentEditorChanged();
-	void listOfEditorsChanged();
-public slots:
-	void currentEditorChange();
-	void listOfEditorsChange();
-private:
-	Editors *editors;
-	LatexEditorView *currentEditorAtBlock;
-	QList<LatexEditorView *> listOfEditorsAtBlock;
-	bool blocked;
+	Q_OBJECT
+
+	public:
+
+		EditorChangeProxy(Editors *);
+
+		void release();
+		bool block();
+
+	signals:
+
+		void currentEditorChanged();
+		void listOfEditorsChanged();
+
+	public slots:
+
+		void currentEditorChange();
+		void listOfEditorsChange();
+
+	private:
+
+		QList<LatexEditorView *> listOfEditorsAtBlock;
+		LatexEditorView * currentEditorAtBlock;
+		Editors *editors;
+
+		bool blocked;
+
 };
 
-#endif // EDITORS_H
+
+#endif

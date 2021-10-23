@@ -1,33 +1,43 @@
 #ifndef Header_MathAssistant
 #define Header_MathAssistant
 
+
 #include "mostQtHeaders.h"
 
-class MathAssistant : public QObject
-{
+
+class MathAssistant : public QObject {
+
 	Q_OBJECT
 
-public:
-	static MathAssistant *instance();
+	private:
 
-	void exec();
+		using Error = QProcess::ProcessError;
+		using Status = QProcess::ExitStatus;
 
-signals:
-	void formulaReceived(QString formula);
+	public:
 
-public slots:
+		static MathAssistant * instance();
 
-private slots:
-	void processError(QProcess::ProcessError err);
-	void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+		void exec();
 
-private:
-	MathAssistant();
+	signals:
 
-	static MathAssistant *m_Instance;
+		void formulaReceived(QString formula);
 
-	QProcess process;
-	QString lastClipboardText;
+	private slots:
+
+		void processError(Error);
+		void processFinished(int exitCode,Status);
+
+	private:
+
+		MathAssistant();
+
+		static MathAssistant * m_Instance;
+
+		QProcess process;
+		QString lastClipboardText;
+
 };
 
-#endif // MATHASSISTANT_H
+#endif

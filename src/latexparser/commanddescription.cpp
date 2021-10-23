@@ -1,6 +1,7 @@
 #include "commanddescription.h"
 
-CommandDescription::CommandDescription(): optionalArgs(0), bracketArgs(0), overlayArgs(0), args(0), level(0),bracketCommand(false),verbatimAfterOptionalArg(false)
+CommandDescription::CommandDescription(): optionalArgs(0), bracketArgs(0), overlayArgs(0), args(0),
+	level(0),bracketCommand(false),verbatimAfterOptionalArg(false)
 {
 
 }
@@ -19,7 +20,11 @@ QString CommandDescription::toDebugString() const
 
 bool CommandDescription::operator==(const CommandDescription &v) const
 {
-    return (this->optionalCommandName==v.optionalCommandName && this->args==v.args && this->argTypes==v.argTypes && this->level==v.level && this->optionalArgs==v.optionalArgs && this->optTypes==v.optTypes && this->bracketArgs==v.bracketArgs && this->bracketTypes==v.bracketTypes);
+    return (this->optionalCommandName==v.optionalCommandName && this->optionalArgs==v.optionalArgs &&
+            this->args==v.args && this->argTypes==v.argTypes &&
+            this->level==v.level &&
+            this->optTypes==v.optTypes &&
+            this->bracketArgs==v.bracketArgs && this->bracketTypes==v.bracketTypes);
 }
 
 void CommandDescriptionHash::unite(const CommandDescriptionHash &other){

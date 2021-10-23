@@ -13,19 +13,26 @@
 #ifndef Header_LogHighlighter
 #define Header_LogHighlighter
 
+
 #include "mostQtHeaders.h"
+
 
 class QTextDocument;
 
+
 class LogHighlighter : public QSyntaxHighlighter {
+
 	Q_OBJECT
 
-public:
-	LogHighlighter(QTextDocument *parent = 0);
-	QColor ColorFile;
+	public:
 
-protected:
-	void highlightBlock(const QString &text);
+		LogHighlighter(QTextDocument * parent = 0);
+		QColor ColorFile;
+
+	protected:
+
+		void highlightBlock(const QString & text);
+
 };
 
 

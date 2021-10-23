@@ -19,26 +19,32 @@
 #include <QStringList>
 #include <QCloseEvent>
 
-class UserQuickDialog : public QDialog
-{
+
+class UserQuickDialog : public QDialog {
+
 	Q_OBJECT
 
-public:
-	UserQuickDialog(QWidget *parent = 0, const QStringList &ids = QStringList(), const QStringList &usualNames = QStringList(""), const QStringList &usualCommands = QStringList(""));
-	~UserQuickDialog();
-	Ui::UserQuickDialog ui;
-	void setCommandList(const QString &list);
-	QString getCommandList();
+	public:
 
-private:
-	QMap<QString, QString> idToCommand, commandToId, idToName, nameToId;
+		UserQuickDialog(QWidget * parent = 0,const QStringList & ids = QStringList(),const QStringList & usualNames = QStringList(""),const QStringList & usualCommands = QStringList(""));
+		~UserQuickDialog();
 
-private slots:
-	void addItem(QString name);
-	void actionUp();
-	void actionDown();
-	void actionDelete();
-	void actionAddCommand();
+		Ui::UserQuickDialog ui;
+		void setCommandList(const QString & list);
+		QString getCommandList();
+
+	private:
+
+		QMap<QString,QString> idToCommand , commandToId , idToName , nameToId;
+
+	private slots:
+
+		void addItem(QString name);
+		void actionUp();
+		void actionDown();
+		void actionDelete();
+		void actionAddCommand();
+
 };
 
 
