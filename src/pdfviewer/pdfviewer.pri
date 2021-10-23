@@ -4,6 +4,8 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+NO_POPPLER_PREVIEW = true
+
 # ################################
 # Poppler PDF Preview, will only be used if NO_POPPLER_PREVIEW is not set
 isEmpty(NO_POPPLER_PREVIEW) {

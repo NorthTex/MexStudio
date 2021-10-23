@@ -26,6 +26,7 @@
 #include "utilsVersion.h"
 #include <qtsingleapplication.h>
 #include <QSplashScreen>
+#include <iostream>
 
 #ifdef Q_OS_WIN32
 	#include "windows.h"
@@ -217,6 +218,12 @@ bool handleCommandLineOnly(const QStringList & cmdLine){
 
 
 int main(int args,char ** argument){
+
+	#if __cplusplus >= 202002L
+		std::cout << "C++ 20" << std::endl;
+	#endif
+
+	std::cout << "C++ " << __cplusplus << std::endl;
 
 	QString appId = generateAppId();
 

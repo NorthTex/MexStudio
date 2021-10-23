@@ -64,7 +64,7 @@ win32 {
 message(Building with Qt $$QT_VERSION)
 CONFIG += qt
 CONFIG -= precompile_header
-
+CONFIG+=c++2a
 # allow loading extra config by file for automatic compilations (OBS)
 exists(texstudio.pri):include(texstudio.pri)
 QT += network \
@@ -434,6 +434,8 @@ exists(./.git)  {
   }
   SOURCES += src/git_revision.cpp
 }
+
+
 
 !win32-msvc*: {
   QMAKE_CXXFLAGS_DEBUG -= -O -O1 -O2 -O3
