@@ -2,10 +2,11 @@
 #include "ui_bibtexdialog.h"
 #include "utilsUI.h"
 
+
 QList<BibTeXType> BibTeXDialog::bibtexEntryTypes;
 QList<BibTeXType> BibTeXDialog::biblatexEntryTypes;
 
-QList<BibTeXType> *BibTeXDialog::entryTypes = &BibTeXDialog::bibtexEntryTypes;
+QList<BibTeXType> *BibTeXDialog::entryTypes = & BibTeXDialog::bibtexEntryTypes;
 BibTeXDialog::BibType BibTeXDialog::bibType = BibTeXDialog::BIBTEX;
 
 
@@ -384,7 +385,7 @@ QString BibTeXDialog::textToInsert(const BibTeXType &entry, bool keepOptionalFie
 	QString result = entry.name + "{" + fields.value("ID", "%<ID%>") + ",\n";
 	QMap<QString, QString> remainingFields = fields;
 	remainingFields.remove("ID");
-	foreach (const QString &s, entry.mandatoryFields) {
+	foreach (const QString &s, entry.required) {
 		if (!s.contains("/")) {
 			result += s + " = {" + remainingFields.value(s, "%<" + s + "%>") + "},\n";
 			remainingFields.remove(s);
@@ -406,7 +407,7 @@ QString BibTeXDialog::textToInsert(const BibTeXType &entry, bool keepOptionalFie
 
 	}
 
-	foreach (const QString &s, entry.optionalFields) {
+	foreach (const QString &s, entry.optional) {
 		QMap<QString, QString>::iterator it = remainingFields.find(s);
 		if (it != remainingFields.end()) {
 			result += s + " = {" + remainingFields.value(s, "%<" + s + "%>") + "},\n";
@@ -484,13 +485,13 @@ void BibTeXDialog::typeSelectionChanged()
 	//update
 	m_ui->fieldTable->clearContents();
 	const BibTeXType &bt = entryTypes->at(m_ui->typeList->currentRow());
-	m_ui->fieldTable->setRowCount(bt.mandatoryFields.count() + bt.optionalFields.count() + 10);
+	m_ui->fieldTable->setRowCount(bt.required.count() + bt.optional.count() + 10);
 	QFont f = QApplication::font();
 	f.setBold(true);
 
 	//mandatory fields
 	int row = 0;
-	QStringList fields = bt.mandatoryFields;
+	QStringList fields = bt.required;
 	fields.prepend("ID");
 	for (int i = 0; i < fields.count(); i++, row++) {
 		QTableWidgetItem *item = new QTableWidgetItem(fields[i]);
@@ -501,11 +502,11 @@ void BibTeXDialog::typeSelectionChanged()
 	}
 
 	//optional fields
-	for (int i = 0; i < bt.optionalFields	.count(); i++, row++) {
-		QTableWidgetItem *item = new QTableWidgetItem(bt.optionalFields[i]);
+	for (int i = 0; i < bt.optional	.count(); i++, row++) {
+		QTableWidgetItem *item = new QTableWidgetItem(bt.optional[i]);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled); // no edit
 		m_ui->fieldTable->setItem(row, 0, item);
-		m_ui->fieldTable->setItem(row, 1, new QTableWidgetItem(curFields.value(bt.optionalFields[i], "")));
+		m_ui->fieldTable->setItem(row, 1, new QTableWidgetItem(curFields.value(bt.optional[i], "")));
 	}
 	m_ui->fieldTable->setCurrentCell(0, 1);
 	m_ui->fieldTable->resizeRowsToContents();

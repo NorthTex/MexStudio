@@ -2,42 +2,43 @@
 #define Header_Bibtex_Dialog
 
 #include "mostQtHeaders.h"
-
+#include "BibTex/Type.hpp"
 
 namespace Ui { class BibTeXDialog; }
 
-struct BibTeXType;
+//struct BibTeXType;
 
 using StringMap = const QMap<QString,QString> &;
 using StringList = const QStringList &;
 using String = const QString &;
-using Type = const BibTeXType &;
+using Type = const BibTex::Type &;
+using BibTeXType = BibTex::Type;
 
 
-struct BibTeXType {
+//struct BibTeXType {
 
-	QString name;
-	QString description;
-	QStringList mandatoryFields, optionalFields;
+//	QString name;
+//	QString description;
+//	QStringList mandatoryFields, optionalFields;
 
-	BibTeXType(Type other)
-		: name(other.name)
-		, description(other.description)
-		, mandatoryFields(other.mandatoryFields)
-		, optionalFields(other.optionalFields) {}
+//	BibTeXType(Type other)
+//		: name(other.name)
+//		, description(other.description)
+//		, mandatoryFields(other.mandatoryFields)
+//		, optionalFields(other.optionalFields) {}
 
-	BibTeXType(String description,String name,StringList mandatory,StringList optionals)
-		: name(name)
-		, description(description)
-		, mandatoryFields(mandatory)
-		, optionalFields(optionals) {}
+//	BibTeXType(String description,String name,StringList mandatory,StringList optionals)
+//		: name(name)
+//		, description(description)
+//		, mandatoryFields(mandatory)
+//		, optionalFields(optionals) {}
 
-	BibTeXType & operator = (Type other) = default; // Silence -Wdeprecated-copy
+//	BibTeXType & operator = (Type other) = default; // Silence -Wdeprecated-copy
 
-};
+//};
 
 
-using Types = QList<BibTeXType>;
+using Types = QList<BibTex::Type>;
 
 
 class BibTeXDialog : public QDialog {
@@ -58,7 +59,7 @@ class BibTeXDialog : public QDialog {
 		static void setBibType(BibType type);
 		static QString textToInsert(Type entry,bool keepOptionalFields,StringMap fields);
 		static QString textToInsert(String entryName);
-		static QList<BibTeXType> getPossibleEntryTypes(BibType type);
+		static QList<BibTex::Type> getPossibleEntryTypes(BibType type);
 
 
 	protected:
