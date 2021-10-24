@@ -9,8 +9,8 @@ QList<BibTeXType> *BibTeXDialog::entryTypes = &BibTeXDialog::bibtexEntryTypes;
 BibTeXDialog::BibType BibTeXDialog::bibType = BibTeXDialog::BIBTEX;
 
 
-void BibTeXDialog::generateBibtexEntryTypes(bool forceRecreate)
-{
+void BibTeXDialog::generateBibtexEntryTypes(bool forceRecreate){
+
 	if (forceRecreate) {
 		bibtexEntryTypes.clear();
 	} else {

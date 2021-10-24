@@ -13,38 +13,86 @@ const int NW_IGNORED_TOKEN = -2; //token that are not words,  { and }
 const int NW_OPTION = -3; //option text like in \include
 const int NW_OPTION_PUNCTATION = -4; //option punctation like in \include
 
-class TestToken: public QString
-{
+class TestToken: public QString {
+
 	static const QRegExp simpleTextRegExp; //defined in testmanager.cpp
 	static const QRegExp commandRegExp;
 	static const QRegExp ignoredTextRegExp;
 	static const QRegExp specialCharTextRegExp;
 	static const QRegExp punctationRegExp;
-	void guessType()
-	{
-		if (simpleTextRegExp.exactMatch(*this)) type = LatexReader::NW_TEXT;
-		else if (commandRegExp.exactMatch(*this)) type = LatexReader::NW_COMMAND;
-		else if (punctationRegExp.exactMatch(*this)) type = LatexReader::NW_PUNCTATION;
-		else if (ignoredTextRegExp.exactMatch(*this)) type = NW_IGNORED_TOKEN;
-		else if (*this == "%") type = LatexReader::NW_COMMENT;
-		else if (specialCharTextRegExp.exactMatch(*this)) type = LatexReader::NW_TEXT;
+
+	void guessType(){
+
+		if (simpleTextRegExp.exactMatch(*this))
+			type = LatexReader::NW_TEXT;
+		else if (commandRegExp.exactMatch(*this))
+			type = LatexReader::NW_COMMAND;
+		else if (punctationRegExp.exactMatch(*this))
+			type = LatexReader::NW_PUNCTATION;
+		else if (ignoredTextRegExp.exactMatch(*this))
+			type = NW_IGNORED_TOKEN;
+		else if (soll.compare("%"))
+			type = LatexReader::NW_COMMENT;
+		else if (specialCharTextRegExp.exactMatch(*this))
+			type = LatexReader::NW_TEXT;
 		else QVERIFY2(false, QString("invalid test data: \"%1\"").arg(*this).toLatin1().constData());
 	}
-public:
-	int type, position;
-    TestToken(): QString(), type(NW_IGNORED_TOKEN), position(-1), soll(QString()) { }
-	TestToken(const TestToken &token): QString(token), type(token.type), position(token.position), soll(token.soll) { }
-    TestToken(const QString &str): QString(str), position(-1), soll(str) { guessType(); }
-    TestToken(const char *cstr): QString(cstr), position(-1), soll(QString(cstr)) { guessType(); }
-    TestToken(const QString &str, int atype): QString(str), type(atype), position(-1), soll(str) {}
-    TestToken(const QString &str, const QString result, int atype): QString(str), type(atype), position(-1), soll(result) {}
-	bool operator ==(const QString &other)
-	{
-		return soll.compare(other) == 0;
-	}
-    TestToken& operator =(const TestToken & other) = default;
-private:
-	QString soll;
+
+	public:
+
+		int type , position;
+
+		TestToken()
+			: QString()
+			, type(NW_IGNORED_TOKEN)
+			, position(-1)
+			, soll(QString()) {}
+
+		TestToken(const TestToken &token)
+			: QString(token)
+			, type(token.type)
+			, position(token.position)
+			, soll(token.soll) {}
+
+		TestToken(const QString &str)
+			: QString(str)
+			, position(-1)
+			, soll(str) { guessType(); }
+
+		TestToken(const char *cstr)
+			: QString(cstr)
+			, position(-1)
+			, soll(QString(cstr)) { guessType(); }
+
+		TestToken(const QString &str, int atype)
+			: QString(str)
+			, type(atype)
+			, position(-1)
+			, soll(str) {}
+
+		TestToken(const QString &str,const QString result,int atype)
+			: QString(str)
+			, type(atype)
+			, position(-1)
+			, soll(result) {}
+
+		bool operator == (const QString & other){
+			return soll.compare(other) == 0;
+		}
+
+		bool operator == (const char * other){
+			return soll.compare(other) == 0;
+		}
+
+		bool operator != (const char * other){
+			return soll.compare(other) != 0;
+		}
+
+		TestToken & operator = (const TestToken & other) = default;
+
+	private:
+
+		QString soll;
 };
 
 Q_DECLARE_METATYPE(TestToken);

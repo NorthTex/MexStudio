@@ -391,14 +391,14 @@ include(src/adwaita-qt/adwaita.pri)
 
 # ###############################
 
-CONFIG(debug, debug|release) {
+#CONFIG(debug, debug|release) {
     message(Creating debug version)
     CONFIG -= debug_and_release release
-} else {
-    message(Creating release version)
-    CONFIG -= debug_and_release debug
-    NO_TESTS = 1
-}
+#} else {
+#    message(Creating release version)
+#    CONFIG -= debug_and_release debug
+#    NO_TESTS = 1
+#}
 
 macx:LIBS += -framework CoreFoundation
 
