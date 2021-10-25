@@ -18,7 +18,7 @@
 #include "qcodeedit.h"
 #include "qeditor.h"
 #include "directoryreader.h"
-#include "bibtexreader.h"
+#include "BibTex/Reader.hpp"
 #include <set>
 #include "LatexReference.hpp"
 
@@ -158,7 +158,7 @@ class LatexCompleter : public QObject {
 		bool forcedLength;
 		bool startedFromTriggerKey;
 
-		bibtexReader * bibReader;
+		BibTex::Reader * bibReader;
 		QString workingDir;
 		QPoint lastPos;
 

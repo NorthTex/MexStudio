@@ -2002,7 +2002,7 @@ void LatexCompleter::selectionChanged(const QModelIndex &index)
         }
         LatexDocument *document = qobject_cast<LatexDocument *>(editor->document());
 		if (!bibReader) {
-			bibReader = new bibtexReader(this);
+			bibReader = new BibTex::Reader(this);
 			connect(bibReader, SIGNAL(sectionFound(QString)), this, SLOT(bibtexSectionFound(QString)));
             connect(this, SIGNAL(searchBibtexSection(QString,QString)), bibReader, SLOT(searchSection(QString,QString)));
 			bibReader->start();

@@ -17,7 +17,7 @@
 #include "qdocument.h"
 #include "syntaxcheck.h"
 #include "grammarcheck.h"
-#include "bibtexreader.h"
+#include "BibTex/Reader.hpp"
 #include "cursorposition.h"
 #include "latexcompleter.h"
 //#include "help.h"
@@ -291,7 +291,7 @@ class LatexEditorView : public QWidget {
 
 		LatexEditorViewConfig *config;
 
-		bibtexReader * bibReader;
+		BibTex::Reader * bibReader;
 		QPoint lastPos;
 
 		LinkOverlay linkOverlay;

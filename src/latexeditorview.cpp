@@ -2628,7 +2628,7 @@ void LatexEditorView::mouseHovered(QPoint pos)
 				} else {
 					// read entry in bibtex file
 					if (!bibReader) {
-						bibReader = new bibtexReader(this);
+						bibReader = new BibTex::Reader(this);
 						connect(bibReader, SIGNAL(sectionFound(QString)), this, SLOT(bibtexSectionFound(QString)));
                         connect(this, SIGNAL(searchBibtexSection(QString,QString)), bibReader, SLOT(searchSection(QString,QString)));
 						bibReader->start(); //The thread is started, but it is doing absolutely nothing! Signals/slots called in the thread object are execute in the emitting thread, not the thread itself.  TODO: fix
