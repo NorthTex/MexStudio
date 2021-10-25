@@ -13,60 +13,56 @@ using StringMap = QMap<QString,QString>;
 
 void Dialog::generateBibtexEntryTypes(bool forceRecreate){
 
-	auto types = Dialog::bibtex;
+	if(!forceRecreate && !bibtex.isEmpty())
+		return;
 
+	if(forceRecreate)
+		bibtex = {};
 
-	if (forceRecreate) {
-		types.clear();
-	} else {
-		if(!types.isEmpty())
-			return;
-	}
-
-	types << TexType(tr("Article in &Journal"), "@Article",
+	bibtex << TexType(tr("Article in &Journal"),"@Article",
 								   QStringList() << "author" << "title" << "journal" << "year",
 								   QStringList() << "key" << "volume" << "number" << "pages" << "month" << "note" << "annote");
-	types << TexType(tr("Article in Conference &Proceedings"), "@InProceedings",
+	bibtex << TexType(tr("Article in Conference &Proceedings"), "@InProceedings",
 								   QStringList() << "author" << "title" << "booktitle",
 								   QStringList() << "crossref" << "key" << "pages" << "year" << "editor" << "volume" << "number" << "series" << "address" << "month" << "organization" << "publisher" << "note" << "annote");
-	types << TexType(tr("Article in a &Collection"), "@InCollection",
+	bibtex << TexType(tr("Article in a &Collection"), "@InCollection",
 								   QStringList() << "author" << "title" << "booktitle",
 								   QStringList() << "crossref" << "key" << "pages" << "publisher" << "year" <<  "editor" << "volume" << "number" << "series" << "type" << "chapter" << "address" << "edition" << "month" << "note" << "annote");
-	types << TexType(tr("Chapter or &Pages in a Book"), "@InBook",
+	bibtex << TexType(tr("Chapter or &Pages in a Book"), "@InBook",
 								   QStringList() << "author/editor" << "title" << "chapter" << "publisher" << "year",
 								   QStringList() << "key" << "volume" << "number" << "series" << "type" << "address" << "edition" << "month" << "pages" << "note" <<  "annote");
-	types << TexType(tr("Conference Pr&oceedings"), "@Proceedings",
+	bibtex << TexType(tr("Conference Pr&oceedings"), "@Proceedings",
 								   QStringList() << "title" << "year",
 								   QStringList() << "key" << "editor" << "volume" << "number" <<
 								   "series" << "address" << "month" << "organization" << "publisher" << "note" <<
 								   "annote");
-	types << TexType(tr("&Book"), "@Book",
+	bibtex << TexType(tr("&Book"), "@Book",
 								   QStringList() << "author/editor" << "title" << "publisher" << "year",
 								   QStringList() <<  "key" << "volume" << "number" << "series" << "address" <<
 								   "edition" << "month" << "note" << "annote");
-	types << TexType(tr("Book&let"), "@Booklet",
+	bibtex << TexType(tr("Book&let"), "@Booklet",
 								   QStringList() << "title",
 								   QStringList() << "key" << "author" << "howpublished" << "address" << "month" << "year" << "note" << "annote");
-	types << TexType(tr("PhD. &Thesis"), "@PhdThesis",
+	bibtex << TexType(tr("PhD. &Thesis"), "@PhdThesis",
 								   QStringList() << "author" << "title" << "school" << "year",
 								   QStringList() << "key" << "type" << "address" << "month" << "note" <<
 								   "annote");
-	types << TexType(tr("&Master's Thesis"), "@MastersThesis",
+	bibtex << TexType(tr("&Master's Thesis"), "@MastersThesis",
 								   QStringList() << "author" << "title" << "school" << "year",
 								   QStringList() <<  "key" << "type" << "address" << "month" <<  "note" <<
 								   "annote");
-	types << TexType(tr("Technical &Report"), "@TechReport",
+	bibtex << TexType(tr("Technical &Report"), "@TechReport",
 								   QStringList() << "author" << "title" << "institution" << "year",
 								   QStringList() <<  "key" << "type" << "number" << "address" << "month" <<
 								   "note" << "annote");
-	types << TexType(tr("Technical Ma&nual"), "@Manual",
+	bibtex << TexType(tr("Technical Ma&nual"), "@Manual",
 								   QStringList() << "title",
 								   QStringList() << "key" << "author" << "organization" << "address" << "edition" << "month" << "year" << "note" << "annote");
 
-	types << TexType(tr("&Unpublished"), "@Unpublished",
+	bibtex << TexType(tr("&Unpublished"), "@Unpublished",
 								   QStringList() << "author" << "title" << "note",
 								   QStringList() << "key" << "month" << "year" << "annote");
-	types << TexType(tr("Miscellan&eous"), "@Misc",
+	bibtex << TexType(tr("Miscellan&eous"), "@Misc",
 								   QStringList(),
 								   QStringList() << "key" << "author" << "title" << "howpublished" << "month" << "year" << "note" << "annote");
 
@@ -74,29 +70,36 @@ void Dialog::generateBibtexEntryTypes(bool forceRecreate){
 
 void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 
-	auto types = Dialog::biblatex;
+	if(!forceRecreate && !biblatex.isEmpty())
+		return;
 
-	if (forceRecreate) {
-		types.clear();
-	} else {
-		if (!types.isEmpty()) return;
-	}
+	if(forceRecreate)
+		biblatex = {};
 
-	types << TexType(tr("Article in &Journal"), "@article",
-									 // An article in a journal, magazine,
-									 // newspaper, or other periodical which forms
-									 // a self-contained unit with its own
-									 // title. The title of the periodical is given
-									 // in the journaltitle field. If the issue has
-									 // its own title in addition to the main title
-									 // of the periodical, it goes in the
-									 // issuetitle field. Note that "editor" and
-									 // related fields refer to the journal while
-									 // translator and related fields refer to the
-									 // article.
-									 QStringList() << "author" << "title" << "journaltitle" << "date",
-									 QStringList() << "translator" << "annotator" << "commentator" << "subtitle" << "titleaddon" << "editor" << "editora" << "editorb" << "editorc" << "journalsubtitle" << "issuetitle" << "issuesubtitle" << "language" << "origlanguage" << "series" << "volume" << "number" << "eid" << "issue" << "month" << "pages" << "version" << "note" << "issn" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("&Book"), "@book",
+
+	// An article in a journal, magazine,
+	// newspaper, or other periodical which forms
+	// a self-contained unit with its own
+	// title. The title of the periodical is given
+	// in the journaltitle field. If the issue has
+	// its own title in addition to the main title
+	// of the periodical, it goes in the
+	// issuetitle field. Note that "editor" and
+	// related fields refer to the journal while
+	// translator and related fields refer to the
+	// article.
+
+	biblatex << TexType(tr("Article in &Journal"),"@article",
+		QStringList() << "author" << "title" << "journaltitle" << "date",
+		QStringList() << "translator" << "annotator" << "commentator" << "subtitle"
+		<< "titleaddon" << "editor" << "editora" << "editorb" << "editorc"
+		<< "journalsubtitle" << "issuetitle" << "issuesubtitle" << "language"
+		<< "origlanguage" << "series" << "volume" << "number" << "eid" << "issue"
+		<< "month" << "pages" << "version" << "note" << "issn" << "addendum"
+		<< "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype"
+		<< "url" << "urldate");
+
+	biblatex << TexType(tr("&Book"), "@book",
 									 // A single-volume book with one or more
 									 // authors where the authors share credit for
 									 // the work as a whole. This entry type also
@@ -105,7 +108,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // details.
 									 QStringList() << "author" << "title" << "date",
 									 QStringList() << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("&Multi-volume Book"), "@mvbook",
+	biblatex << TexType(tr("&Multi-volume Book"), "@mvbook",
 									 // A multi-volume @book. For backwards
 									 // compatibility, multi-volume books are also
 									 // supported by the entry type @book. However,
@@ -113,7 +116,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // dedicated entry type @mvbook.
 									 QStringList() << "author" << "title" << "date",
 									 QStringList() << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "language" << "origlanguage" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Part of a Book With Its Own Title"), "@inbook",
+	biblatex << TexType(tr("Part of a Book With Its Own Title"), "@inbook",
 									 // A part of a book which forms a
 									 // self-contained unit with its own
 									 // title. Note that the profile of this entry
@@ -121,7 +124,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // � 2.3.1.
 									 QStringList() << "author" << "title" << "booktitle" << "date",
 									 QStringList() << "bookauthor" << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Book in Book"), "@bookinbook",
+	biblatex << TexType(tr("Book in Book"), "@bookinbook",
 									 // This type is similar to @inbook but
 									 // intended for works originally published as
 									 // a stand-alone book. A typical example are
@@ -129,7 +132,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // an author.
 									 QStringList() << "author" << "title" << "booktitle" << "date",
 									 QStringList() << "bookauthor" << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Supplemental Material in a Book"), "@suppbook",
+	biblatex << TexType(tr("Supplemental Material in a Book"), "@suppbook",
 									 // Supplemental material in a @book. This type
 									 // is closely related to the @inbook entry
 									 // type. While @inbook is primarily intended
@@ -146,7 +149,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // @inbook.
 									 QStringList() << "author" << "title" << "booktitle" << "date",
 									 QStringList() << "bookauthor" << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Book&let"), "@booklet",
+	biblatex << TexType(tr("Book&let"), "@booklet",
 									 // A book-like work without a formal publisher
 									 // or sponsoring institution. Use the field
 									 // howpublished to supply publishing
@@ -154,7 +157,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // The field type may be useful as well.
 									 QStringList() << "author/editor" << "title" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "language" << "howpublished" << "type" << "note" << "location" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Single-volume Collection"), "@collection",
+	biblatex << TexType(tr("Single-volume Collection"), "@collection",
 									 // A single-volume collection with multiple,
 									 // self-contained contributions by distinct
 									 // authors which have their own title. The
@@ -162,7 +165,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // it will usually have an editor.
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Multi-volume Collection"), "@mvcollection",
+	biblatex << TexType(tr("Multi-volume Collection"), "@mvcollection",
 									 // A multi-volume @collection. For backwards
 									 // compatibility, multi-volume collections are
 									 // also supported by the entry type
@@ -171,7 +174,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // @mvcollection.
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "language" << "origlanguage" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Article in a &Collection"), "@incollection",
+	biblatex << TexType(tr("Article in a &Collection"), "@incollection",
 									 // A contribution to a collection which forms
 									 // a self-contained unit with a distinct
 									 // author and title. The author refers to the
@@ -179,7 +182,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // the title of the collection.
 									 QStringList() << "author" << "editor" << "title" << "booktitle" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Supplemental Material in a Collection"), "@suppcollection",
+	biblatex << TexType(tr("Supplemental Material in a Collection"), "@suppcollection",
 									 // Supplemental material in a
 									 // @collection. This type is similar to
 									 // @suppbook but related to the @collection
@@ -188,13 +191,13 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // @incollection.
 									 QStringList() << "author" << "title" << "booktitle" << "date",
 									 QStringList() << "bookauthor" << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Technical Ma&nual"), "@manual",
+	biblatex << TexType(tr("Technical Ma&nual"), "@manual",
 									 // Technical or other documentation, not
 									 // necessarily in printed form. The author or
 									 // editor is omissible in terms of � 2.3.2.
 									 QStringList() << "author/editor" << "title" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "language" << "edition" << "type" << "series" << "number" << "version" << "note" << "organization" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Miscellan&eous"), "@misc",
+	biblatex << TexType(tr("Miscellan&eous"), "@misc",
 									 // A fallback type for entries which do not
 									 // fit into any other category. Use the field
 									 // howpublished to supply publishing
@@ -204,7 +207,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // omissible in terms of � 2.3.2.
 									 QStringList() << "author/editor" << "title" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "language" << "howpublished" << "type" << "version" << "note" << "organization" << "location" << "date" << "month" << "year" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Online Resource"), "@online",
+	biblatex << TexType(tr("Online Resource"), "@online",
 									 // An online resource. author, editor, and
 									 // year are omissible in terms of � 2.3.2.
 									 // This entry type is intended for sources
@@ -216,7 +219,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // type and its url field.
 									 QStringList() << "author/editor" << "title" << "date" << "url",
 									 QStringList() << "subtitle" << "titleaddon" << "language" << "version" << "note" << "organization" << "date" << "month" << "year" << "addendum" << "pubstate" << "urldate");
-	types << TexType(tr("Patent"), "@patent",
+	biblatex << TexType(tr("Patent"), "@patent",
 									 // A patent or patent request. The number or
 									 // record token is given in the number
 									 // field. Use the type field to specify the
@@ -228,7 +231,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // details.
 									 QStringList() << "author" << "title" << "number" << "date",
 									 QStringList() << "holder" << "subtitle" << "titleaddon" << "type" << "version" << "location" << "note" << "date" << "month" << "year" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Complete Issue of a Periodical"), "@periodical",
+	biblatex << TexType(tr("Complete Issue of a Periodical"), "@periodical",
 									 // An complete issue of a periodical, such as
 									 // a special issue of a journal. The title of
 									 // the periodical is given in the title
@@ -239,7 +242,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // � 2.3.2.
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "subtitle" << "issuetitle" << "issuesubtitle" << "language" << "series" << "volume" << "number" << "issue" << "date" << "month" << "year" << "note" << "issn" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Supplemental Material in a Periodical"), "@suppperiodical",
+	biblatex << TexType(tr("Supplemental Material in a Periodical"), "@suppperiodical",
 									 // Supplemental material in a
 									 // @periodical. This type is similar to
 									 // @suppbook but related to the @periodical
@@ -257,7 +260,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // alias for @article.
 									 QStringList() << "author" << "title" << "booktitle" << "date",
 									 QStringList() << "bookauthor" << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Conference Pr&oceedings"), "@proceedings",
+	biblatex << TexType(tr("Conference Pr&oceedings"), "@proceedings",
 									 // A single-volu conference
 									 // proceedings. This type is very similar to
 									 // @collection.  It supports an optional
@@ -266,7 +269,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // omissible in terms of � 2.3.2.
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "eventtitle" << "eventdate" << "venue" << "language" << "volume" << "part" << "volumes" << "series" << "number" << "note" << "organization" << "publisher" << "location" << "month" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Multi-volume Proceedings Entry"), "@mvproceedings",
+	biblatex << TexType(tr("Multi-volume Proceedings Entry"), "@mvproceedings",
 									 // A multi-volume @proceedings entry. For
 									 // backwards compatibility, multi-volume
 									 // proceedings are also supported by the entry
@@ -275,14 +278,14 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // @mvproceedings
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "eventtitle" << "eventdate" << "venue" << "language" << "volumes" << "series" << "number" << "note" << "organization" << "publisher" << "location" << "month" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Article in Conference &Proceedings"), "@inproceedings",
+	biblatex << TexType(tr("Article in Conference &Proceedings"), "@inproceedings",
 									 // An article in a conference
 									 // proceedings. This type is similar to
 									 // @incollection. It supports an optional
 									 // organization field.
 									 QStringList() << "author" << "editor" << "title" << "booktitle" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "eventtitle" << "eventdate" << "venue" << "language" << "volume" << "part" << "volumes" << "series" << "number" << "note" << "organization" << "publisher" << "location" << "month" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Reference"), "@reference",
+	biblatex << TexType(tr("Reference"), "@reference",
 									 // A single-volume work of reference such as
 									 // an encyclopedia or a dictionary. This is a
 									 // more specific variant of the generic
@@ -291,7 +294,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // @collection.
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Multi-volume Reference Entry"), "@mvreference",
+	biblatex << TexType(tr("Multi-volume Reference Entry"), "@mvreference",
 									 // A multi-volume @reference entry. The
 									 // standard styles will treat this entry type
 									 // as an alias for @mvcollection. For
@@ -302,7 +305,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // @mvreference.
 									 QStringList() << "editor" << "title" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "language" << "origlanguage" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("Article in a Reference"), "@inreference",
+	biblatex << TexType(tr("Article in a Reference"), "@inreference",
 									 // An article in a work of reference. This is
 									 // a more specific variantof the generic
 									 // @incollection entry type. The standard
@@ -310,7 +313,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // alias for @incollection.
 									 QStringList() << "author" << "editor" << "title" << "booktitle" << "date",
 									 QStringList() << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("&Report"), "@report",
+	biblatex << TexType(tr("&Report"), "@report",
 									 // A technical report, research report, or
 									 // white paper published by a university or
 									 // some other institution. Use the type field
@@ -319,14 +322,14 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 									 // goes in the institution field.
 									 QStringList() << "author" << "title" << "type" << "institution" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "language" << "number" << "version" << "note" << "location" << "month" << "isrn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("&Thesis"), "@thesis",
+	biblatex << TexType(tr("&Thesis"), "@thesis",
 									 // A thesis written for an educational
 									 // institution to satisfy the requirements for
 									 // a degree. Use the type field to specify the
 									 // type of thesis ("mathesis" or "phdthesis").
 									 QStringList() << "author" << "title" << "type" << "institution" << "date",
 									 QStringList() << "subtitle" << "titleaddon" << "language" << "note" << "location" << "month" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate");
-	types << TexType(tr("&Unpublished"), "@unpublished",
+	biblatex << TexType(tr("&Unpublished"), "@unpublished",
 									 // A work with an author and a title which has
 									 // not been formally published, such as a
 									 // manuscript or the script of a talk. Use the
@@ -340,7 +343,7 @@ void Dialog::generateBiblatexEntryTypes(bool forceRecreate){
 
 Dialog::Dialog(QWidget * parent,strings files,int currentFile,string id)
 	: QDialog(parent)
-	, ui(new BibTex::UI)
+	, ui(new UI)
 	, fileId(-2){
 
 	ui -> setup(this);
@@ -352,9 +355,6 @@ Dialog::Dialog(QWidget * parent,strings files,int currentFile,string id)
 	for(auto && file : files)
 		ui -> files -> addItem(file);
 
-//	foreach (const QString &s, fileList)
-//		m_ui->fileList->addItem(s);
-
 	ui -> files -> setCurrentRow(currentFile + 1);
 
 	needEntryTypes();
@@ -363,7 +363,7 @@ Dialog::Dialog(QWidget * parent,strings files,int currentFile,string id)
 
 		ui -> fields -> setRowCount(1);
 
-		QTableWidgetItem * item = new QTableWidgetItem("ID");
+		auto * item = new QTableWidgetItem("ID");
 
 		QFont font = QApplication::font();
 		font.setBold(true);
@@ -373,9 +373,9 @@ Dialog::Dialog(QWidget * parent,strings files,int currentFile,string id)
 		ui -> fields -> setItem(0,1,new QTableWidgetItem(id));
 	}
 
-	for(auto type : * entries){
+	for(auto && type : * entries){
 		QString description = type.description;
-		QListWidgetItem * item = new QListWidgetItem(description.remove('&'),ui -> types);
+		auto * item = new QListWidgetItem(description.remove('&'),ui -> types);
 		item -> setToolTip(type.name);
 	}
 
@@ -569,7 +569,7 @@ void Dialog::typeSelectionChanged(){
 
 	for(int i = 0;i < fields.count();i++,row++){
 
-		QTableWidgetItem * item = new QTableWidgetItem(fields[i]);
+		auto * item = new QTableWidgetItem(fields[i]);
 		item -> setFont(font);
 		item -> setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled); // no edit
 
@@ -580,7 +580,7 @@ void Dialog::typeSelectionChanged(){
 	//optional fields
 	for(int i = 0;i < bt.optional.count();i++,row++){
 
-		QTableWidgetItem *item = new QTableWidgetItem(bt.optional[i]);
+		auto * item = new QTableWidgetItem(bt.optional[i]);
 		item -> setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled); // no edit
 
 		ui -> fields -> setItem(row,0,item);

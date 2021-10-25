@@ -43,6 +43,10 @@ class BibTex::UI {
             * files,
             * types;
 
+        Item
+            * item_field,
+            * item_value;
+
         Checkbox * checkbox;
         Table * fields;
 
@@ -79,10 +83,10 @@ class BibTex::UI {
             fields = new Table(dialog);
             fields -> setColumnCount(2);
 
-            Item * item_field = new Item();
+            item_field = new Item();
             fields -> setHorizontalHeaderItem(0,item_field);
 
-            Item * item_value = new Item();
+            item_value = new Item();
             fields -> setHorizontalHeaderItem(1,item_value);
 
             Size size(Size::MinimumExpanding,Size::Expanding);
@@ -115,6 +119,8 @@ class BibTex::UI {
         label_type -> setText(QCoreApplication::translate("BibTex::Dialog","Entry Type:",nullptr));
         label_fields -> setText(QCoreApplication::translate("BibTex::Dialog","Fields:",nullptr));
         checkbox -> setText(QCoreApplication::translate("BibTex::Dialog","Insert Empty, Optional Fields",nullptr));
+        item_field -> setText(QCoreApplication::translate("BibTex::Dialog","Field",nullptr));
+        item_value -> setText(QCoreApplication::translate("BibTex::Dialog","Value",nullptr));
     }
 
 };

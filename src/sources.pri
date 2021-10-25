@@ -5,14 +5,13 @@ HEADERS += \
     $$PWD/BibTex/Type.hpp \
     $$PWD/BibTex/Dialog.hpp \
     $$PWD/BibTex/UI.hpp \
-    $$PWD/BibTex/Tender.hpp \
     $$PWD/BibTex/Reader.hpp \
     $$PWD/BibTex/Parser.hpp \
     $$PWD/TransformCharacters.hpp \
     $$PWD/aboutdialog.h \
     $$PWD/arraydialog.h \
 #    $$PWD/bibtexdialog.h \
-    $$PWD/bibtexparser.h \
+#    $$PWD/bibtexparser.h \
 #    $$PWD/bibtexreader.h \
     $$PWD/bidiextender.h \
     $$PWD/bookmarks.h \
@@ -124,8 +123,8 @@ SOURCES += \
     $$PWD/additionaltranslations.cpp \
     $$PWD/arraydialog.cpp \
 #    $$PWD/bibtexdialog.cpp \
-    $$PWD/bibtexparser.cpp \
-    $$PWD/bibtexreader.cpp \
+#    $$PWD/bibtexparser.cpp \
+#    $$PWD/bibtexreader.cpp \
     $$PWD/bidiextender.cpp \
     $$PWD/bookmarks.cpp \
     $$PWD/buildmanager.cpp \
@@ -223,7 +222,7 @@ SOURCES += \
 FORMS += \
     $$PWD/aboutdialog.ui \
     $$PWD/arraydialog.ui \
-    $$PWD/bibtexdialog.ui \
+#    $$PWD/bibtexdialog.ui \
     $$PWD/cleandialog.ui \
     $$PWD/configdialog.ui \
     $$PWD/encodingdialog.ui \
