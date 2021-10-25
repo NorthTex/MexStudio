@@ -6248,7 +6248,7 @@ void Texstudio::viewLogOrReRun(LatexCompileResult *result)
 			foreach (const QString &s, missingCitations) {
 				for (int i = 0; i < documents.mentionedBibTeXFiles.count(); i++) {
 					if (!documents.bibTeXFiles.contains(documents.mentionedBibTeXFiles[i])) continue;
-					BibTeXFileInfo &bibTex = documents.bibTeXFiles[documents.mentionedBibTeXFiles[i]];
+					BibTex::FileInfo &bibTex = documents.bibTeXFiles[documents.mentionedBibTeXFiles[i]];
 					if (bibTex.ids.contains(s)) {
 						runBibTeX = true;
 						break;
@@ -7580,7 +7580,7 @@ void Texstudio::updateCompleter(LatexEditorView *edView)
                 qDebug("BibTeX-File %s not loaded", collected_mentionedBibTeXFiles[i].toLatin1().constData());
                 continue; //wtf?s
             }
-            BibTeXFileInfo &bibTex = documents.bibTeXFiles[collected_mentionedBibTeXFiles[i]];
+            BibTex::FileInfo &bibTex = documents.bibTeXFiles[collected_mentionedBibTeXFiles[i]];
 
             // add citation to completer for direct citation completion
             bibIds.insert(bibTex.ids.cbegin(),bibTex.ids.cend());

@@ -6,7 +6,7 @@
 #include "latexstructure.h"
 #include "qdocument.h"
 #include "codesnippet.h"
-#include "bibtexparser.h"
+#include "BibTex/Parser.hpp"
 #include "usermacro.h"
 #include "syntaxcheck.h"
 #include "grammarcheck.h"
@@ -393,7 +393,7 @@ class LatexDocuments: public QObject {
         Q_INVOKABLE bool singleMode() const;
 
         //support for included BibTeX-files
-        QMap<QString, BibTeXFileInfo> bibTeXFiles; ///< bibtex files loaded by txs
+        QMap<QString, BibTex::FileInfo> bibTeXFiles; ///< bibtex files loaded by txs
         bool bibTeXFilesModified; ///< true if the BibTeX files were changed after the last compilation
         QStringList mentionedBibTeXFiles; ///< bibtex files imported in the tex file (absolute after updateBibFiles)
         //QSet<QString> bibItems; // direct defined bibitems

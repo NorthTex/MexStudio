@@ -1377,7 +1377,7 @@ QString LatexDocument::findFileFromBibId(const QString &bibId)
 	QStringList collected_mentionedBibTeXFiles;
 	foreach (const LatexDocument *doc, getListOfDocs())
 		collected_mentionedBibTeXFiles << doc->listOfMentionedBibTeXFiles();
-	const QMap<QString, BibTeXFileInfo> &bibtexfiles = parent->bibTeXFiles;
+	const QMap<QString, BibTex::FileInfo> &bibtexfiles = parent->bibTeXFiles;
 	foreach (const QString &file, collected_mentionedBibTeXFiles)
 		if (bibtexfiles.value(file).ids.contains(bibId))
 			return file;
@@ -2130,8 +2130,8 @@ void LatexDocuments::updateBibFiles(bool updateFiles)
 			QFileInfo fi(fileName);
 			if (!fi.isReadable()) continue; //ups...
 			if (!bibTeXFiles.contains(fileName))
-				bibTeXFiles.insert(fileName, BibTeXFileInfo());
-			BibTeXFileInfo &bibTex = bibTeXFiles[mentionedBibTeXFiles[i]];
+				bibTeXFiles.insert(fileName, BibTex::FileInfo());
+			BibTex::FileInfo &bibTex = bibTeXFiles[mentionedBibTeXFiles[i]];
 			// TODO: allow to use the encoding of the tex file which mentions the bib file (need to port this information from above)
 			bibTex.codec = defaultCodec;
             bibTex.loadIfModified(QFileInfo(fileName));
