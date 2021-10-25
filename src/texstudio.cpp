@@ -28,7 +28,7 @@
 #include "findindirs.h"
 #include "tabdialog.h"
 #include "arraydialog.h"
-#include "bibtexdialog.h"
+#include "BibTex/Dialog.hpp"
 #include "tabbingdialog.h"
 #include "letterdialog.h"
 #include "quickdocumentdialog.h"
@@ -1213,25 +1213,25 @@ void Texstudio::setupMenus()
 	menu = newManagedMenu("main/bibliography", tr("&Bibliography"));
 	if (!bibtexEntryActions) {
 		bibtexEntryActions = new QActionGroup(this);
-		foreach (const BibTeXType &bt, BibTeXDialog::getPossibleEntryTypes(BibTeXDialog::BIBTEX)) {
+		foreach (const BibTex::Type &bt, BibTex::Dialog::entryTypesFor(BibTex::Dialog::BibTex)) {
 			QAction *act = newManagedAction(menu, "bibtex/" + bt.name.mid(1), bt.description, SLOT(insertBibEntryFromAction()));
 			act->setData(bt.name);
 			act->setActionGroup(bibtexEntryActions);
 		}
 	} else {
-		foreach (const BibTeXType &bt, BibTeXDialog::getPossibleEntryTypes(BibTeXDialog::BIBTEX))
+		foreach (const BibTex::Type &bt, BibTex::Dialog::entryTypesFor(BibTex::Dialog::BibTex))
 			newManagedAction(menu, "bibtex/" + bt.name.mid(1), bt.description, SLOT(insertBibEntryFromAction()))->setData(bt.name);
 	}
 
 	if (!biblatexEntryActions) {
 		biblatexEntryActions = new QActionGroup(this);
-		foreach (const BibTeXType &bt, BibTeXDialog::getPossibleEntryTypes(BibTeXDialog::BIBLATEX)) {
+		foreach (const BibTex::Type &bt, BibTex::Dialog::entryTypesFor(BibTex::Dialog::BibLatex)) {
 			QAction *act = newManagedAction(menu, "biblatex/" + bt.name.mid(1), bt.description, SLOT(insertBibEntryFromAction()));
 			act->setData(bt.name);
 			act->setActionGroup(biblatexEntryActions);
 		}
 	} else {
-		foreach (const BibTeXType &bt, BibTeXDialog::getPossibleEntryTypes(BibTeXDialog::BIBLATEX))
+		foreach (const BibTex::Type &bt, BibTex::Dialog::entryTypesFor(BibTex::Dialog::BibLatex))
 			newManagedAction(menu, "biblatex/" + bt.name.mid(1), bt.description, SLOT(insertBibEntryFromAction()))->setData(bt.name);
 	}
 	menu->addSeparator();
@@ -5303,7 +5303,7 @@ void Texstudio::insertBibEntryFromAction()
 	QAction *action = qobject_cast<QAction *>(sender());
 	if (!action) return;
 
-	QString insertText = BibTeXDialog::textToInsert(action->data().toString());
+	QString insertText = BibTex::Dialog::textToInsert(action->data().toString());
 	if (!insertText.isEmpty())
 		CodeSnippet(insertText, false).insert(currentEditor());
 }
@@ -5322,9 +5322,9 @@ void Texstudio::insertBibEntry(const QString &id)
 	}
 	foreach (const QString &s, documents.mentionedBibTeXFiles)
 		possibleBibFiles << QFileInfo(s).fileName();
-	BibTeXDialog *bd = new BibTeXDialog(nullptr, possibleBibFiles, usedFile, id);
+	BibTex::Dialog *bd = new BibTex::Dialog(nullptr, possibleBibFiles, usedFile, id);
 	if (bd->exec()) {
-		usedFile = bd->resultFileId;
+		usedFile = bd-> fileId;
 		if (usedFile < 0 || usedFile >= possibleBibFiles.count()) fileNew();
 		else if (currentEditor()->fileName().isEmpty() && usedFile == 0); //stay in current editor
 		else if (QFileInfo(currentEditor()->fileName()) == QFileInfo(possibleBibFiles[usedFile])); //stay in current editor
@@ -5332,10 +5332,10 @@ void Texstudio::insertBibEntry(const QString &id)
 			if (currentEditor()->fileName().isEmpty()) usedFile--;
 			load(documents.mentionedBibTeXFiles[usedFile]);
 			currentEditor()->setCursorPosition(currentEditor()->document()->lines() - 1, 0);
-			bd->resultString = "\n" + bd->resultString;
+			bd-> result = "\n" + bd-> result;
 		}
 
-		CodeSnippet(bd->resultString, false).insert(currentEditor());
+		CodeSnippet(bd-> result, false).insert(currentEditor());
 	}
 	delete bd;
 }
@@ -5352,7 +5352,7 @@ void Texstudio::setBibTypeFromAction()
 	bool isBibtex = (act->data().toString() == "bibtex");
 	bibtexEntryActions->setVisible(isBibtex);
 	biblatexEntryActions->setVisible(!isBibtex);
-	BibTeXDialog::setBibType(isBibtex ? BibTeXDialog::BIBTEX : BibTeXDialog::BIBLATEX);
+	BibTex::Dialog::setType(isBibtex ? BibTex::Dialog::BibTex : BibTex::Dialog::BibLatex);
 }
 
 void Texstudio::insertUserTag()

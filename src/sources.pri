@@ -3,10 +3,11 @@ DEPENDPATH += $$PWD
 
 HEADERS += \
     $$PWD/BibTex/Type.hpp \
+    $$PWD/BibTex/Dialog.hpp \
     $$PWD/TransformCharacters.hpp \
     $$PWD/aboutdialog.h \
     $$PWD/arraydialog.h \
-    $$PWD/bibtexdialog.h \
+#    $$PWD/bibtexdialog.h \
     $$PWD/bibtexparser.h \
     $$PWD/bibtexreader.h \
     $$PWD/bidiextender.h \
@@ -112,10 +113,13 @@ HEADERS += \
     $$PWD/terminal_config.h
 
 SOURCES += \
+    $$PWD/BibTex/Reader.cpp \
+    $$PWD/BibTex/Parser.cpp \
+    $$PWD/BibTex/Dialog.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
     $$PWD/arraydialog.cpp \
-    $$PWD/bibtexdialog.cpp \
+#    $$PWD/bibtexdialog.cpp \
     $$PWD/bibtexparser.cpp \
     $$PWD/bibtexreader.cpp \
     $$PWD/bidiextender.cpp \
