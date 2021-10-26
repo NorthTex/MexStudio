@@ -10,9 +10,6 @@ HEADERS += \
     $$PWD/TransformCharacters.hpp \
     $$PWD/aboutdialog.h \
     $$PWD/arraydialog.h \
-#    $$PWD/bibtexdialog.h \
-#    $$PWD/bibtexparser.h \
-#    $$PWD/bibtexreader.h \
     $$PWD/bidiextender.h \
     $$PWD/bookmarks.h \
     $$PWD/buildmanager.h \
@@ -119,12 +116,12 @@ SOURCES += \
     $$PWD/BibTex/Reader.cpp \
     $$PWD/BibTex/Parser.cpp \
     $$PWD/BibTex/Dialog.cpp \
+    $$PWD/BibTex/BibTex.cpp \
+    $$PWD/BibTex/BibLatex.cpp \
+    $$PWD/BibTex/UI.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
     $$PWD/arraydialog.cpp \
-#    $$PWD/bibtexdialog.cpp \
-#    $$PWD/bibtexparser.cpp \
-#    $$PWD/bibtexreader.cpp \
     $$PWD/bidiextender.cpp \
     $$PWD/bookmarks.cpp \
     $$PWD/buildmanager.cpp \

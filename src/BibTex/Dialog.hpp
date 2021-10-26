@@ -31,9 +31,9 @@ class BibTex::Dialog : public QDialog {
 
         UI * ui;
 
-        static void generateBiblatexEntryTypes(bool forceRecreate = false);
-        static void generateBibtexEntryTypes(bool forceRecreate = false);
-        static void needEntryTypes();
+        static QList<BibTex::Type> generateBibLatex(bool forceRecreate = false);
+        static QList<BibTex::Type> generateBibTex(bool forceRecreate = false);
+        static void updatePropertyLists();
 
         inline static Type type;
         inline static Types * entries;
@@ -41,7 +41,7 @@ class BibTex::Dialog : public QDialog {
 
     private slots:
 
-        void typeSelectionChanged();
+        void updateTypeProperties();
 
     protected:
 
