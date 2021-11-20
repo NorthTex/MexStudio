@@ -223,7 +223,7 @@ class Texstudio : public QMainWindow {
 		SpellerManager spellerManager;
 		SVN svn;
 		GIT git;
-		Help help;
+		TexHelp help;
 		SafeThread grammarCheckThread;
 		GrammarCheck *grammarCheck;
 		Bookmarks *bookmarks;

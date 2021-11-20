@@ -1,34 +1,45 @@
-#ifndef Header_Git_T
-#define Header_Git_T
-
+#ifndef Test_Git
+#define Test_Git
 #ifndef QT_NO_DEBUG
 
-#include "mostQtHeaders.h"
 
 #include "git.h"
 #include "buildmanager.h"
+#include "Test.hpp"
 
-class GitTest: public QObject
-{
+
+testclass(Git){
+
     Q_OBJECT
-public:
-    GitTest(BuildManager* bm,bool executeTest): bm(bm), m_executeTests(executeTest){
-        connect(&git, SIGNAL(runCommand(QString,QString*)), this, SLOT(runCommand(QString,QString*)));
-    }
 
-public slots:
-    bool runCommand(QString commandline,QString *buffer);
+    private:
 
-private slots:
-    void basicFunctionality(void);
+        GIT git;
+        QString path;
+        BuildManager * builder;
 
-private:
-    GIT git;
-    BuildManager *bm;
-    QString path;
-    bool m_executeTests;
+        bool useTests;
+
+    public:
+
+        Git(BuildManager * builder,bool useTests)
+            : builder(builder)
+            , useTests(useTests) {
+
+            connect(& git,
+                SIGNAL(runCommand(QString,QString *)),this,
+                SLOT(runCommand(QString,QString *)));
+        }
+
+    public slots:
+
+        bool runCommand(QString commandline,QString * buffer);
+
+    testcase( basicFunctionality );
+
+
 };
 
-#endif // QT_NO_DEBUG
 
-#endif // GIT_T_H
+#endif
+#endif

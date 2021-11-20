@@ -7,7 +7,7 @@
 
 
 
-Help::Help(QObject * parent)
+TexHelp::TexHelp(QObject * parent)
     : QObject(parent)
     , texDocSystem(0) {}
 
@@ -18,7 +18,7 @@ Help::Help(QObject * parent)
  * \param defaultPackage
  */
 
-void Help::execTexdocDialog(const QStringList & packages,const QString & defaultPackage){
+void TexHelp::execTexdocDialog(const QStringList & packages,const QString & defaultPackage){
 
 	TexdocDialog dialog(nullptr,this);
 
@@ -37,7 +37,7 @@ void Help::execTexdocDialog(const QStringList & packages,const QString & default
  * \param package
  */
 
-void Help::viewTexdoc(QString package){
+void TexHelp::viewTexdoc(QString package){
 
 	if(package.isEmpty()){
 
@@ -61,7 +61,7 @@ void Help::viewTexdoc(QString package){
  * \return
  */
 
-bool Help::isMiktexTexdoc(){
+bool TexHelp::isMiktexTexdoc(){
 
     if(!texDocSystem) {
         QString answer = runTexdoc("--version");
@@ -72,7 +72,7 @@ bool Help::isMiktexTexdoc(){
 }
 
 
-bool Help::isTexdocExpectedToFinish(){
+bool TexHelp::isTexdocExpectedToFinish(){
 
 	if(!isMiktexTexdoc())
 		return true;
@@ -100,7 +100,7 @@ bool Help::isTexdocExpectedToFinish(){
  * \return
  */
 
-QString Help::packageDocFile(const QString & package,bool silent){
+QString TexHelp::packageDocFile(const QString & package,bool silent){
 
 	QString cmd = BuildManager::CMD_TEXDOC;
 
@@ -156,7 +156,7 @@ QString Help::packageDocFile(const QString & package,bool silent){
  * \return
  */
 
-void Help::texdocAvailableRequest(const QString & package){
+void TexHelp::texdocAvailableRequest(const QString & package){
 
 	if(package.isEmpty())
 		return;
@@ -181,7 +181,7 @@ void Help::texdocAvailableRequest(const QString & package){
 }
 
 
-void Help::texdocAvailableRequestFinished(int,QProcess::ExitStatus status){
+void TexHelp::texdocAvailableRequestFinished(int,QProcess::ExitStatus status){
 
     if(status != QProcess::NormalExit)
         return; // texdoc --list failed
@@ -222,7 +222,7 @@ void Help::texdocAvailableRequestFinished(int,QProcess::ExitStatus status){
  * \return
  */
 
-QString Help::runTexdoc(QString args){
+QString TexHelp::runTexdoc(QString args){
 
     QString output;
 
@@ -240,7 +240,7 @@ QString Help::runTexdoc(QString args){
  * \return
  */
 
-bool Help::runTexdocAsync(QString args,const char * finishedCMD){
+bool TexHelp::runTexdocAsync(QString args,const char * finishedCMD){
 
     emit statusMessage(QString(" texdoc (async)"));
     emit runCommandAsync(BuildManager::CMD_TEXDOC + " " + args,finishedCMD);

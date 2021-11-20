@@ -13,7 +13,7 @@
 #define ExitStatus QProcess::ExitStatus
 
 
-class Help : public QObject {
+class TexHelp : public QObject {
 
     Q_OBJECT
 
@@ -29,7 +29,7 @@ class Help : public QObject {
 
    public:
 
-        explicit Help(QObject * parent = nullptr);
+        explicit TexHelp(QObject * parent = nullptr);
 
    public:
 

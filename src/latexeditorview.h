@@ -212,11 +212,11 @@ class LatexEditorView : public QWidget {
 
 		void updatePalette(const QPalette &);
 
-		void setHelp(Help * help){
+		void setHelp(TexHelp * help){
 			this -> help = help;
 		};
 
-		Help * getHelp(){
+		TexHelp * getHelp(){
 			return help;
 		}
 
@@ -301,7 +301,7 @@ class LatexEditorView : public QWidget {
 
 		QMap<QString, QString> mReplacementList;
 
-		Help * help;
+		TexHelp * help;
 
 	private slots:
 

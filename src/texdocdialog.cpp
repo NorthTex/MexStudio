@@ -3,7 +3,7 @@
 #include "latexrepository.h"
 #include "utilsUI.h"
 
-TexdocDialog::TexdocDialog(QWidget *parent,Help *obj) :
+TexdocDialog::TexdocDialog(QWidget *parent,TexHelp *obj) :
 	QDialog(parent),
 	ui(new Ui::TexdocDialog),
 	packageNameValidator(this),

@@ -98,9 +98,9 @@ QString TestManager::execute(TestLevel level, LatexEditorView* edView, QCodeEdit
 		<< new UpdateCheckerTest(level==TL_ALL)
 		<< new UtilsUITest(level==TL_ALL)
 		<< new VersionTest(level==TL_ALL)
-        << new HelpTest(buildManager)
+		<< new Test::Help(buildManager)
         << new UserMacroTest()
-        << new GitTest(buildManager,level!=TL_AUTO);
+        << new Test::Git(buildManager,level!=TL_AUTO);
 	bool allPassed=true;
 	if (level!=TL_ALL)
 		tr="There are skipped tests. Please rerun with --execute-all-tests\n\n";

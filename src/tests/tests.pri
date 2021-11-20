@@ -1,10 +1,11 @@
-!isEmpty(NO_TESTS) {
-	message("tests are disabled")
-	DEFINES += NO_TESTS
-} else {
+isEmpty(NO_TESTS){
+
 	message("tests are enabled")
+
 	QT += testlib
+
 	SOURCES += \
+                src/tests/Help_t.cpp \
 		src/tests/codesnippet_t.cpp \
 		src/tests/encoding_t.cpp \
 		src/tests/execprogram_t.cpp \
@@ -28,8 +29,11 @@
 		src/tests/usermacro_t.cpp \
 		src/tests/testmanager.cpp \
                 src/tests/git_t.cpp \
-		src/tests/testutil.cpp
+                src/tests/testutil.cpp
+
+
 	HEADERS += \
+                src/tests/Test.hpp \
 		src/tests/execprogram_t.h \
 		src/tests/qsearchreplacepanel_t.h \
 		src/tests/updatechecker_t.h \
@@ -59,7 +63,13 @@
 		src/tests/testutil.h \
 		src/tests/usermacro_t.h \
                 src/tests/git_t.h \
-		src/tests/structureview_t.h
-}
+                src/tests/structureview_t.h
 
+} else {
+
+	message("tests are disabled")
+
+	DEFINES += NO_TESTS
+
+}
 

@@ -119,6 +119,7 @@ SOURCES += \
     $$PWD/BibTex/BibTex.cpp \
     $$PWD/BibTex/BibLatex.cpp \
     $$PWD/BibTex/UI.cpp \
+    $$PWD/Help.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
     $$PWD/arraydialog.cpp \
@@ -146,7 +147,6 @@ SOURCES += \
     $$PWD/git.cpp \
     $$PWD/grammarcheck.cpp \
 #    $$PWD/help.cpp \
-    $$PWD/Help.cpp \
     $$PWD/LatexReference.cpp \
     #$$PWD/icondelegate.cpp \
     $$PWD/insertgraphics.cpp \

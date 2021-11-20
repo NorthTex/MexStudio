@@ -14,7 +14,7 @@ class TexdocDialog : public QDialog {
 
 	public:
 
-		TexdocDialog(QWidget * parent,Help *);
+		TexdocDialog(QWidget * parent,TexHelp *);
 
 		void setPackageNames(const QStringList & packages);
 		void setPreferredPackage(const QString & package);
@@ -38,7 +38,7 @@ class TexdocDialog : public QDialog {
 		QAbstractButton * openButton;
 		QTimer checkTimer;
 		QString lastDocRequest;
-		Help * help;
+		TexHelp * help;
 
 };
 

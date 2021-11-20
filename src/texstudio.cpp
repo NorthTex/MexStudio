@@ -69,7 +69,6 @@
 #include "symbolwidget.h"
 #include "execprogram.h"
 
-#include "help.h"
 
 #include <QScreen>
 
@@ -422,7 +421,7 @@ Texstudio::Texstudio(QWidget *parent, Qt::WindowFlags flags, QSplashScreen *spla
     connect(&git, &GIT::statusMessage, this, &Texstudio::setStatusMessageProcess);
     connect(&git, SIGNAL(runCommand(QString,QString*)), this, SLOT(runCommandNoSpecialChars(QString,QString*)));
 
-    connect(&help, &Help::statusMessage, this, &Texstudio::setStatusMessageProcess);
+    connect(&help, &TexHelp::statusMessage, this, &Texstudio::setStatusMessageProcess);
     connect(&help, SIGNAL(runCommand(QString,QString*)), this, SLOT(runCommandNoSpecialChars(QString,QString*)));
     connect(&help, SIGNAL(runCommandAsync(QString,const char*)), this, SLOT(runCommandAsync(QString,const char*)));
 

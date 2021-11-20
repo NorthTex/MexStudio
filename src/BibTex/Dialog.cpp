@@ -1,6 +1,5 @@
 
 #include "BibTex/Dialog.hpp"
-#include "ui_bibtexdialog.h"
 #include "utilsUI.h"
 
 
