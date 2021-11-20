@@ -32,11 +32,7 @@
 #include <QTapGesture>
 #include <QProgressDialog>
 #include <QPainterPath>
-#if QT_VERSION_MAJOR>5
 #include "poppler-qt6.h"
-#else
-#include "poppler-qt5.h"
-#endif
 #include "poppler-version.h"
 #include "qsynctex.h"
 

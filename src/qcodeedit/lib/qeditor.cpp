@@ -1333,9 +1333,6 @@ void QEditor::print()
 	// TODO : create a custom print dialog, page range sucks, lines range would be better
 	QPrintDialog dialog(&printer, this);
 	dialog.setWindowTitle(tr("Print Source Code"));
-#if (QT_VERSION<QT_VERSION_CHECK(6,0,0))
-    dialog.setEnabledOptions(QPrintDialog::PrintToFile | QPrintDialog::PrintPageRange); //TODO Qt6 ??
-#endif
 
 	if ( dialog.exec() == QDialog::Accepted )
 	{
@@ -5048,11 +5045,7 @@ void QEditor::insertText(QDocumentCursor& c, const QString& text)
 {
     if ( protectedCursor(c) || text.isEmpty())
         return;
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
     QStringList lines = text.split('\n', Qt::KeepEmptyParts);
-#else
-    QStringList lines = text.split('\n', QString::KeepEmptyParts);
-#endif
 
     bool hasSelection = c.hasSelection();
     if (hasSelection && c.selectedText() == text) {
@@ -6028,12 +6021,7 @@ void QEditor::scrollContentsBy(int dx, int dy)
 	#ifdef Q_GL_EDITOR
 	viewport()->update();
 	#else
-#if QT_VERSION<QT_VERSION_CHECK(6,0,0)
-    const qreal ls = document()->getLineSpacing();
-    viewport()->scroll(dx, qFloor(dy * ls));
-#else
     viewport()->update();
-#endif
 	#endif
 
 	if (dy != 0)
@@ -6042,10 +6030,6 @@ void QEditor::scrollContentsBy(int dx, int dy)
 
 QVariant QEditor::inputMethodQuery(Qt::InputMethodQuery property) const {
 	switch(property) {
-#if (QT_VERSION<QT_VERSION_CHECK(6,0,0))
-    case Qt::ImMicroFocus:
-        return cursorMircoFocusRect();
-#endif
 	case Qt::ImFont:
 		// TODO find out correct value: qtextcontol uses the following
 		//return QVariant(d->cursor.charFormat().font());

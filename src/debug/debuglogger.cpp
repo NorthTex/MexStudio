@@ -4,9 +4,7 @@
 #ifdef DEBUG_LOGGER
 
 #ifndef QT_NO_DEBUG
-#if QT_VERSION >= 0x050200
 #include <QLoggingCategory>
-#endif
 #endif // QT_NO_DEBUG
 
 FILE * DebugLogger::m_logHandle = nullptr;
@@ -21,9 +19,7 @@ bool DebugLogger::start(const QString &pathname)
 	}
 #ifndef QT_NO_DEBUG
 	qInstallMessageHandler(qMessageHandler);
-#if QT_VERSION >= 0x050200
 	QLoggingCategory::setFilterRules("*=true");
-#endif
 #endif // QT_NO_DEBUG
 	return true;
 }

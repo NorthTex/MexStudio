@@ -74,10 +74,8 @@
 
 #include <QTextStream>
 
-#if QT_VERSION >= 0x050300
 // needed to deal with device pixel ratio
 #include <QWindow>
-#endif
 
 #if ADWAITA_HAVE_X11
 #include <QX11Info>
@@ -764,15 +762,11 @@ namespace Adwaita
         // window
         WId window( widget->window()->winId() );
 
-        #if QT_VERSION >= 0x050300
         qreal dpiRatio = 1;
         QWindow* windowHandle = widget->window()->windowHandle();
         if( windowHandle ) dpiRatio = windowHandle->devicePixelRatio();
         else dpiRatio = qApp->devicePixelRatio();
         dpiRatio = qApp->devicePixelRatio();
-        #else
-        qreal dpiRatio = 1;
-        #endif
 
         #if ADWAITA_USE_KDE4
         Display* net_connection = QX11Info::display();

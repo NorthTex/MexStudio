@@ -21,20 +21,14 @@
 #include "adwaitawidgetexplorer.h"
 
 #include "adwaita.h"
-#if QT_VERSION >= 0x050000
 #include "adwaitadebug.h"
-#else
-#include <QDebug>
-#endif
 
 #include <QTextStream>
 #include <QApplication>
 #include <QMouseEvent>
 #include <QPainter>
 
-#if QT_VERSION >= 0x050000
 //Q_LOGGING_CATEGORY(ADWAITA, "adwaita.widgetexplorer")
-#endif
 
 namespace Adwaita
 {

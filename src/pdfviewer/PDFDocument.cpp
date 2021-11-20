@@ -31,9 +31,6 @@
 #include <QShortcut>
 #include <QtCore/qnumeric.h>
 #include <QtCore/qmath.h>
-#if QT_VERSION<QT_VERSION_CHECK(5,15,0)
-#include <QDesktopWidget>
-#endif
 
 #include "universalinputdialog.h"
 
@@ -103,24 +100,14 @@ QPixmap convertImage(const QPixmap &pixmap, bool invertColors, bool convertToGra
 
 void zoomToScreen(QWidget *window)
 {
-#if QT_VERSION<QT_VERSION_CHECK(5,15,0)
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect screenRect = desktop->availableGeometry(window);
-#else
     QRect screenRect = window->screen()->availableGeometry();
-#endif
 	screenRect.setTop(screenRect.top() + window->geometry().y() - window->y());
 	window->setGeometry(screenRect);
 }
 
 void zoomToHalfScreen(QWidget *window, bool rhs)
 {
-#if QT_VERSION<QT_VERSION_CHECK(5,15,0)
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect r = desktop->availableGeometry(window);
-#else
     QRect r = window->screen()->availableGeometry();
-#endif
 
 	int wDiff = window->frameGeometry().width() - window->width();
 	int hDiff = window->frameGeometry().height() - window->height();
@@ -161,17 +148,9 @@ void zoomToHalfScreen(QWidget *window, bool rhs)
 
 void windowsSideBySide(QWidget *window1, QWidget *window2)
 {
-#if QT_VERSION>=QT_VERSION_CHECK(5,15,0)
 	// if the windows reside on the same screen zoom each so that it occupies
 	// half of that screen
     if (window1->screen() == window2->screen()) {
-#else
-    QDesktopWidget *desktop = QApplication::desktop();
-
-    // if the windows reside on the same screen zoom each so that it occupies
-    // half of that screen
-    if (desktop->screenNumber(window1) == desktop->screenNumber(window2)) {
-#endif
 		int window1left = window1->pos().x() <= window2->pos().x();
 		zoomToHalfScreen(window1, !window1left);
 		zoomToHalfScreen(window2, window1left);
@@ -1382,11 +1361,7 @@ void PDFWidget::wheelEvent(QWheelEvent *event)
                 inhibitNextContextMenuEvent = true;
             }
             if (qFabs(summedWheelDegrees) >= degreesPerStep ) { //avoid small zoom changes, as they use a lot of memory
-#if (QT_VERSION>=QT_VERSION_CHECK(5,15,0))
             doZoom(event->position(), (summedWheelDegrees > 0) ? 1 : -1);
-#else
-            doZoom(event->pos(), (summedWheelDegrees > 0) ? 1 : -1);
-#endif
                 summedWheelDegrees = 0;
             }
             event->accept();
@@ -2654,10 +2629,8 @@ void PDFDocument::setupMenus(bool embedded)
 	menuGrid->addSeparator();
     actionSinglePageStep=configManager->newManagedAction(menuroot,menuGrid, "singlePageStep", tr("Single Page Step"), pdfWidget, SLOT(setSinglePageStep(bool)), QList<QKeySequence>());
 	menuWindow->addAction(menuShow->menuAction());
-#if (QT_VERSION > 0x050a00) && (defined(Q_OS_MAC))
+#ifdef Q_OS_MAC)
     actionCloseElement=configManager->newManagedAction(menuroot,menuWindow, "closeElement", tr("&Close something"), this, SLOT(closeElement()), QList<QKeySequence>()); // osx work around
-#else
-    actionCloseElement=configManager->newManagedAction(menuroot,menuWindow, "closeElement", tr("&Close something"), this, SLOT(closeElement()), QList<QKeySequence>()<<Qt::Key_Escape);
 #endif
 	menuWindow->addSeparator();
     actionSide_by_Side=configManager->newManagedAction(menuroot,menuWindow, "stack", tr("Stac&k"), this, SLOT(stackWindows()), QList<QKeySequence>());
@@ -2718,9 +2691,6 @@ void PDFDocument::init(bool embedded)
 
 
 	setAttribute(Qt::WA_DeleteOnClose, true);
-#if QT_VERSION_MAJOR<6
-	setAttribute(Qt::WA_MacNoClickThrough, true);
-#endif
 
 	//load icons
 	setWindowIcon(QIcon(":/images/previewicon.png"));
@@ -2758,11 +2728,7 @@ void PDFDocument::init(bool embedded)
 	toolButtonGroup->addButton(qobject_cast<QAbstractButton *>(toolBar->widgetForAction(actionScroll)), kScroll);
 	//	toolButtonGroup->addButton(qobject_cast<QAbstractButton*>(toolBar->widgetForAction(actionSelect_Text)), kSelectText);
 	//	toolButtonGroup->addButton(qobject_cast<QAbstractButton*>(toolBar->widgetForAction(actionSelect_Image)), kSelectImage);
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     connect(toolButtonGroup, SIGNAL(idClicked(int)), pdfWidget, SLOT(setTool(int)));
-#else
-	connect(toolButtonGroup, SIGNAL(buttonClicked(int)), pdfWidget, SLOT(setTool(int)));
-#endif
 	conf->registerOption("Preview/EditTool", &globalConfig->editTool, kMagnifier);
 	QAbstractButton *bt = toolButtonGroup->button(globalConfig->editTool);
 	if (bt) bt->setChecked(true);
@@ -3815,12 +3781,7 @@ void PDFDocument::saveGeometryToConfig()
 
 void PDFDocument::zoomToRight(QWidget *otherWindow)
 {
-#if QT_VERSION>=QT_VERSION_CHECK(5,15,0)
     QRect screenRect = otherWindow == nullptr ? this->screen()->availableGeometry() : otherWindow->screen()->availableGeometry();
-#else
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect screenRect = desktop->availableGeometry(otherWindow == nullptr ? this : otherWindow);
-#endif
 	screenRect.setTop(screenRect.top() + 22);
 	screenRect.setLeft((screenRect.left() + screenRect.right()) / 2 + 1);
 	screenRect.setBottom(screenRect.bottom() - 1);
@@ -4187,76 +4148,7 @@ void PDFDocument::printPDF()
 	}
 
 	if (!printer.printerName().isEmpty()) {
-#if defined(Q_OS_WIN32) && QT_VERSION_MAJOR<6
-		QString paper;
-		switch (printer.paperSize()) {
-		case QPageSize::A0:
-			paper = "a0";
-			break;
-		case QPageSize::A1:
-			paper = "a1";
-			break;
-		case QPageSize::A2:
-			paper = "a2";
-			break;
-		case QPageSize::A3:
-			paper = "a3";
-			break;
-		case QPageSize::A4:
-			paper = "a4";
-			break;
-		case QPageSize::A5:
-			paper = "a5";
-			break;
-		case QPageSize::A6:
-			paper = "a6";
-			break;
-		case QPageSize::B0:
-			paper = "isob0";
-			break;
-		case QPageSize::B1:
-			paper = "isob1";
-			break;
-		case QPageSize::B2:
-			paper = "isob2";
-			break;
-		case QPageSize::B3:
-			paper = "isob3";
-			break;
-		case QPageSize::B4:
-			paper = "isob4";
-			break;
-		case QPageSize::B5:
-			paper = "isob5";
-			break;
-		case QPageSize::B6:
-			paper = "isob6";
-			break;
-		case QPageSize::Letter:
-			paper = "letter";
-			break;
-		case QPageSize::Ledger:
-			paper = "ledger";
-			break;
-		case QPageSize::Legal:
-			paper = "legal";
-			break;
-		default:
-			paper = "a4";
-		}
 
-		QStringList args;
-		args << "txs:///gs";
-		args << "-sDEVICE=mswinpr2";
-		args << QString("-sOutputFile=\"\%printer\%%1\"").arg(printer.printerName().replace(" ", "_"));
-		args << "-dBATCH";
-		args << "-dNOPAUSE";
-		args << "-dQUIET";
-		args << "-dNoCancel";
-		args << "-sPAPERSIZE=" + paper;
-		args << "-dFirstPage=" + QString::number(firstPage);
-		args << "-dLastPage=" + QString::number(lastPage);
-#else
 		QStringList args;
 		args << "lp";
 		args << QString("-d %1").arg(printer.printerName().replace(" ", "_"));
@@ -4277,7 +4169,6 @@ void PDFDocument::printPDF()
 			break;
 		}
 		args << "--";
-#endif
 		args << "\"?am.pdf\"";
 		command = args.join(" ");
 	} else return;

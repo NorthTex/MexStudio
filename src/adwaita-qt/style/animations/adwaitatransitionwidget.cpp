@@ -80,11 +80,7 @@ namespace Adwaita
 
             rect = rect.translated( widget->mapTo( widget->window(), widget->rect().topLeft() ) );
             widget = widget->window();
-            #if QT_VERSION < 0x050000
-            out = QPixmap::grabWidget( widget, rect );
-            #else
             out = widget->grab( rect );
-            #endif
 
         } else {
 
@@ -262,11 +258,7 @@ namespace Adwaita
         for( int i = widgets.size() - 1; i>=0; i-- )
         {
             QWidget* w = widgets.at(i);
-#if QT_VERSION_MAJOR<6
-            w->render( &p, -widget->mapTo( w, rect.topLeft() ), rect, 0 );
-#else
             w->render( &p, -widget->mapTo( w, rect.topLeft() ), rect, RenderFlags() );
-#endif
         }
 
         // end

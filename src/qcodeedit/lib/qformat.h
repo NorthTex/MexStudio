@@ -22,13 +22,8 @@
 	\file qformat.h
 	\brief Definition of the QFormat class
 */
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
 //template <typename T>
 //class QList;
-#else
-template <typename T>
-class QVector;
-#endif
 
 struct QFormat
 {
@@ -40,7 +35,6 @@ struct QFormat
      : priority(-1), realPriority(-1), weight(QFont::Normal), italic(false), overline(false), underline(false), strikeout(false), waveUnderline(false), foreground(c), pointSize(0),wrapAround(false)
 	{}
 
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     inline QFormat(QFont::Weight w, const QColor& c)
      : priority(-1), realPriority(-1), weight(w), italic(false), overline(false), underline(false), strikeout(false), waveUnderline(false), foreground(c), pointSize(0),wrapAround(false)
     {}
@@ -53,20 +47,6 @@ struct QFormat
      : priority(-1), realPriority(-1), weight(w), italic(i), overline(o), underline(u), strikeout(s), waveUnderline(wu), foreground(c), pointSize(0),wrapAround(false)
     {}
 
-#else
-	inline QFormat(int w, const QColor& c)
-     : priority(-1), realPriority(-1), weight(w), italic(false), overline(false), underline(false), strikeout(false), waveUnderline(false), foreground(c), pointSize(0),wrapAround(false)
-	{}
-
-    inline QFormat(int w, bool i, bool u, bool s, const QColor& c)
-     : priority(-1), realPriority(-1), weight(w), italic(i), overline(false), underline(u), strikeout(s), waveUnderline(false), foreground(c), pointSize(0),wrapAround(false)
-    {}
-
-    inline QFormat(int w, bool i, bool o, bool u, bool s, bool wu, const QColor& c)
-     : priority(-1), realPriority(-1), weight(w), italic(i), overline(o), underline(u), strikeout(s), waveUnderline(wu), foreground(c), pointSize(0),wrapAround(false)
-    {}
-
-#endif
 	
 	
 	inline QFormat(const QFormat& f)
@@ -167,13 +147,8 @@ struct QFormat
 
 
 	int priority, realPriority;
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     bool widthChanging() const {return (weight != QFont::Medium) || italic;}
     QFont::Weight weight;
-#else
-    bool widthChanging() const {return (weight != 50) || italic;}
-	int weight; // 50: normal, 75: bold
-#endif
 	bool italic;
 	bool overline;
 	bool underline;

@@ -3425,11 +3425,7 @@ void QDocumentLineHandle::layout(int lineNr) const
 			// therefore we do not include the trailing spaces for RTL text.
 			opt.setFlags(QTextOption::IncludeTrailingSpaces);
 		}
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 		opt.setTabStopDistance(
-#else
-		opt.setTabStop(
-#endif
 			m_doc->tabStop() * QDocumentPrivate::m_spaceWidth
 		);
 
@@ -3449,11 +3445,7 @@ void QDocumentLineHandle::layout(int lineNr) const
 		m_layout->setTextOption(opt);
 
 		// Syntax highlighting, inbuilt and arbitrary
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
 		m_layout->setFormats(decorations<QVector>());
-#else
-		m_layout->setAdditionalFormats(decorations<QList>());
-#endif
 		setFlag(QDocumentLine::FormatsApplied, true);
 
 		// Begin layouting
@@ -7550,11 +7542,7 @@ void QDocumentPrivate::setFont(const QFont& f, bool forceUpdate)
 
 	QFont modifiedF = f;
 	// set the styling so that if the font is not found Courier one will be used
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     modifiedF.setStyleHint(QFont::Courier);
-#else
-	modifiedF.setStyleHint(QFont::Courier, QFont::ForceIntegerMetrics);
-#endif
 
 	//disable kerning because words are drawn at once, but their width is calculated character
 	//by character (in functions which calculate the cursor position)

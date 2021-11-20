@@ -40,9 +40,7 @@
 #include <QStyleOption>
 #include <QWidget>
 
-#if QT_VERSION >= 0x050000
 #include <QCommandLinkButton>
-#endif
 
 namespace AdwaitaPrivate
 {
@@ -139,9 +137,7 @@ public:
     bool eventFilterDockWidget(QDockWidget *dockWidget, QEvent *event);
     bool eventFilterMdiSubWindow(QMdiSubWindow *subWindow, QEvent *event);
 
-#if QT_VERSION >= 0x050000
     bool eventFilterCommandLinkButton(QCommandLinkButton *button, QEvent *event);
-#endif
 
     //* install event filter to object, in a unique way
     void addEventFilter(QObject *object)

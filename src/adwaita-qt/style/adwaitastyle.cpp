@@ -292,9 +292,7 @@ void Style::polish(QWidget *widget)
         || qobject_cast<QTabBar *>(widget)
         || qobject_cast<QTextEdit *>(widget)
         || qobject_cast<QToolButton *>(widget)
-#if QT_VERSION >= 0x050000
         || qobject_cast<QHeaderView *>(widget)
-#endif
         || widget->inherits("KTextEditor::View")) {
         widget->setAttribute(Qt::WA_Hover);
     }
@@ -366,10 +364,8 @@ void Style::polish(QWidget *widget)
         widget->parentWidget()->setAutoFillBackground(false);
     } else if (qobject_cast<QMenu *>(widget)) {
         setTranslucentBackground(widget);
-#if QT_VERSION >= 0x050000
     } else if (qobject_cast<QCommandLinkButton *>(widget)) {
         addEventFilter(widget);
-#endif
     } else if (QComboBox *comboBox = qobject_cast<QComboBox *>(widget)) {
         if (!hasParent(widget, "QWebView")) {
             QAbstractItemView *itemView(comboBox->view());
@@ -393,11 +389,7 @@ void Style::polish(QWidget *widget)
         setTranslucentBackground(widget);
     } else if (QLineEdit *lineEdit = qobject_cast<QLineEdit *>(widget)) {
         // Do not use additional margin if the QLineEdit is really small
-#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
-        const bool useMarginWidth = lineEdit->width() > lineEdit->fontMetrics().width("#####");
-#else
         const bool useMarginWidth = lineEdit->width() > lineEdit->fontMetrics().horizontalAdvance("#####");
-#endif
 
         const bool useMarginHeight = lineEdit->height() > lineEdit->fontMetrics().height() + (2 * Metrics::LineEdit_MarginHeight);
         const int marginHeight = useMarginHeight ? Metrics::LineEdit_MarginHeight : 0;
@@ -412,7 +404,6 @@ void Style::polish(QWidget *widget)
         }
     }
 
-#if QT_VERSION > 0x050000
     // HACK to avoid different text color in unfocused views
     // This has a side effect that the view will never grey out, but it's still better then having
     // views greyed out when the application is active
@@ -428,7 +419,6 @@ void Style::polish(QWidget *widget)
             view->setPalette(pal);
         }
     }
-#endif
 
     if (!widget->parent() || !qobject_cast<QWidget *>(widget->parent()) || qobject_cast<QDialog *>(widget) || qobject_cast<QMainWindow *>(widget)) {
         addEventFilter(widget);
@@ -551,7 +541,6 @@ int Style::pixelMetric(PixelMetric metric, const QStyleOption *option, const QWi
             return Metrics::LineEdit_FrameWidth;
         if (qobject_cast<const QAbstractScrollArea *>(widget))
             return Metrics::ScrollArea_FrameWidth;
-#if QT_VERSION >= 0x050000
         else if (isQtQuickControl(option, widget)) {
             const QString &elementType = option->styleObject->property("elementType").toString();
             if (elementType == QLatin1String("edit") || elementType == QLatin1String("spinbox")) {
@@ -560,7 +549,6 @@ int Style::pixelMetric(PixelMetric metric, const QStyleOption *option, const QWi
                 return Metrics::ComboBox_FrameWidth;
             }
         }
-#endif
         // fallback
         return Metrics::Frame_FrameWidth;
     case PM_ComboBoxFrameWidth: {
@@ -761,12 +749,10 @@ int Style::styleHint(StyleHint hint, const QStyleOption *option, const QWidget *
     case SH_Menu_SloppySubMenus:
         return true;
 
-#if QT_VERSION >= 0x050000
     case SH_Widget_Animate:
         return Adwaita::Config::AnimationsEnabled;
     case SH_Menu_SupportsSections:
         return true;
-#endif
 
     case SH_DialogButtonBox_ButtonsHaveIcons:
         return false;
@@ -1285,11 +1271,9 @@ bool Style::eventFilter(QObject *object, QEvent *event)
     } else if (QMdiSubWindow *subWindow = qobject_cast<QMdiSubWindow *>(object)) {
         return eventFilterMdiSubWindow(subWindow, event);
     }
-#if QT_VERSION >= 0x050000
     else if (QCommandLinkButton *commandLinkButton = qobject_cast<QCommandLinkButton *>(object)) {
         return eventFilterCommandLinkButton(commandLinkButton, event);
     }
-#endif
     // cast to QWidget
     QWidget *widget = static_cast<QWidget *>(object);
     if (widget->inherits("QAbstractScrollArea") || widget->inherits("KTextEditor::View")) {
@@ -1494,7 +1478,6 @@ bool Style::eventFilterMdiSubWindow(QMdiSubWindow *subWindow, QEvent *event)
 }
 
 //____________________________________________________________________________
-#if QT_VERSION >= 0x050000
 bool Style::eventFilterCommandLinkButton(QCommandLinkButton *button, QEvent *event)
 {
     if (event->type() == QEvent::Paint) {
@@ -1576,7 +1559,6 @@ bool Style::eventFilterCommandLinkButton(QCommandLinkButton *button, QEvent *eve
     // continue with normal painting
     return false;
 }
-#endif
 
 //_____________________________________________________________________
 void Style::configurationChanged(void)
@@ -1612,11 +1594,7 @@ QIcon Style::standardIconImplementation(StandardPixmap standardPixmap, const QSt
 
     if (icon.isNull()) {
         // do not cache parent style icon, since it may change at runtime
-#if QT_VERSION >= 0x050000
         return  ParentStyleClass::standardIcon(standardPixmap, option, widget);
-#else
-        return  ParentStyleClass::standardIconImplementation(standardPixmap, option, widget);
-#endif
 
     } else {
         const_cast<IconCache *>(&_iconCache)->insert(standardPixmap, icon);
@@ -2977,11 +2955,7 @@ QSize Style::menuItemSizeFromContents(const QStyleOption *option, const QSize &c
                 size.setHeight(qMax(size.height(), iconWidth));
             if (!menuItemOption->text.isEmpty()) {
                 size.setHeight(qMax(size.height(), textHeight));
-#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
-                size.setWidth(qMax(size.width(), menuItemOption->fontMetrics.width(menuItemOption->text)));
-#else
                 size.setWidth(qMax(size.width(), menuItemOption->fontMetrics.horizontalAdvance(menuItemOption->text)));
-#endif
 
             }
 
@@ -3096,11 +3070,7 @@ QSize Style::tabBarTabSizeFromContents(const QStyleOption *option, const QSize &
     QSize size(contentsSize);
 
     if (hasText) {
-#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
-        widthIncrement += option->fontMetrics.width(tabOption->text) * 0.2;
-#else
         widthIncrement += option->fontMetrics.horizontalAdvance(tabOption->text) * 0.2;
-#endif
     }
 
     // compare to minimum size
@@ -3186,12 +3156,8 @@ bool Style::drawFramePrimitive(const QStyleOption *option, QPainter *painter, co
     if (!isTitleWidget && !(state & (State_Sunken | State_Raised)))
         return true;
 
-#if QT_VERSION >= 0x050000
     const bool isInputWidget((widget && widget->testAttribute(Qt::WA_Hover))
                              || (isQtQuickControl(option, widget) && option->styleObject->property("elementType").toString() == QStringLiteral("edit")));
-#else
-    bool isInputWidget((widget && widget->testAttribute(Qt::WA_Hover)));
-#endif
 
     bool enabled(state & State_Enabled);
     bool mouseOver((state & State_Active) && enabled && isInputWidget && (state & State_MouseOver));
@@ -3268,10 +3234,8 @@ bool Style::drawFrameLineEditPrimitive(const QStyleOption *option, QPainter *pai
 bool Style::drawFrameFocusRectPrimitive(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
     Q_UNUSED(widget)
-#if QT_VERSION >= 0x050000
     if (option->styleObject && option->styleObject->property("elementType") == QLatin1String("button"))
         return true;
-#endif
 
     //const State &state(option->state);
     QRectF rect(QRectF(option->rect).adjusted(0, 0, -1, -1));
@@ -3763,11 +3727,7 @@ bool Style::drawPanelTipLabelPrimitive(const QStyleOption *option, QPainter *pai
 //__________________________________________________________________________________
 bool Style::drawPanelItemViewRowPrimitive(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
-#if QT_VERSION >= 0x050000
     const QStyleOptionViewItem *vopt = qstyleoption_cast<const QStyleOptionViewItem *>(option);
-#else
-    const QStyleOptionViewItemV4 *vopt = qstyleoption_cast<const QStyleOptionViewItemV4 *>(option);
-#endif
     if (!vopt)
         return false;
 
@@ -4567,7 +4527,6 @@ bool Style::drawComboBoxLabelControl(const QStyleOption *option, QPainter *paint
     painter->save();
     painter->setPen(QPen(option->palette.color(textRole), 1));
 
-#if QT_VERSION >= 0x050000
     if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
         QRect editRect = proxy()->subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
         painter->save();
@@ -4605,10 +4564,6 @@ bool Style::drawComboBoxLabelControl(const QStyleOption *option, QPainter *paint
         }
         painter->restore();
     }
-#else
-    // call base class method
-    ParentStyleClass::drawControl(CE_ComboBoxLabel, option, painter, widget);
-#endif
 
     painter->restore();
 
@@ -4618,20 +4573,11 @@ bool Style::drawComboBoxLabelControl(const QStyleOption *option, QPainter *paint
 //
 bool Style::drawItemViewItemControl(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
-#if QT_VERSION >= 0x050000
     const QStyleOptionViewItem *vopt = qstyleoption_cast<const QStyleOptionViewItem *>(option);
-#else
-    const QStyleOptionViewItemV4 *vopt = qstyleoption_cast<const QStyleOptionViewItemV4 *>(option);
-#endif
     if (!vopt)
         return true;
 
-#if QT_VERSION >= 0x050000
     QStyleOptionViewItem op(*vopt);
-#else
-    QStyleOptionViewItemV4 op(*vopt);
-#endif
-#if QT_VERSION > 0x050000
     if (_helper->isWindowActive(widget)) {
         const QColor activeTextColor = _dark ? QColor("#eeeeec") : QColor("#2e3436");
         const QColor inactiveTextColor = _dark ? _helper->mix(QColor("#eeeeec"), _helper->darken(_helper->desaturate(QColor("#3d3846"), 1.0), 0.04)) :
@@ -4643,7 +4589,6 @@ bool Style::drawItemViewItemControl(const QStyleOption *option, QPainter *painte
             op.palette = palette;
         }
     }
-#endif
     ParentStyleClass::drawControl(CE_ItemViewItem, &op, painter, widget);
 
     return true;
@@ -4922,21 +4867,15 @@ bool Style::drawProgressBarControl(const QStyleOption *option, QPainter *painter
     progressBarOption2.rect = subElementRect(SE_ProgressBarGroove, progressBarOption, widget);
     drawControl(CE_ProgressBarGroove, &progressBarOption2, painter, widget);
 
-#if QT_VERSION >= 0x050000
     const QObject *styleObject(widget ? widget : progressBarOption->styleObject);
-#else
-    const QObject *styleObject(widget);
-#endif
 
     // enable busy animations
     // need to check both widget and passed styleObject, used for QML
     if (styleObject && _animations->busyIndicatorEngine().enabled()) {
-#if QT_VERSION >= 0x050000
         // register QML object if defined
         if (!widget && progressBarOption->styleObject) {
             _animations->busyIndicatorEngine().registerWidget(progressBarOption->styleObject);
         }
-#endif
 
         _animations->busyIndicatorEngine().setAnimated(styleObject, progressBarOption->maximum == 0 && progressBarOption->minimum == 0);
     }
@@ -6783,11 +6722,9 @@ QColor Style::scrollBarArrowColor(const QStyleOptionSlider *option, const SubCon
     bool widgetMouseOver((option->state & State_MouseOver) && (option->state & State_MouseOver));
     if (widget)
         widgetMouseOver = widget->underMouse();
-#if QT_VERSION >= 0x050000
     // in case this QStyle is used by QQuickControls QStyle wrapper
     else if (option->styleObject)
         widgetMouseOver = option->styleObject->property("hover").toBool();
-#endif
 
     // check enabled state
     bool enabled(option->state & State_Enabled);
@@ -7074,12 +7011,7 @@ bool Style::isSelectedItem(const QWidget *widget, const QPoint &localPosition) c
     if (!(itemView && itemView->hasFocus() && itemView->selectionModel()))
         return false;
 
-#if QT_VERSION >= 0x050000
     QPoint position = widget->mapTo(itemView, localPosition);
-#else
-    // qt4 misses a const for mapTo argument, although nothing is actually changed to the passed widget
-    QPoint position = widget->mapTo(const_cast<QAbstractItemView *>(itemView), localPosition);
-#endif
 
     // get matching QModelIndex and check
     QModelIndex index(itemView->indexAt(position));
@@ -7093,13 +7025,7 @@ bool Style::isSelectedItem(const QWidget *widget, const QPoint &localPosition) c
 //____________________________________________________________________
 bool Style::isQtQuickControl(const QStyleOption *option, const QWidget *widget) const
 {
-#if QT_VERSION >= 0x050000
     return (widget == nullptr) && option && option->styleObject && option->styleObject->inherits("QQuickItem");
-#else
-    Q_UNUSED(widget);
-    Q_UNUSED(option);
-    return false;
-#endif
 }
 
 //____________________________________________________________________

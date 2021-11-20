@@ -30,9 +30,7 @@
 #include <QStyle>
 #include <QWidget>
 
-#if QT_VERSION > 0x050000
 #include <QWindow>
-#endif
 
 #if ADWAITA_HAVE_X11
 #include <QX11Info>
@@ -40,11 +38,7 @@
 #endif
 
 #include <cmath>
-#if QT_VERSION_MAJOR<6
-typedef qreal color_real;
-#else
 typedef float color_real;
-#endif
 
 namespace Adwaita
 {
@@ -67,7 +61,6 @@ public:
     virtual ~Helper()
     {}
 
-#if QT_VERSION > 0x050000
     static bool isWindowActive(const QWidget *widget)
     {
         const QWindow *win = widget ? widget->window()->windowHandle() : nullptr;
@@ -76,7 +69,6 @@ public:
         }
         return false;
     }
-#endif
 
     //*@name color utilities
     //@{
