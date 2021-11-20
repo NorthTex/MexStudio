@@ -8,3 +8,4 @@ TeXStudio.config
 TeXStudio.includes
 TeXStudio.creator.user
 src/git_revision.cpp
+.vscode/*

@@ -11,11 +11,7 @@ class BuildManager;
 class TestmanagerEventFilter : public QAbstractNativeEventFilter
 {
 public:
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
      virtual bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *) override;
-#else
-    virtual bool nativeEventFilter(const QByteArray &eventType, void *message, long *) override;
-#endif
 };
 
 class TestManager : public QObject /*, public QAbstractNativeEventFilter*/ {

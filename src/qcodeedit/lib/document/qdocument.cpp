@@ -3910,11 +3910,7 @@ void QDocumentLineHandle::draw(int lineNr,	QPainter *p,
 				}
 			} else {
 				column += r.length;
-#if defined(Q_OS_OSX) && QT_VERSION_MAJOR<6
-                rwidth = p->fontMetrics().horizontalAdvance(rng);
-#else
                 rwidth = d->textWidth(lastFont, rng);
-#endif
 			}
 
 			if ( (xpos + rwidth) <= xOffset )
@@ -8201,52 +8197,7 @@ void QDocumentPrivate::flushMatches(int groupId)
 			continue;
 
 		it = areas.insert(m.line, n);
-#if QT_VERSION<QT_VERSION_CHECK(5,15,0)
-		if ( it != areas.end() && it != areas.begin() )
-		{
-            tmp = it - 1;
-			int off = tmp.key() + *tmp - l;
 
-			if ( off >= 0 && (off < n) )
-			{
-				*tmp += n - off;
-                it = areas.erase(it) - 1;
-			}
-		}
-
-        if ( it != areas.end() && (it + 1) != areas.end() )
-
-		{
-            tmp = it + 1;
-			int off = it.key() + *it - tmp.key();
-
-			if ( off >= 0 && (off < *tmp) )
-			{
-				*it += *tmp;
-				areas.erase(tmp);
-			}
-		}
-		//emitFormatsChange(m.line, 1);
-	}
-
-	// remove old matches
-	while ( matches.removeLength )
-	{
-		matches.removeAt(matches.removeStart);
-		--matches.removeLength;
-	}
-
-	// send update messages
-	QMap<int, int>::const_iterator it = areas.constBegin();
-
-	while ( it != areas.constEnd() )
-	{
-		//qDebug("merged:(%i, %i)", it.key(), *it);
-		emitFormatsChange(it.key(), *it);
-
-		++it;
-	}
-#else
         //TODO ?
         if ( it != areas.end() && it != areas.begin() )
         {
@@ -8299,7 +8250,6 @@ void QDocumentPrivate::flushMatches(int groupId)
 
         ++it;
     }
-#endif
 	// update storage "meta-data"
 	if ( matches.isEmpty() )
 	{

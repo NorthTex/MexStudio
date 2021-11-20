@@ -278,7 +278,6 @@ void QDocumentSearch::recreateRegExp(){
 	    :
 	      Qt::CaseInsensitive;
 
-#if QT_VERSION >= 0x050500
     QRegularExpression::PatternOptions patternOption= cs==Qt::CaseInsensitive ? QRegularExpression::CaseInsensitiveOption : QRegularExpression::NoPatternOption ;
     patternOption |= QRegularExpression::UseUnicodePropertiesOption;
 	if ( hasOption(RegExp) )
@@ -291,23 +290,6 @@ void QDocumentSearch::recreateRegExp(){
 	} else {
 		m_regularExpression = QRegularExpression(QRegularExpression::escape(m_string), patternOption);
 	}
-#else
-	if ( hasOption(RegExp) )
-	{
-		m_regexp = QRegExp(m_string, cs, QRegExp::RegExp);
-	} else if ( hasOption(WholeWords) ) {
-		//todo: screw this? it prevents searching of "world!" and similar things
-		//(qtextdocument just checks the surrounding character when searching for whole words, this would also allow wholewords|regexp search)
-		m_regexp = QRegExp(
-		      QString("\\b%1\\b").arg(QRegExp::escape(m_string)),
-		      cs,
-		      QRegExp::RegExp
-		      );
-	} else {
-		m_regexp = QRegExp(m_string, cs, QRegExp::FixedString);
-	}
-	m_regexp.setMinimal( m_option & QDocumentSearch::NonGreedy); // allow greedy or non-greedy capture
-#endif
 }
 
 

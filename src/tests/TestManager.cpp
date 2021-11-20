@@ -131,11 +131,7 @@ bool TestManager::nativeEventFilter(const QByteArray &, void *, long *)
 {
 	return true;
 }
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
 bool TestmanagerEventFilter::nativeEventFilter(const QByteArray &, void *, qintptr *)
-#else
-bool TestmanagerEventFilter::nativeEventFilter(const QByteArray &, void *, long *)
-#endif
 {
     return true;
 }
