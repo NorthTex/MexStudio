@@ -74,9 +74,6 @@ QDocumentCursor cursorFromValue(const QJSValue &value)
 {
 	QDocumentCursor *c = qobject_cast<QDocumentCursor *> (value.toQObject());
 	if (!c) {
-#if (QT_VERSION<QT_VERSION_CHECK(6,0,0) && QT_VERSION>=QT_VERSION_CHECK(5,12,0))
-        //if (value.engine() ) value.engine()->throwError(scriptengine::tr("Expected cursor object")); //TODO Qt6 ?
-#endif
 		return QDocumentCursor();
 	}
 	return *c;
@@ -314,19 +311,11 @@ void scriptengine::insertSnippet(const QString& arg)
 	}
 }
 
-#if ( QT_VERSION >= QT_VERSION_CHECK(5,12,0) )
     #define assertTrue(condition,message)                     \
         if(!(condition)){                                     \
             engine -> throwError(scriptengine::tr(message));  \
             return QJSValue();                                \
         }
-#else
-    #define assertTrue(condition,message)           \
-        if(!(condition)){                           \
-            qDebug() << scriptengine::tr(message);  \
-            return QJSValue();                      \
-        }
-#endif
 
 QJSValue scriptengine::replaceSelectedText(QJSValue replacementText,QJSValue options)
 {
@@ -415,16 +404,7 @@ QJSValue scriptengine::searchReplaceFunction(QJSValue searchText, QJSValue arg1,
 	QString searchFor;
 	if (searchText.isRegExp()) {
 		flags |= QDocumentSearch::RegExp;
-#if QT_VERSION<QT_VERSION_CHECK(5,14,0)
-        QRegExp r2=searchText.toVariant().toRegExp(); // toRegularExpression seems not to work <5.14
-        QRegularExpression r(r2.pattern());
-        caseInsensitive = (r2.caseSensitivity() == Qt::CaseInsensitive);
-        if(caseInsensitive){
-            r.setPatternOptions(r.patternOptions()|QRegularExpression::CaseInsensitiveOption);
-        }
-#else
         QRegularExpression r = searchText.toVariant().toRegularExpression();
-#endif
 		searchFor = r.pattern();
         caseInsensitive = (r.patternOptions() & QRegularExpression::CaseInsensitiveOption)!=QRegularExpression::NoPatternOption;
         //Q_ASSERT(caseInsensitive == searchText.property("ignoreCase").toBool()); //check assumption about javascript core

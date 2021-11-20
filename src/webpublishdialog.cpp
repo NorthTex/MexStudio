@@ -490,9 +490,6 @@ void WebPublishDialog::writepages(QString mode)
 			return;
 		} else {
 			QTextStream outts(&outf);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            outts.setCodec(codec);
-#endif
 
 			QFile texf(workdir + "/" + base + ".tex");
 			if (!texf.open(QIODevice::ReadOnly)) {
@@ -500,9 +497,6 @@ void WebPublishDialog::writepages(QString mode)
 				return;
 			} else {
 				QTextStream texts(&texf);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-                texts.setCodec(codec);
-#endif
 				while (!texts.atEnd()) {
 					line = texts.readLine();
                     if (!match && (line.indexOf(QRegularExpression("^\\\\begin\\{document\\}"), 0) != -1)) {
@@ -533,9 +527,6 @@ void WebPublishDialog::writepages(QString mode)
 					return;
 				} else {
 					QTextStream auxts(&auxf);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-                    auxts.setCodec(codec);
-#endif
 					QRegExp rx("\\\\newlabel\\{(.*)\\}\\{\\{.*\\}\\{(\\d+)\\}\\}");
 					while (!auxts.atEnd()) {
 						QString line = auxts.readLine();
@@ -556,18 +547,12 @@ void WebPublishDialog::writepages(QString mode)
 			return;
 		} else {
 			QTextStream outts(&outf);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            outts.setCodec(codec);
-#endif
 			QFile texf(workdir + "/" + base + ".tex");
 			if (!texf.open(QIODevice::ReadOnly)) {
 				fatalerror(workdir + "/" + base + ".tex " + tr("not found") + ".");
 				return;
 			} else {
 				QTextStream texts(&texf);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-                texts.setCodec(codec);
-#endif
 				match = false;
 				while (!texts.atEnd()) {
 					line = texts.readLine();
@@ -593,9 +578,6 @@ void WebPublishDialog::writepages(QString mode)
 					return;
 				} else {
 					QTextStream auxts(&auxf);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-                    auxts.setCodec(codec);
-#endif
 					QRegExp rx("\\\\@writefile\\{toc\\}.*(" + depth + ").*\\{(\\d+)\\}\\}");
 					while (!auxts.atEnd()) {
 						line = auxts.readLine();

@@ -79,11 +79,7 @@ SVN::Status SVN::status(QString filename)
 QStringList SVN::log(QString filename)
 {
     QString output = runSvn("log", quote(filename));
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
     QStringList revisions = output.split("\n", Qt::SkipEmptyParts);
-#else
-	QStringList revisions = output.split("\n", QString::SkipEmptyParts);
-#endif
 	QMutableStringListIterator iter(revisions);
 	bool keep = false;
 	QString elem;

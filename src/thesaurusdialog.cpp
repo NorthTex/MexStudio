@@ -41,9 +41,6 @@ void ThesaurusDatabaseType::saveUser()
 	QFile f(userFileName);
 	if (!f.open(QFile::WriteOnly)) return;
 	QTextStream s(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    s.setCodec("UTF-8");
-#endif
 	for (QMap<QString, QStringList>::const_iterator it = userWords.constBegin(), end = userWords.constEnd(); it != end; ++it ) {
 		if (it.value().size() < 2) continue;
 		s << it.value().join("|") << "\n";
@@ -59,9 +56,6 @@ void ThesaurusDatabaseType::load(QFile &file)
 	QString line;
     QString key;
 	line = stream.readLine();
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    stream.setCodec(qPrintable(line));
-#endif
 
 	buffer = new QString();
 	buffer->reserve(file.size());
@@ -89,18 +83,11 @@ void ThesaurusDatabaseType::load(QFile &file)
 		QFile f(userFileName);
 		if (f.open(QIODevice::ReadOnly)) {
 			QTextStream s(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            s.setCodec(QTextCodec::codecForName("UTF-8"));
-#endif
 
 			do {
 				line = s.readLine();
 				if (line.startsWith("#") || line.startsWith("%")) continue; //comments
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
                 QStringList splitted = line.split("|", Qt::SkipEmptyParts);
-#else
-				QStringList splitted = line.split("|", QString::SkipEmptyParts);
-#endif
 				if (splitted.size() < 2) continue;
 				userWords.insert(splitted[0].toLower(), splitted);
 				for (int i = 1; i < splitted.length(); i++)
@@ -354,11 +341,7 @@ void ThesaurusDialog::addUserWordClicked()
 	for (int i = 1; i < classlistWidget->count(); i++)
 		categories << classlistWidget->item(i)->text();
 	if (classlistWidget->currentItem() && categories.indexOf(classlistWidget->currentItem()->text()) >= 0 ) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
 		categories.swapItemsAt(
-#else
-		categories.swap(
-#endif
 			0,
 			categories.indexOf(classlistWidget->currentItem()->text())
 		);

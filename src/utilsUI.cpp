@@ -3,11 +3,6 @@
 #include "utilsVersion.h"
 #include "filedialog.h"
 
-#if QT_VERSION<QT_VERSION_CHECK(5,14,0)
-#include <QDesktopWidget>
-#include <QWindow>
-#endif
-
 #include <QErrorMessage>
 
 
@@ -394,12 +389,7 @@ void enableTouchScrolling(QWidget *widget, bool enable) {
 void resizeInFontHeight(QWidget *w, int width, int height)
 {
 	int h = qApp->fontMetrics().height();
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
     QRect r = w->screen()->availableGeometry();
-#else
-    QDesktopWidget *dw = qApp->desktop();
-    QRect r = dw->availableGeometry(w);
-#endif
     QSize newSize = QSize(qMin(h * width, r.width()), qMin(h * height, r.height()));
     //qDebug() << "resizeInFontHeight old size:" << w->width() / (float) h << w->height() / (float) h;
     //qDebug() << "resizeInFontHeight new size:" << newSize.width() / (float) h << newSize.height() / (float) h;
@@ -414,11 +404,7 @@ void resizeInFontHeight(QWidget *w, int width, int height)
  */
 qreal getFmWidth(const QFontMetricsF &fm, QChar ch)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
 	return fm.horizontalAdvance(ch);
-#else
-	return fm.width(ch);
-#endif
 }
 
 /*!
@@ -429,11 +415,7 @@ qreal getFmWidth(const QFontMetricsF &fm, QChar ch)
  */
 int getFmWidth(const QFontMetrics &fm, QChar ch)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return fm.horizontalAdvance(ch);
-#else
-    return fm.width(ch);
-#endif
 }
 
 /*!
@@ -446,11 +428,7 @@ int getFmWidth(const QFontMetrics &fm, QChar ch)
  */
 qreal getFmWidth(const QFontMetricsF &fm, const QString &text, int len)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return fm.horizontalAdvance(text, len);
-#else
-    return fm.width(text.left(len));
-#endif
 }
 
 /*!
@@ -463,11 +441,7 @@ qreal getFmWidth(const QFontMetricsF &fm, const QString &text, int len)
  */
 int getFmWidth(const QFontMetrics &fm, const QString &text, int len)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return fm.horizontalAdvance(text, len);
-#else
-    return fm.width(text, len);
-#endif
 }
 
 /*!
@@ -477,15 +451,11 @@ int getFmWidth(const QFontMetrics &fm, const QString &text, int len)
  */
 QRect getAvailableGeometryAt(const QPoint &pos)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 	QScreen *pScreen = QGuiApplication::screenAt(pos);
 	if (pScreen == nullptr) {
 		return QRect();
 	}
 	return pScreen->availableGeometry();
-#else
-	return QApplication::desktop()->availableGeometry(pos);
-#endif
 }
 
 

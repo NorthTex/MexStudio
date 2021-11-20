@@ -321,9 +321,6 @@ bool Macro::load(const QString & fileName){
 
     QTextStream in(&file);
 
-    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        in.setCodec("UTF-8");
-    #endif
 
     QString text=in.readAll();
 

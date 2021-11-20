@@ -313,11 +313,7 @@ Texstudio::Texstudio(QWidget *parent, Qt::WindowFlags flags, QSplashScreen *spla
 
 	QLayout *centralLayout = new QHBoxLayout(centralFrame);
 	centralLayout->setSpacing(0);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    centralLayout->setMargin(0);
-#else
     centralLayout->setContentsMargins(0,0,0,0);
-#endif
 	centralLayout->addWidget(centralToolBar);
 	centralLayout->addWidget(editors);
 
@@ -921,11 +917,7 @@ void Texstudio::setupMenus()
 
 	submenu = newManagedMenu(menu, "lineoperations", tr("&Line Operations"));
     newManagedAction(submenu, "deleteLine", tr("Delete &Line"), SLOT(editDeleteLine()), Qt::CTRL | Qt::Key_K);
-#if QT_VERSION>=QT_VERSION_CHECK(6,0,0)
     newManagedAction(submenu, "deleteToEndOfLine", tr("Delete To &End Of Line"), SLOT(editDeleteToEndOfLine()), macOrDefault(Qt::CTRL | Qt::Key_Delete,  Qt::AltModifier | Qt::Key_K));
-#else
-    newManagedAction(submenu, "deleteToEndOfLine", tr("Delete To &End Of Line"), SLOT(editDeleteToEndOfLine()), macOrDefault(Qt::CTRL | Qt::Key_Delete,  Qt::AltModifier + Qt::Key_K));
-#endif
     newManagedAction(submenu, "deleteFromStartOfLine", tr("Delete From &Start Of Line"), SLOT(editDeleteFromStartOfLine()), macOrDefault(Qt::CTRL | Qt::Key_Backspace, 0));
 	newManagedAction(submenu, "moveLineUp", tr("Move Line &Up"), SLOT(editMoveLineUp()));
 	newManagedAction(submenu, "moveLineDown", tr("Move Line &Down"), SLOT(editMoveLineDown()));
@@ -959,11 +951,7 @@ void Texstudio::setupMenus()
 
     newManagedEditorAction(submenu, "line", tr("Line"), "gotoLine", macOrDefault(Qt::CTRL + Qt::Key_L, Qt::CTRL | Qt::Key_G), "goto");
     newManagedEditorAction(submenu, "lastchange", tr("Previous Change"), "jumpChangePositionBackward", Qt::CTRL | Qt::Key_H);
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     newManagedEditorAction(submenu, "nextchange", tr("Next Change"), "jumpChangePositionForward", QKeyCombination(Qt::CTRL | Qt::SHIFT , Qt::Key_H));
-#else
-    newManagedEditorAction(submenu, "nextchange", tr("Next Change"), "jumpChangePositionForward", Qt::CTRL | Qt::SHIFT | Qt::Key_H);
-#endif
 	submenu->addSeparator();
     newManagedAction(submenu, "markprev", tr("Previous mark"), "gotoMark", macOrDefault(0, Qt::CTRL | Qt::Key_Up), "", QList<QVariant>() << true << -1); //, ":/images/errorprev.png");
     newManagedAction(submenu, "marknext", tr("Next mark"), "gotoMark", macOrDefault(0, Qt::CTRL | Qt::Key_Down), "", QList<QVariant>() << false << -1); //, ":/images/errornext.png");
@@ -977,30 +965,18 @@ void Texstudio::setupMenus()
 	QList<int> bookmarkIndicies = QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7 << 8 << 9 << 0;
     foreach (int i, bookmarkIndicies) {
         QKeySequence shortcut;
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
         if (i != 0){
             shortcut = Qt::CTRL | static_cast<Qt::Key>(static_cast<int>(Qt::Key_0) + i);
         }
-#else
-        if (i != 0){
-            shortcut = Qt::CTRL + Qt::Key_0 + i;
-        }
-#endif
         newManagedEditorAction(submenu, QString("bookmark%1").arg(i), tr("Bookmark %1").arg(i), "jumpToBookmark", shortcut, "", QList<QVariant>() << i);
     }
 
 
 	submenu = newManagedMenu(menu, "toggleBookmark", tr("Toggle Bookmark"));
 
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     newManagedEditorAction(submenu, QString("bookmark"), tr("Unnamed Bookmark"), "toggleBookmark", QKeyCombination(Qt::CTRL | Qt::SHIFT , Qt::Key_B), "", QList<QVariant>() << -1);
         foreach (int i, bookmarkIndicies)
             newManagedEditorAction(submenu, QString("bookmark%1").arg(i), tr("Bookmark %1").arg(i), "toggleBookmark", QKeyCombination(Qt::CTRL | Qt::SHIFT , static_cast<Qt::Key>(static_cast<int>(Qt::Key_0) + i)), "", QList<QVariant>() << i);
-#else
-    newManagedEditorAction(submenu, QString("bookmark"), tr("Unnamed Bookmark"), "toggleBookmark", Qt::CTRL | Qt::SHIFT | Qt::Key_B, "", QList<QVariant>() << -1);
-    foreach (int i, bookmarkIndicies)
-        newManagedEditorAction(submenu, QString("bookmark%1").arg(i), tr("Bookmark %1").arg(i), "toggleBookmark", Qt::CTRL + Qt::SHIFT + Qt::Key_0 + i, "", QList<QVariant>() << i);
-#endif
 
 
 	menu->addSeparator();
@@ -1021,12 +997,7 @@ void Texstudio::setupMenus()
 
 
 	newManagedAction(menu, "encoding", tr("Setup Encoding..."), SLOT(editSetupEncoding()))->setMenuRole(QAction::NoRole); // with the default "QAction::TextHeuristicRole" this was interperted as Preferences on OSX
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     newManagedAction(menu, "unicodeChar", tr("Insert Unicode Character..."), SLOT(editInsertUnicode()), filterLocaleShortcut(QKeyCombination(Qt::ALT | Qt::CTRL , Qt::Key_U)));
-#else
-    newManagedAction(menu, "unicodeChar", tr("Insert Unicode Character..."), SLOT(editInsertUnicode()), filterLocaleShortcut(Qt::ALT | Qt::CTRL | Qt::Key_U));
-#endif
-
 
 
 	//Edit 2 (for LaTeX related things)
@@ -1065,7 +1036,6 @@ void Texstudio::setupMenus()
 	newManagedAction(menu, "generateMirror", tr("Re&name Environment"), SLOT(generateMirror()));
 
 	submenu = newManagedMenu(menu, "parens", tr("Parenthesis"));
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     newManagedAction(submenu, "jump", tr("Jump to Match"), SLOT(jumpToBracket()), QKeySequence(QKeyCombination(Qt::SHIFT | Qt::CTRL , Qt::Key_P), QKeyCombination(Qt::Key_J)));
     newManagedAction(submenu, "selectBracketInner", tr("Select Inner"), SLOT(selectBracket()), QKeySequence(QKeyCombination(Qt::SHIFT | Qt::CTRL , Qt::Key_P), QKeyCombination(Qt::Key_I)))->setProperty("type", "inner");
     newManagedAction(submenu, "selectBracketOuter", tr("Select Outer"), SLOT(selectBracket()), QKeySequence(QKeyCombination(Qt::SHIFT | Qt::CTRL , Qt::Key_P), QKeyCombination(Qt::Key_O)))->setProperty("type", "outer");
@@ -1075,17 +1045,6 @@ void Texstudio::setupMenus()
 
     submenu->addSeparator();
     newManagedAction(submenu, "findMissingBracket", tr("Find Mismatch"), SLOT(findMissingBracket()), QKeySequence(QKeyCombination(Qt::SHIFT | Qt::CTRL , Qt::Key_P), QKeyCombination(Qt::Key_M)));
-#else
-    newManagedAction(submenu, "jump", tr("Jump to Match"), SLOT(jumpToBracket()), QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_P, Qt::Key_J));
-    newManagedAction(submenu, "selectBracketInner", tr("Select Inner"), SLOT(selectBracket()), QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_P, Qt::Key_I))->setProperty("type", "inner");
-    newManagedAction(submenu, "selectBracketOuter", tr("Select Outer"), SLOT(selectBracket()), QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_P, Qt::Key_O))->setProperty("type", "outer");
-    newManagedAction(submenu, "selectBracketCommand", tr("Select Command"), SLOT(selectBracket()), QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_P, Qt::Key_C))->setProperty("type", "command");
-    newManagedAction(submenu, "selectBracketLine", tr("Select Line"), SLOT(selectBracket()), QKeySequence(Qt::SHIFT | Qt::CTRL |Qt::Key_P, Qt::Key_L))->setProperty("type", "line");
-    newManagedAction(submenu, "generateInvertedBracketMirror", tr("Select Inverting"), SLOT(generateBracketInverterMirror()), QKeySequence(QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_P, Qt::Key_S)));
-
-	submenu->addSeparator();
-    newManagedAction(submenu, "findMissingBracket", tr("Find Mismatch"), SLOT(findMissingBracket()), QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_P, Qt::Key_M));
-#endif
 
 	submenu = newManagedMenu(menu, "complete", tr("Complete"));
     newManagedAction(submenu, "normal", tr("Normal"), SLOT(normalCompletion()), macOrDefault(QKeySequence(Qt::META | Qt::Key_Space), QKeySequence(Qt::CTRL | Qt::Key_Space)));
@@ -2383,9 +2342,6 @@ void Texstudio::fileMakeTemplate()
 			txt.replace("\r\n", "\n"); //on Windows QTextStream corrupts line endings by replacing "\n" with "\r\n", so "\r\n" becomes "\r\r\n"
 #endif
 			QTextStream out(&file_txt);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            out.setCodec("UTF-8");
-#endif
 
 			out << txt;
 			file_txt.close();
@@ -2411,9 +2367,6 @@ void Texstudio::fileMakeTemplate()
 			UtilsUi::txsInformation(tr("Could not write template meta data:") + "\n" + fn);
 		} else {
 			QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            out.setCodec("UTF-8");
-#endif
 			out << templateDialog.generateMetaData();
 			file.close();
 		}
@@ -2474,9 +2427,6 @@ void Texstudio::fileNewFromTemplate()
 		QString mTemplate;
 		bool loadAsSnippet = false;
 		QTextStream in(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        in.setCodec("UTF-8");
-#endif
 		QString line = in.readLine();
         if (line.contains(QRegularExpression("^%\\s*!TXS\\s+template"))) {
 			loadAsSnippet = true;
@@ -4666,11 +4616,7 @@ void Texstudio::insertTextCompletion()
     QDocument *doc=currentEditor()->document();
     // generate regexp for getting fuzzy results
     // here the first letter must match, the rest can be fuzzy
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
     QStringList chars=word.split("",Qt::SkipEmptyParts);
-#else
-    QStringList chars=word.split("",QString::SkipEmptyParts);
-#endif
     QString regExpression=chars.join(".*");
     QRegExp rx("^"+regExpression);
 
@@ -7884,18 +7830,12 @@ QList<int> Texstudio::findOccurencesApproximate(QString line, const QString &gue
 		for (int i = 0; i < changedWord.size(); i++)
 			if (changedWord[i].category() == QChar::Other_Control || changedWord[i].category() == QChar::Other_Format)
 				changedWord[i] = '\1';
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
         foreach (const QString &x, changedWord.split('\1', Qt::SkipEmptyParts)){
             if (regex.isEmpty())
                 regex += QRegularExpression::escape(x);
             else
                 regex += ".{0,2}" + QRegularExpression::escape(x);
         }
-#else
-		foreach (const QString &x, changedWord.split('\1', QString::SkipEmptyParts))
-			if (regex.isEmpty()) regex += QRegExp::escape(x);
-			else regex += ".{0,2}" + QRegExp::escape(x);
-#endif
         QRegularExpression rx = QRegularExpression(regex);
 		columns = indicesOf(line, rx);
 		if (columns.isEmpty()) {
@@ -7906,15 +7846,9 @@ QList<int> Texstudio::findOccurencesApproximate(QString line, const QString &gue
 	if (columns.isEmpty()) {
 		//search again and allow additional whitespace
 		QString regex;
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
         foreach (const QString &x , changedWord.split(" ", Qt::SkipEmptyParts))
             if (regex.isEmpty()) regex = QRegExp::escape(x);
             else regex += "\\s+" + QRegExp::escape(x);
-#else
-		foreach (const QString &x , changedWord.split(" ", QString::SkipEmptyParts))
-			if (regex.isEmpty()) regex = QRegExp::escape(x);
-			else regex += "\\s+" + QRegExp::escape(x);
-#endif
         QRegularExpression rx = QRegularExpression(regex);
 		columns = indicesOf(line, rx);
 		if (columns.isEmpty()) {
@@ -9822,7 +9756,6 @@ int Texstudio::getVersion() const
 void Texstudio::simulateKeyPress(const QString &shortcut)
 {
 	QKeySequence seq = QKeySequence::fromString(shortcut, QKeySequence::PortableText);
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     //TODO Qt6 ?
     if (seq.count() > 0) {
         QKeyCombination keyCombination = seq[0];
@@ -9834,17 +9767,6 @@ void Texstudio::simulateKeyPress(const QString &shortcut)
         event = new QKeyEvent(QEvent::KeyRelease, key, modifiers);
         QApplication::postEvent(QApplication::focusWidget(), event);
     }
-#else
-        if (seq.count() > 0) {
-        int key = seq[0] & ~Qt::KeyboardModifierMask;
-		Qt::KeyboardModifiers modifiers = static_cast<Qt::KeyboardModifiers>(seq[0]) & Qt::KeyboardModifierMask;
-		// TODO: we could additionally provide the text for the KeyEvent (necessary for actually typing characters
-		QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, key, modifiers);
-		QApplication::postEvent(QApplication::focusWidget(), event);
-		event = new QKeyEvent(QEvent::KeyRelease, key, modifiers);
-		QApplication::postEvent(QApplication::focusWidget(), event);
-        }
-#endif
 }
 
 void Texstudio::updateTexQNFA()

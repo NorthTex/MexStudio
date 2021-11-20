@@ -676,11 +676,7 @@ void showInGraphicalShell(QWidget *parent, const QString &pathIn)
 	const QString app = UnixUtils::fileBrowser(&dummySettings);
     QProcess browserProc;
     const QString browserArg = UnixUtils::substituteFileBrowserParameters(app, folder);
-#if QT_VERSION>=QT_VERSION_CHECK(5,15,0)
     QStringList args=QProcess::splitCommand(browserArg);
-#else
-    QStringList args=browserArg.split(" "); // this assumes that the command is not using quotes with spaces in the command path, better solution from qt5.15 ...
-#endif
     if(args.isEmpty())
         return;
     QString cmd=args.takeFirst();
@@ -791,10 +787,5 @@ void SafeThread::wait(unsigned long time)
 
 QSet<QString> convertStringListtoSet(const QStringList &list)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     return QSet<QString>(list.begin(),list.end());
-#else
-    return QSet<QString>::fromList(list);
-#endif
-
 }

@@ -1821,9 +1821,6 @@ bool ConfigManager::execConfigDialog(QWidget *parentToDialog)
 
 		//menus
 		managedMenuNewShortcuts.clear();
-#if (QT_VERSION <= 0x050700) && (defined(Q_OS_MAC))
-		specialShortcuts.clear();
-#endif
 		treeWidgetToManagedMenuTo(menuShortcuts);
         updateUserMacroShortcuts(); // update macro shortcuts from menu
 #ifndef NO_POPPLER_PREVIEW
