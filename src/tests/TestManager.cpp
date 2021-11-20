@@ -83,7 +83,7 @@ QString TestManager::execute(TestLevel level, LatexEditorView* edView, QCodeEdit
 		<< new LatexOutputFilterTest()
 		<< new BuildManagerTest(buildManager)
 		<< new CodeSnippetTest(editor)
-		<< new QDocumentLineTest()
+		<< new Test::DocumentLine()
 		<< new QDocumentCursorTest(level==TL_AUTO)
 		<< new QDocumentSearchTest(editor,level==TL_ALL)
 		<< new QSearchReplacePanelTest(codeedit,level==TL_ALL)

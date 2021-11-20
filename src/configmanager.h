@@ -245,7 +245,6 @@ class ConfigManager: public QObject, public ConfigManagerInterface {
 		QHash<QString, QKeySequence> managedMenuShortcuts;
 		QList<QPair<QString, QString> > managedMenuNewShortcuts;
 
-
 		QMenu *newManagedMenu(const QString &id, const QString &text);
 		QMenu *newManagedMenu(QMenu *menu, const QString &id, const QString &text);
 		QMenu *newManagedMenu(QWidget *menuParent,QMenuBar *menuParentsBar,const QString &id, const QString &text);

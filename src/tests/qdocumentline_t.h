@@ -1,30 +1,49 @@
-#ifndef Header_QDocument_LineTest
-#define Header_QDocument_LineTest
+#ifndef Test_DocumentLine
+#define Test_DocumentLine
+
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
+#include "Test.hpp"
 
 class QDocument;
 class QDocumentLine;
 class QDocumentLineHandle;
-class QDocumentLineTest : public QObject
-{
+
+testclass(DocumentLine){
+
 	Q_OBJECT
-public:
-	QDocumentLineTest();
-	~QDocumentLineTest();
-private:
-	QDocument* doc;
 
-	bool savedFixedPitch;
-	int savedSpaceWidth, savedLeftPadding;
-	bool savedWorkAroundFPM, savedWorkAroundFSCD, savedWorkAroundFQTL;
-private slots:
-	void initTestCase();
-	void cleanupTestCase();
+	private:
 
-	void updateWrap_data();
-	void updateWrap();
+		QDocument * doc;
+
+		bool savedFixedPitch;
+		
+		int
+			savedSpaceWidth,
+			savedLeftPadding;
+		
+		bool
+			savedWorkAroundFPM,
+			savedWorkAroundFSCD,
+			savedWorkAroundFQTL;
+
+	private slots:
+
+		void initTestCase();
+		void cleanupTestCase();
+
+		testcase( updateWrap_data );
+		testcase( updateWrap );
+
+	public:
+
+		DocumentLine();
+		~DocumentLine();
+
 };
+
+
 #endif
-#endif // QEDITORTEST_H
+#endif
