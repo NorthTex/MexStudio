@@ -64,7 +64,8 @@ win32 {
 message(Building with Qt $$QT_VERSION)
 CONFIG += qt
 CONFIG -= precompile_header
-CONFIG+=c++2a
+CONFIG += c++2a
+CONFIG += object_parallel_to_source
 # allow loading extra config by file for automatic compilations (OBS)
 exists(texstudio.pri):include(texstudio.pri)
 QT += network \

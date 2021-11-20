@@ -5,31 +5,31 @@ isEmpty(NO_TESTS){
 	QT += testlib
 
 	SOURCES += \
-                src/tests/Help_t.cpp \
-		src/tests/codesnippet_t.cpp \
-		src/tests/encoding_t.cpp \
-		src/tests/execprogram_t.cpp \
-		src/tests/latexcompleter_t.cpp \
+		src/tests/Help.cpp \
+		src/tests/CodeSnippet.cpp \
+		src/tests/Encoding.cpp \
+		src/tests/ExecProgram.cpp \
+		src/tests/LatexCompleter.cpp \
 		src/tests/latexeditorview_bm.cpp \
-		src/tests/latexeditorview_t.cpp \
-		src/tests/latexoutputfilter_t.cpp \
-		src/tests/latexparser_t.cpp \
-		src/tests/latexparsing_t.cpp \
-		src/tests/qcetestutil.cpp \
-		src/tests/qdocumentcursor_t.cpp \
-		src/tests/qdocumentline_t.cpp \
-		src/tests/qdocumentsearch_t.cpp \
-		src/tests/qeditor_t.cpp \
-		src/tests/qsearchreplacepanel_t.cpp \
-		src/tests/scriptengine_t.cpp \
-		src/tests/smallUsefulFunctions_t.cpp \
-		src/tests/structureview_t.cpp \
-		src/tests/syntaxcheck_t.cpp \
-		src/tests/tablemanipulation_t.cpp \
-		src/tests/usermacro_t.cpp \
-		src/tests/testmanager.cpp \
-                src/tests/git_t.cpp \
-                src/tests/testutil.cpp
+		src/tests/LatexEditorView.cpp \
+		src/tests/LatexOutputFilter.cpp \
+		src/tests/LatexParser.cpp \
+		src/tests/LatexParsing.cpp \
+		src/tests/QCETestUtil.cpp \
+		src/tests/DocumentCursor.cpp \
+		src/tests/DocumentLine.cpp \
+		src/tests/DocumentSearch.cpp \
+		src/tests/Editor.cpp \
+		src/tests/SearchReplacementPanel.cpp \
+		src/tests/ScriptEngine.cpp \
+		src/tests/Misc.cpp \
+		src/tests/StructureView.cpp \
+		src/tests/SyntaxCheck.cpp \
+		src/tests/TableManipulation.cpp \
+		src/tests/UserMacro.cpp \
+		src/tests/TestManager.cpp \
+		src/tests/Git.cpp \
+		src/tests/Util.cpp
 
 
 	HEADERS += \
