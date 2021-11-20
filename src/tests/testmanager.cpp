@@ -2,7 +2,8 @@
 #include "testmanager.h"
 //hel
 #include "smallUsefulFunctions_t.h"
-#include "latexparser_t.h"
+#include "LatexParserTest.hpp"
+#include "TestToken.hpp"
 #include "latexparsing_t.h"
 #include "encoding_t.h"
 #include "execprogram_t.h"

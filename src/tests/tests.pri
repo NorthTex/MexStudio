@@ -45,7 +45,6 @@ isEmpty(NO_TESTS){
 		src/tests/latexeditorview_bm.h \
 		src/tests/latexeditorview_t.h \
 		src/tests/latexoutputfilter_t.h \
-		src/tests/latexparser_t.h \
 		src/tests/latexparsing_t.h \
 		src/tests/latexstyleparser_t.h \
 		src/tests/scriptengine_t.h \
@@ -72,4 +71,8 @@ isEmpty(NO_TESTS){
 	DEFINES += NO_TESTS
 
 }
+
+HEADERS += \
+    $$PWD/LatexParserTest.hpp \
+    $$PWD/TestToken.hpp
 

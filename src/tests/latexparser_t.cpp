@@ -1,5 +1,7 @@
 #ifndef QT_NO_DEBUG
-#include "latexparser_t.h"
+
+#include "LatexParserTest.hpp"
+#include "TestToken.hpp"
 
 TestToken LatexParserTest::env(const QString &str)
 {
