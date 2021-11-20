@@ -20,9 +20,6 @@
 
 #include <QDomElement>
 
-#if (QT_VERSION<QT_VERSION_CHECK(6,0,0))
-#include <QDesktopWidget>
-#endif
 
 #include "qformatconfig.h"
 
@@ -419,11 +416,7 @@ ConfigManager::ConfigManager(QObject *parent): QObject (parent),
 	systemPalette = QApplication::palette();
 	defaultStyleName = QApplication::style()->objectName();
 
-#if QT_VERSION>=QT_VERSION_CHECK(6,0,0)
     qRegisterMetaType<StringStringMap>("StringStringMap");
-#else
-    qRegisterMetaTypeStreamOperators<StringStringMap>("StringStringMap");
-#endif
 
 	managedToolBars.append(ManagedToolBar("Custom", QStringList()));
 	managedToolBars.append(ManagedToolBar("File", QStringList() << "main/file/new" << "main/file/open" << "main/file/save" << "main/file/close"));
@@ -742,11 +735,7 @@ ConfigManager::ConfigManager(QObject *parent): QObject (parent),
 	registerOption("Preview/LoadStrategy", &pdfDocumentConfig->loadStrategy, 2, &pseudoDialog->comboBoxPDFLoadStrategy);
 	registerOption("Preview/RenderBackend", &pdfDocumentConfig->renderBackend, 0, &pseudoDialog->comboBoxPDFRenderBackend);
     registerOption("Preview/LimitRenderQueues", &pdfDocumentConfig->limitThreadNumber, -8); // hidden config to limit renderQueues i.e. parallel threads to render PDF. Default set numberOfThreads=qMin(8, number of cores)
-#if (QT_VERSION<QT_VERSION_CHECK(6,0,0))
-    int dpi=QApplication::desktop()->logicalDpiX();
-#else
     int dpi=72; // how to access main screen dpi?
-#endif
 	registerOption("Preview/DPI", &pdfDocumentConfig->dpi, dpi, &pseudoDialog->spinBoxPreviewDPI);
 	registerOption("Preview/Scale Option", &pdfDocumentConfig->scaleOption, 1, &pseudoDialog->comboBoxPreviewScale);
 	registerOption("Preview/Scale", &pdfDocumentConfig->scale, 100, &pseudoDialog->spinBoxPreviewScale);
@@ -990,13 +979,8 @@ QSettings *ConfigManager::readSettings(bool reread)
         tobeLoaded.append(pck.requiredPackages);
 		completerConfig->words.unite(pck.completionWords);
 		latexParser.optionCommands.unite(pck.optionCommands);
-#if (QT_VERSION>=QT_VERSION_CHECK(5,15,0))
         latexParser.specialTreatmentCommands.insert(pck.specialTreatmentCommands);
         latexParser.specialDefCommands.insert(pck.specialDefCommands);
-#else
-		latexParser.specialTreatmentCommands.unite(pck.specialTreatmentCommands);
-        latexParser.specialDefCommands.unite(pck.specialDefCommands);
-#endif
 		latexParser.environmentAliases.unite(pck.environmentAliases);
 		latexParser.commandDefs.unite(pck.commandDescriptions);
 		//ltxCommands->possibleCommands.unite(pck.possibleCommands); // qt error, does not work properly
@@ -1323,16 +1307,7 @@ QSettings *ConfigManager::saveSettings(const QString &saveName)
     QStringList zw = LatexParser::getInstance().customCommands.values();
 	config->setValue("customCommands", zw);
 
-#if QT_VERSION<QT_VERSION_CHECK(6,0,0)
-    if(writtenQtVersion>=0x060000){
-        // avoid crash when syncing to file (mix of Qt6/Qt5 ini with DateTime)
-        config->remove("Update/LastCheck");
-        config->remove("Debug/Last Application Modification");
-        config->remove("Debug/Last Full Test Run");
-    }
-#else
     Q_UNUSED(writtenQtVersion)
-#endif
 
 	config->endGroup();
 
@@ -1715,11 +1690,7 @@ bool ConfigManager::execConfigDialog(QWidget *parentToDialog)
             tobeLoaded.append(pck.requiredPackages);
             completerConfig->words.unite(pck.completionWords);
 			latexParser.optionCommands.unite(pck.optionCommands);
-#if (QT_VERSION>=QT_VERSION_CHECK(5,15,0))
             latexParser.specialTreatmentCommands.insert(pck.specialTreatmentCommands);
-#else
-			latexParser.specialTreatmentCommands.unite(pck.specialTreatmentCommands);
-#endif
 			latexParser.environmentAliases.unite(pck.environmentAliases);
 			latexParser.commandDefs.unite(pck.commandDescriptions);
 
@@ -1988,11 +1959,7 @@ void ConfigManager::updateRecentFiles(bool alwaysRecreateMenuItems)
 
 QMenu *ConfigManager::updateListMenu(const QString &menuName, const QStringList &items, const QString &namePrefix, bool prefixNumber, const char *slotName, const int baseShortCut, bool alwaysRecreateMenuItems, int additionalEntries, const QList<QVariant> data)
 {
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     QSet<QKeyCombination> reservedShortcuts = QSet<QKeyCombination>() << QKeyCombination(Qt::SHIFT|Qt::Key_F3);  // workaround to prevent overwriting search backward
-#else
-	QSet<int> reservedShortcuts = QSet<int>() << Qt::SHIFT+Qt::Key_F3;  // workaround to prevent overwriting search backward
-#endif
 	QMenu *menu = getManagedMenu(menuName);
     REQUIRE_RET(menu, nullptr);
 	Q_ASSERT(menu->objectName() == menuName);
@@ -2019,14 +1986,9 @@ QMenu *ConfigManager::updateListMenu(const QString &menuName, const QStringList 
 		QString completeId = menu->objectName() + "/" + id;
 		Q_ASSERT(completeId == menuName + "/" + namePrefix + QString::number(i));
 		QList<QKeySequence> shortcuts;
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
         if (baseShortCut && i < 10 && !reservedShortcuts.contains(static_cast<Qt::Key>(baseShortCut + i))) {
             shortcuts << baseShortCut + i;
         }
-#else
-        if (baseShortCut && i < 10 && !reservedShortcuts.contains(baseShortCut + i))
-			shortcuts << baseShortCut + i;
-#endif
         QAction *act = newOrLostOldManagedAction(menu, id, prefixNumber?QString("%1: %2").arg(i+1).arg(items[i]) : items[i], slotName, &shortcuts);
 		if (hasData) {
 			act->setData(data[i]);
@@ -2197,11 +2159,7 @@ QAction *ConfigManager::newManagedAction(QWidget *menu, const QString &id, const
 
 	act->setObjectName(completeId);
 	act->setShortcuts(shortCuts);
-#if (QT_VERSION <= 0x050700) && (defined(Q_OS_MAC))
-	// workaround for osx not being able to use alt+key/esc as shortcut
-	for (int i = 0; i < shortCuts.size(); i++)
-		specialShortcuts.insert(shortCuts[i], act);
-#endif
+
 	if (slotName) {
 		connect(act, SIGNAL(triggered()), menuParent, slotName);
 		act->setProperty("primarySlot", QString::fromLocal8Bit(slotName));
@@ -2237,11 +2195,7 @@ QAction *ConfigManager::newManagedAction(QObject *rootMenu,QWidget *menu, const 
 
 	act->setObjectName(completeId);
     act->setShortcuts(shortCuts);
-#if (QT_VERSION <= 0x050700) && (defined(Q_OS_MAC))
-    // workaround for osx not being able to use alt+key/esc as shortcut
-    for (int i = 0; i < shortCuts.size(); i++)
-        specialShortcuts.insert(shortCuts[i], act);
-#endif
+
     if (slotName && !QString(slotName).isEmpty()) {
         if(QString(slotName).contains("(bool)")){
             act->setCheckable(true);
@@ -2610,21 +2564,6 @@ void ConfigManager::setManagedShortCut(QAction *act, int num, const QKeySequence
 	if (num < shortcuts.size()) shortcuts[num] = ks;
 	else shortcuts << ks;
 	act->setShortcuts(shortcuts);
-#if (QT_VERSION <= 0x050700) && (defined(Q_OS_MAC))
-	// workaround for osx not being able to use alt+key/esc as shortcut
-    // remove old shortcuts
-    QString name=act->objectName();
-    QMutableMapIterator<QKeySequence,QAction *> it(specialShortcuts);
-    while (it.hasNext()) {
-          it.next();
-          if(it.value()==act){
-            it.remove();
-          }
-      }
-    // add new ones
-	for (int i = 0; i < shortcuts.size(); i++)
-		specialShortcuts.insert(shortcuts[i], act);
-#endif
 }
 
 void ConfigManager::loadManagedMenu(QMenu *parent, const QDomElement &f)

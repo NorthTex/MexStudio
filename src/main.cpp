@@ -227,13 +227,11 @@ int main(int args,char ** argument){
 
 	QString appId = generateAppId();
 
-	#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
 		QApplication::setAttribute(
 			(qEnvironmentVariableIntValue("TEXSTUDIO_HIDPI_SCALE") > 0)
 			? Qt::AA_EnableHighDpiScaling
 			: Qt::AA_DisableHighDpiScaling
 		);
-	#endif
 
 	// This is a dummy constructor so that the programs loads fast.
 	TexstudioApp a(appId,args,argument);
@@ -257,9 +255,7 @@ int main(int args,char ** argument){
 
 	a.setApplicationName( TEXSTUDIO );
 
-	#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)) && defined(Q_OS_LINUX)
 		a.setDesktopFileName("texstudio");
-	#endif
 
 	a.init(cmdLine); // Initialization takes place only if there is no other instance running.
 

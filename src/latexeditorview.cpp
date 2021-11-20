@@ -619,11 +619,7 @@ LatexEditorView::LatexEditorView(QWidget *parent, LatexEditorViewConfig *aconfig
 
 	QVBoxLayout *mainlay = new QVBoxLayout(this);
 	mainlay->setSpacing(0);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    mainlay->setMargin(0);
-#else
     mainlay->setContentsMargins(0,0,0,0);
-#endif
 
 	codeeditor = new QCodeEdit(false, this, doc);
 	editor = codeeditor->editor();
@@ -3044,11 +3040,7 @@ void LatexEditorViewConfig::settingsChanged()
 	if (lastFontFamily == fontFamily && lastFontSize == fontSize) return;
 
 	QFont f(fontFamily, fontSize);
-#if (QT_VERSION>=QT_VERSION_CHECK(6,0,0))
     f.setStyleHint(QFont::Courier);
-#else
-	f.setStyleHint(QFont::Courier, QFont::ForceIntegerMetrics);
-#endif
 
 	f.setKerning(false);
 

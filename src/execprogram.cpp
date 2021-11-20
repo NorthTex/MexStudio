@@ -159,7 +159,6 @@ bool ExecProgram::execDetached(void) const
 	bool execResult;
 
 	QString pathOrig = pathExtend();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 	QProcess proc;
 	proc.setProgram(m_program);
 	proc.setArguments(m_arguments);
@@ -168,9 +167,6 @@ bool ExecProgram::execDetached(void) const
 	}
 	setWinProcModifier(proc);
 	execResult = proc.startDetached();
-#else
-	execResult = QProcess::startDetached(m_program, m_arguments, m_workingDirectory);
-#endif
 	pathSet(pathOrig);
 	return execResult;
 }

@@ -245,10 +245,6 @@ class ConfigManager: public QObject, public ConfigManagerInterface {
 		QHash<QString, QKeySequence> managedMenuShortcuts;
 		QList<QPair<QString, QString> > managedMenuNewShortcuts;
 
-		#if (QT_VERSION <= 0x050700) && (defined(Q_OS_MAC))
-			//workaround that osx/qt does not support alt+key/esc as shortcuts
-			QMultiMap<QKeySequence, QAction *> specialShortcuts;
-		#endif
 
 		QMenu *newManagedMenu(const QString &id, const QString &text);
 		QMenu *newManagedMenu(QMenu *menu, const QString &id, const QString &text);

@@ -147,11 +147,7 @@ void CleanDialog::updateFilesToRemove(){
 
 	Scope scope = (Scope) scopeID;
 
-	#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-		QStringList extList(ui -> leExtensions -> text().split(',',Qt::SkipEmptyParts));
-	#else
-		QStringList extList(ui -> leExtensions -> text().split(',',QString::SkipEmptyParts));
-	#endif
+	QStringList extList(ui -> leExtensions -> text().split(',',Qt::SkipEmptyParts));
 
 	QStringList forbiddenExtensions = QStringList() << "tex" << "lytex";
 	QStringList found;

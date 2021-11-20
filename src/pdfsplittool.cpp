@@ -450,9 +450,6 @@ void PDFSplitMergePDFPages::splitMerge(const QString &outputFile, const QList<QP
 		return;
 
 	QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    out.setCodec("UTF-8");
-#endif
 	out << doc.join("\n");
 	file.close();
 

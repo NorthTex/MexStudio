@@ -75,11 +75,7 @@ void RandomTextGenerator::generateText()
 					lastIndex = index;
 				}
 			} else {
-#if (QT_VERSION>=QT_VERSION_CHECK(5,14,0))
                 QStringList newl = line.split(punctation ? QRegularExpression("\\s+") : QRegularExpression("[~!@#$%^&*()_+{}|:\"\\<>?,./;[-= \t'+]"), Qt::SkipEmptyParts);
-#else
-				QStringList newl = line.split(punctation ? QRegExp("\\s+") : QRegExp("[~!@#$%^&*()_+{}|:\"\\<>?,./;[-= \t'+]"), QString::SkipEmptyParts);
-#endif
 				if (upcase) for (int i = 0; i < newl.size(); i++) newl[i] = newl[i].toUpper();
 				words << newl;
 			}

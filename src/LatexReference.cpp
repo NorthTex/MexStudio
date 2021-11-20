@@ -33,10 +33,6 @@ void Reference::setFile(QString path){
 
 	QTextStream stream(& file);
 
-	#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-		stream.setCodec("UTF-8");
-	#endif
-
 	html = stream.readAll();
 	makeIndex();
 }
