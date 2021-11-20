@@ -21,21 +21,41 @@ class TestToken: public QString {
 	static const QRegExp specialCharTextRegExp;
 	static const QRegExp punctationRegExp;
 
+	inline bool matches(const QRegExp & regex){
+		return regex.exactMatch(* this);
+	}
+
+	inline int matchType(){
+
+		if(matches(simpleTextRegExp))
+			return LatexReader::NW_TEXT;
+
+		if(matches(commandRegExp))
+			return LatexReader::NW_COMMAND;
+
+		if(matches(punctationRegExp))
+			return LatexReader::NW_PUNCTATION;
+
+		if(matches(ignoredTextRegExp))
+			return NW_IGNORED_TOKEN;
+
+		if(soll.compare("%"))
+			return LatexReader::NW_COMMENT;
+
+		if(matches(specialCharTextRegExp))
+			return LatexReader::NW_TEXT;
+
+		return -1;
+	}
+
 	void guessType(){
 
-		if (simpleTextRegExp.exactMatch(*this))
-			type = LatexReader::NW_TEXT;
-		else if (commandRegExp.exactMatch(*this))
-			type = LatexReader::NW_COMMAND;
-		else if (punctationRegExp.exactMatch(*this))
-			type = LatexReader::NW_PUNCTATION;
-		else if (ignoredTextRegExp.exactMatch(*this))
-			type = NW_IGNORED_TOKEN;
-		else if (soll.compare("%"))
-			type = LatexReader::NW_COMMENT;
-		else if (specialCharTextRegExp.exactMatch(*this))
-			type = LatexReader::NW_TEXT;
-		else QVERIFY2(false, QString("invalid test data: \"%1\"").arg(*this).toLatin1().constData());
+		int match = matchType();
+
+		if(match)
+			type = match;
+		else
+			QVERIFY2(false, QString("invalid test data: \"%1\"").arg(*this).toLatin1().constData());
 	}
 
 	public:
