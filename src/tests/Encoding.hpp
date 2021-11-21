@@ -6,23 +6,28 @@
 #include "encoding.h"
 #include "tests/Util.hpp"
 #include <QtTest/QtTest>
+#include "Test.hpp"
 
-class EncodingTest : public QObject
-{
+
+testclass(Encoding){
+
 	Q_OBJECT
-private slots:
-	void test_lineStart_data();
-	void test_lineStart();
-	void test_lineEnd_data();
-	void test_lineEnd();
 
-	void test_getEncodingFromPackage_data();
-	void test_getEncodingFromPackage();
-	void test_guessEncoding_data();
-	void test_guessEncoding();
+	testcase( test_lineStart_data );
+	testcase( test_lineStart );
+	
+	testcase( test_lineEnd_data );
+	testcase( test_lineEnd );
 
-	void test_encodingEnum();
+	testcase( test_getEncodingFromPackage_data );
+	testcase( test_getEncodingFromPackage );
+
+	testcase( test_guessEncoding_data );
+	testcase( test_guessEncoding );
+
+	testcase( test_encodingEnum );
 };
 
-#endif // QT_NO_DEBUG
+
+#endif
 #endif

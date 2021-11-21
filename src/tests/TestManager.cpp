@@ -78,7 +78,7 @@ QString TestManager::execute(TestLevel level, LatexEditorView* edView, QCodeEdit
 		<< new SmallUsefulFunctionsTest()
         << new LatexParserTest()
 		<< new LatexParsingTest()
-		<< new EncodingTest()
+		<< new Test::Encoding()
 		<< new ExecProgramTest()
 		<< new LatexOutputFilterTest()
 		<< new BuildManagerTest(buildManager)
