@@ -1,6 +1,6 @@
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "qsearchreplacepanel_t.h"
+#include "SearchReplacementPanel.hpp"
 #include "qsearchreplacepanel.h"
 #include "qdocumentcursor.h"
 #include "qdocumentsearch.h"
@@ -8,8 +8,8 @@
 #include "qdocumentline.h"
 #include "qeditor.h"
 #include "qcodeedit.h"
-#include "qcetestutil.h"
-#include "testutil.h"
+#include "QCETestUtil.hpp"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 class QSearchReplacePanelProtectedBreaker: public QSearchReplacePanel{

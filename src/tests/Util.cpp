@@ -1,5 +1,5 @@
 #ifndef QT_NO_DEBUG
-#include "testutil.h"
+#include "tests/Util.hpp"
 namespace QTest{
 MessageBoxCloser* curCloser=nullptr;
 MessageBoxCloser::MessageBoxCloser(bool mustExists, QMessageBox::StandardButton button):QObject(nullptr), m_mustExists(mustExists), m_button(button){

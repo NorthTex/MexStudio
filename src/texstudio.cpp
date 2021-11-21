@@ -73,7 +73,7 @@
 #include <QScreen>
 
 #ifndef QT_NO_DEBUG
-#include "tests/testmanager.h"
+#include "tests/TestManager.hpp"
 #endif
 
 #include "qdocument.h"

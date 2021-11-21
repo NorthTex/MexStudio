@@ -5,7 +5,7 @@
 
 #include "mostQtHeaders.h"
 #include "Help.hpp"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include "buildmanager.h"
 #include <QtTest/QtTest>
 #include "Test.hpp"

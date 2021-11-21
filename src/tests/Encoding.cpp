@@ -1,5 +1,5 @@
 #ifndef QT_NO_DEBUG
-#include "encoding_t.h"
+#include "Encoding.hpp"
 
 
 void EncodingTest::test_lineStart_data()

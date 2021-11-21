@@ -1,5 +1,5 @@
-#ifndef Header_ExecProgram_T
-#define Header_ExecProgram_T
+#ifndef Test_ExecProgram
+#define Test_ExecProgram
 
 #ifndef QT_NO_DEBUG
 
@@ -16,4 +16,4 @@ private slots:
 
 #endif // QT_NO_DEBUG
 
-#endif // EXECPROGRAM_T_H
+#endif

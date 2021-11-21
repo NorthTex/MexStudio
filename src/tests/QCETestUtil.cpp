@@ -1,6 +1,6 @@
 #ifndef QT_NO_DEBUG
-#include "testutil.h"
-#include "qcetestutil.h"
+#include "tests/Util.hpp"
+#include "QCETestUtil.hpp"
 
 #include "qdocumentcursor.h"
 QString cur2str(const QDocumentCursor &c){

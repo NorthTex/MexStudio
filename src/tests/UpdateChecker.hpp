@@ -1,10 +1,10 @@
-#ifndef Header_UpdateChecker_T
-#define Header_UpdateChecker_T
+#ifndef Test_UpdateChecker
+#define Test_UpdateChecker
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
 #include "updatechecker.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 class UpdateCheckerTest: public QObject{
@@ -37,4 +37,4 @@ private:
 };
 
 #endif
-#endif // UPDATECHECKER_T_H
+#endif 

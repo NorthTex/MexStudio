@@ -5,7 +5,7 @@
 
 #include "mostQtHeaders.h"
 #include "latexparsing.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 
@@ -34,4 +34,4 @@ private slots:
 };
 
 #endif  // QT_NO_DEBUG
-#endif  // LATEXPARSING_T_H
+#endif

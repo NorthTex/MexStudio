@@ -1,5 +1,5 @@
 
-#include "help_t.h"
+#include "tests/Help2.hpp"
 
 using namespace QTest;
 

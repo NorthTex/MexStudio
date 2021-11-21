@@ -1,11 +1,11 @@
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
-#include "codesnippet_t.h"
+#include "CodeSnippet.hpp"
 #include "codesnippet.h"
 #include "qdocumentline.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 //placeholder position

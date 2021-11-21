@@ -1,13 +1,13 @@
 
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "latexeditorview_t.h"
+#include "LatexEditorView.hpp"
 #include "latexeditorview.h"
 #include "latexdocument.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 LatexEditorViewTest::LatexEditorViewTest(LatexEditorView* view): edView(view){}
 

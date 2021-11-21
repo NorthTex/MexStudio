@@ -1,10 +1,10 @@
-#ifndef Header_Encoding_T
-#define Header_Encoding_T
+#ifndef Test_Encoding
+#define Test_Encoding
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
 #include "encoding.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 class EncodingTest : public QObject
@@ -25,4 +25,4 @@ private slots:
 };
 
 #endif // QT_NO_DEBUG
-#endif // ENCODING_T_H
+#endif

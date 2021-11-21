@@ -1,5 +1,5 @@
 #ifndef QT_NO_DEBUG
-#include "qdocumentline_t.h"
+#include "DocumentLine.hpp"
 
 //Actually this is a qdocumentlinehandle test, but they are almost the same
 
@@ -14,7 +14,7 @@
 #include "qeditor.h"
 #include "qdocumentline.h"
 #include "qdocumentline_p.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include "smallUsefulFunctions.h"
 #include <QtTest/QtTest>
 

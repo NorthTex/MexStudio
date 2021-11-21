@@ -1,4 +1,4 @@
-#include "usermacro_t.h"
+#include "tests/UserMacro.hpp"
 #include "usermacro.h"
 
 UserMacroTest::UserMacroTest(QObject *parent) : QObject(parent)

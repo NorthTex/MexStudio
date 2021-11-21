@@ -1,8 +1,8 @@
 #ifndef QT_NO_DEBUG
 
-#include "latexoutputfilter_t.h"
+#include "LatexOutputFilter.hpp"
 #include "latexoutputfilter.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 LatexOutputFilterTest::LatexOutputFilterTest(QObject *parent) :

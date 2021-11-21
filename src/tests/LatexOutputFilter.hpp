@@ -31,4 +31,4 @@ private slots:
 	QString currentMessage(const LatexOutputFilter &f);
 };
 #endif // QT_NO_DEBUG
-#endif // LATEXOUTPUTFILTER_T_H
+#endif

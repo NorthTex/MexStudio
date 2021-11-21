@@ -2,8 +2,8 @@
 
 #include "mostQtHeaders.h"
 
-#include "git_t.h"
-#include "testutil.h"
+#include "tests/Git.hpp"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 

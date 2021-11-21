@@ -1,10 +1,10 @@
-#ifndef Header_SmallUsefulFunctions_T
-#define Header_SmallUsefulFunctions_T
+#ifndef Test_Misc
+#define Test_Misc
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
 #include "smallUsefulFunctions.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 class SmallUsefulFunctionsTest: public QObject
@@ -48,5 +48,4 @@ private slots:
 };
 
 #endif  // QT_NO_DEBUG
-#endif  // SMALLUSEFULFUNCTIONS_T_H
-
+#endif

@@ -1,9 +1,9 @@
 #ifndef QT_NO_DEBUG
-#include "qeditor_t.h"
+#include "Editor.hpp"
 #include "qeditor.h"
 #include "qdocumentline.h"
 #include "qlanguagedefinition.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include "smallUsefulFunctions.h"
 #include "qdocument_p.h"
 #include <QtTest/QtTest>

@@ -1,11 +1,11 @@
 
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "qdocumentsearch_t.h"
+#include "DocumentSearch.hpp"
 #include "qdocumentsearch.h"
 #include "qdocumentline.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 QDocumentSearchTest::QDocumentSearchTest(QEditor* editor, bool all): QObject(nullptr), ds(nullptr), ed(editor), all(all){
 	ed->setFlag(QEditor::HardLineWrap, false);

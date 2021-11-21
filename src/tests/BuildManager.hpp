@@ -7,7 +7,7 @@
 #include "mostQtHeaders.h"
 #include "buildmanager.h"
 #include <QtTest/QtTest>
-#include "testutil.h"
+#include "tests/Util.hpp"
 
 
 using namespace QTest;

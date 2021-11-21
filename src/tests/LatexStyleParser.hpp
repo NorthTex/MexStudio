@@ -4,7 +4,7 @@
 
 #include "mostQtHeaders.h"
 #include "latexstyleparser.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 class LatexStyleParserTest: public QObject{
@@ -58,4 +58,4 @@ private:
 };
 
 #endif // QT_NO_DEBUG
-#endif // LATEXSTYLEPARSER_T_H
+#endif

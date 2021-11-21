@@ -1,5 +1,5 @@
-#ifndef Header_ScriptEngine_T
-#define Header_ScriptEngine_T
+#ifndef Test_ScriptEngine
+#define Test_ScriptEngine
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
 

@@ -1,14 +1,14 @@
 
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "latexcompleter_t.h"
+#include "LatexCompleter.hpp"
 #include "latexcompleter_config.h"
 #include "latexcompleter.h"
 #include "latexeditorview.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include "latexdocument.h"
 
 #include <QtTest/QtTest>

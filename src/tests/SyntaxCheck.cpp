@@ -1,7 +1,7 @@
 
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "syntaxcheck_t.h"
+#include "SyntaxChecker.hpp"
 #include "tablemanipulation.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
@@ -10,7 +10,7 @@
 #include "latexeditorview_config.h"
 
 //#include "syntaxcheck.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 SyntaxCheckTest::SyntaxCheckTest(LatexEditorView* ed): edView(ed){}
 

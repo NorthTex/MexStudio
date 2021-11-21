@@ -1,5 +1,5 @@
-#ifndef Header_QEditor_Test
-#define Header_QEditor_Test
+#ifndef Test_Editor
+#define Test_Editor
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
@@ -37,4 +37,4 @@ private slots:
 	void autoClosing();
 };
 #endif
-#endif // QEDITORTEST_H
+#endif

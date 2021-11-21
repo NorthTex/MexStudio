@@ -1,14 +1,14 @@
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "qdocumentcursor_t.h"
+#include "DocumentCursor.hpp"
 #include "qdocumentcursor.h"
 #include "qdocumentcursor_p.h"
 #include "qdocument.h"
 #include "qdocument_p.h"
 #include "qdocumentline.h"
 #include "qdocumentline_p.h"
-#include "testutil.h"
-#include "qcetestutil.h"
+#include "tests/Util.hpp"
+#include "QCETestUtil.hpp"
 #include <QtTest/QtTest>
 
 void QDocumentCursorTest::initTestCase(){

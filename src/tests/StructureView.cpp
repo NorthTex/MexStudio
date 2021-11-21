@@ -1,13 +1,13 @@
 
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "structureview_t.h"
+#include "tests/StructureView.hpp"
 #include "scriptengine.h"
 #include "latexeditorview.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 StructureViewTest::StructureViewTest(LatexEditorView* editor,LatexDocument *doc, bool all): edView(editor),document(doc), all(all){}
 

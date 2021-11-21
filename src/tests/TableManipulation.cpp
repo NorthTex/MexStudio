@@ -1,12 +1,12 @@
 
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "tablemanipulation_t.h"
+#include "TableManipulation.hpp"
 #include "tablemanipulation.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 TableManipulationTest::TableManipulationTest(QEditor* editor): ed(editor){}
 

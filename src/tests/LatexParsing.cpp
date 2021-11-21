@@ -1,6 +1,6 @@
 #ifndef QT_NO_DEBUG
 #include "latexparser/latexparsing.h"
-#include "latexparsing_t.h"
+#include "LatexParsing.hpp"
 
 #include "qdocument.h"
 #include "qdocumentline.h"
@@ -8,7 +8,7 @@
 
 #include "latexparser/latexparser.h"
 #include "latexpackage.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 // shortcuts and semantic types

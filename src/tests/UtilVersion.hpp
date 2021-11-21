@@ -1,10 +1,10 @@
-#ifndef Header_UtilsVersion_T
-#define Header_UtilsVersion_T
+#ifndef Test_UtilVersion
+#define Test_UtilsVersion
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
 #include "utilsVersion.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 class VersionTest: public QObject{
@@ -132,4 +132,4 @@ private:
 };
 
 #endif // QT_NO_DEBUG
-#endif // UTILSVERSION_T_H
+#endif

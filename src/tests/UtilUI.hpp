@@ -1,10 +1,10 @@
-#ifndef Header_UtilsUI_T
-#define Header_UtilsUI_T
+#ifndef Test_UtilsUI
+#define Test_UtilsUI
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
 #include "utilsUI.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 
 
@@ -56,4 +56,4 @@ private:
 };
 
 #endif // QT_NO_DEBUG
-#endif // UTILSUI_T_H
+#endif

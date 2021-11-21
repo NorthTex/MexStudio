@@ -1,13 +1,13 @@
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "scriptengine_t.h"
+#include "ScriptEngine.hpp"
 #include "scriptengine.h"
 #include "latexdocument.h"
 #include "latexeditorview.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
-#include "testutil.h"
+#include "tests/Util.hpp"
 #include <QtTest/QtTest>
 ScriptEngineTest::ScriptEngineTest(LatexEditorView* editor, bool all): edView(editor), all(all){
 	edView->editor->setCursorPosition(0,0);
