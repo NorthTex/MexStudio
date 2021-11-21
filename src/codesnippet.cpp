@@ -9,28 +9,45 @@
 
 #include <algorithm>
 
-int CodeSnippetPlaceHolder::offsetEnd() const
-{
+
+int CodeSnippetPlaceHolder::offsetEnd() const {
 	return offset + length;
 }
 
-inline void translatePlaceholder(const QString &content, QString &curLine, CodeSnippetPlaceHolder &ph, int columnshift = 0)
-{
-	bool translatable = (ph.flags & CodeSnippetPlaceHolder::Translatable) && !CodeSnippet::debugDisableAutoTranslate;
-	if (translatable)
-		for (int i = 0; i < content.length(); i++)
-			if (!content[i].toLatin1()) { //don't translate non ascii placeholders
+inline void translatePlaceholder(const QString &content, QString &curLine, CodeSnippetPlaceHolder &ph, int columnshift = 0){
+
+	bool translatable = (ph.flags & CodeSnippetPlaceHolder::Translatable) 
+		&& !CodeSnippet::debugDisableAutoTranslate;
+	
+	if(translatable)
+		for(auto c : content)
+			if(!c.toLatin1()){ //don't translate non ascii placeholders
 				translatable = false;
 				break;
 			}
-	QString trans = !translatable ? content : QApplication::translate("CodeSnippet_PlaceHolder", content.toLatin1().constData());
-	if (columnshift < 0) {
+		// for(int i = 0;i < content.length();i++)
+		// 	if (!content[i].toLatin1()) { //don't translate non ascii placeholders
+		// 		translatable = false;
+		// 		break;
+		// 	}
+	
+	
+	QString trans = !translatable 
+		? content 
+		: QApplication::translate("CodeSnippet_PlaceHolder",content.toLatin1().constData());
+	
+	if(columnshift >= 0){
+		curLine += trans;
+	} else {
 		curLine = curLine.left(curLine.length() + columnshift) + trans + curLine.right(-columnshift);
 		ph.offset += columnshift;
 		//todo: allow positive shift
-	} else curLine += trans;
+	}
+	
 	ph.length = trans.length();
 }
+
+
 /*!
  * \brief parse the snippet string to set the correpondings placeholder
  * Snippet have special tokens which code for "placeholder", position which can be easily selected with the cursor.
@@ -39,24 +56,32 @@ inline void translatePlaceholder(const QString &content, QString &curLine, CodeS
  * \param curLine
  * \param ph
  */
-void parseSnippetPlaceHolder(const QString &snippet, int &i, QString &curLine, CodeSnippetPlaceHolder &ph)
-{
-	if (i >= snippet.length())
+
+void parseSnippetPlaceHolder(const QString & snippet,int & i,QString & curLine,CodeSnippetPlaceHolder & ph){
+
+	if(i >= snippet.length())
 		return; // avoid possible crash
+
 	QString tmpPlaceHolderContent;
+	
 	ph.offset = curLine.length();
 	ph.length = 0;
 	ph.id = -1;
 	ph.flags = 0;
-	for (; i < snippet.length(); i++) {
-		if (snippet.at(i) == '%' && i + 1 < snippet.length()) {
+	
+
+	while(i < snippet.length()){
+
+		if(snippet.at(i) == '%' && (i + 1) < snippet.length()){
+
 			i++;
-			switch (snippet.at(i).toLatin1()) {
-			case'|':
+
+			switch(snippet.at(i).toLatin1()){
+			case '|':
 				ph.flags |= CodeSnippetPlaceHolder::AutoSelect;
 				break;
 			case '>':
-				translatePlaceholder(tmpPlaceHolderContent, curLine, ph);
+				translatePlaceholder(tmpPlaceHolderContent,curLine,ph);
 				return;
 			case '%':
 				tmpPlaceHolderContent += '%';
@@ -65,43 +90,96 @@ void parseSnippetPlaceHolder(const QString &snippet, int &i, QString &curLine, C
 			case ':':
 				goto secondLevelBreak;
 			default:
-				tmpPlaceHolderContent += "%";
+				tmpPlaceHolderContent += '%';
 				tmpPlaceHolderContent += snippet.at(i);
 				ph.length++;
 			}
-		} else tmpPlaceHolderContent += snippet.at(i);
+		} else {
+			tmpPlaceHolderContent += snippet.at(i);
+		}
+
+		i++;
 	}
 
 
-secondLevelBreak:
-    int snippetEnd=-1;
-	if (i >= snippet.length()) return;
-	if ((snippet.at(i) != ':') || ((snippetEnd = snippet.indexOf("%>", i)) == -1)) return;
+	secondLevelBreak:
+
+    int snippetEnd = -1;
+
+	if(i >= snippet.length())
+		return;
+	
+	if(snippet.at(i) != ':')
+		return;
+	
+	snippetEnd = snippet.indexOf("%>",i);
+
+	if(snippetEnd == -1)
+		return;
 
 	QString options = snippet.mid(i + 1, snippetEnd - i - 1);
-	i = snippetEnd + 1;
-	int columnshift = 0;
-	foreach (const QString &s, options.split(",")) {
-		QString t = s.trimmed();
-		if (t == "mirror") ph.flags |= CodeSnippetPlaceHolder::Mirror;
-		else if (t == "multiline") ph.flags |= CodeSnippetPlaceHolder::PreferredMultilineAutoSelect;
-		else if (t.startsWith("id:")) ph.id = t.remove(0, 3).toInt();
-		else if (t.startsWith("columnShift:", Qt::CaseInsensitive)) columnshift = t.remove(0, 12).toInt();
-		else if (t.startsWith("select")) ph.flags |= CodeSnippetPlaceHolder::AutoSelect;
-		else if (t == "persistent") ph.flags |= CodeSnippetPlaceHolder::Persistent;
-		else if (t == "translatable") ph.flags |= CodeSnippetPlaceHolder::Translatable;
-        else if (t == "cutInsert") ph.flags |= CodeSnippetPlaceHolder::PreferredCutInsertion;
-	}
 
-	translatePlaceholder(tmpPlaceHolderContent, curLine, ph, columnshift);
+	i = snippetEnd + 1;
+	
+	int columnshift = 0;
+
+	for(auto & match : options.split(',')){
+
+		QString string = match.trimmed();
+
+		if(string == "mirror"){
+			ph.flags |= CodeSnippetPlaceHolder::Mirror;
+			continue;
+		}
+
+		if(string == "multiline"){
+			ph.flags |= CodeSnippetPlaceHolder::PreferredMultilineAutoSelect;
+			continue;
+		}
+
+		if(string == "persistent"){
+			ph.flags |= CodeSnippetPlaceHolder::Persistent;
+			continue;
+		}
+
+		if(string == "translatable"){
+			ph.flags |= CodeSnippetPlaceHolder::Translatable;
+			continue;
+		}
+
+		if(string == "cutInsert"){
+			ph.flags |= CodeSnippetPlaceHolder::PreferredCutInsertion;
+			continue;
+		}
+
+		if(string.startsWith("id:")){
+			ph.id = string.remove(0,3).toInt();
+			continue;
+		}
+
+		if(string.startsWith("columnShift:",Qt::CaseInsensitive)){
+			columnshift = string.remove(0,12).toInt();
+			continue;
+		}
+
+		if(string.startsWith("select")){
+			ph.flags |= CodeSnippetPlaceHolder::AutoSelect;
+			continue;
+		}
+	}
+	
+	translatePlaceholder(tmpPlaceHolderContent,curLine,ph,columnshift);
 }
+
 
 bool CodeSnippet::autoReplaceCommands = true;
 bool CodeSnippet::debugDisableAutoTranslate = false;
 
-CodeSnippet::CodeSnippet(const QString &newWord, bool replacePercentNewline)
-{
+
+CodeSnippet::CodeSnippet(const QString &newWord, bool replacePercentNewline){
+
 	QString realNewWord = expandCode(newWord);
+	
 	cursorLine = -1;
 	cursorOffset = -1;
 	anchorOffset = -1;
@@ -110,16 +188,23 @@ CodeSnippet::CodeSnippet(const QString &newWord, bool replacePercentNewline)
 	snippetLength = 0;
     score = 0;
 	type = none;
+	
 	QString curLine;
 
 	curLine.reserve(realNewWord.length());
 	word.reserve(realNewWord.length());
-	bool escape = false;
-	bool hasPlaceHolder = false, hasMirrors = false, hasAutoSelectPlaceHolder = false;
+	
+	bool 
+		escape = false,
+		hasPlaceHolder = false, 
+		hasMirrors = false, 
+		hasAutoSelectPlaceHolder = false;
+	
 	placeHolders.append(QList<CodeSnippetPlaceHolder>()); //during the creation this contains a line more than lines
 
 	CodeSnippetPlaceHolder tempPlaceholder;
 	bool firstLine = true;
+
 	for (int i = 0; i < realNewWord.length(); i++) {
 		QChar currentChar = realNewWord.at(i);
 		if (!escape) {
@@ -221,45 +306,46 @@ secondLevelBreak:
 					;
 				}
 	}
-	if (anchorOffset == -1) anchorOffset = cursorOffset;
-	/*
-	sortWord=lines.first().toLower(); //only sort by first line which is visible in completer (otherwise \begin{frame} comes after \begin{frame}[xy])
-	sortWord.replace("{","!");//js: still using dirty hack, however order should be ' '{[* abcde...
-	sortWord.replace("}","!");// needs to be replaced as well for sorting \bgein{abc*} after \bgein{abc}
-	sortWord.replace("[","\"");//(first is a space->) !"# follow directly in the ascii table
-	sortWord.replace("*","#");
-	*/
+
+	if(anchorOffset == -1)
+		anchorOffset = cursorOffset;
 }
 
-bool CodeSnippet::operator< (const CodeSnippet &cw) const
-{
+
+bool CodeSnippet::operator < (const CodeSnippet & cw) const {
 	return cw.sortWord > sortWord;
 }
 
-bool CodeSnippet::operator== (const CodeSnippet &cw) const
-{
+bool CodeSnippet::operator == (const CodeSnippet & cw) const {
 	return cw.word == word;
 }
+
 
 /*!
  * expands special snipets such as environment templates
  */
-QString CodeSnippet::expandCode(const QString &code)
-{
-	if (code == "%<%:TEXMAKERX-GENERIC-ENVIRONMENT-TEMPLATE%>" ||
-	        code == "%<%:TEXSTUDIO-GENERIC-ENVIRONMENT-TEMPLATE%>") {
-		// environment template
-		return "\\begin{%<" + QObject::tr("*environment-name*") + "%:select,id:2%>}\n"
-		       "%<" + QObject::tr("content...") + "%:select,multiline%>\n"
-		       "\\end{%<" + QObject::tr("*environment-name*") + "%:mirror,id:2%>}";
-	} else if (code.startsWith("\\begin{") &&
-	           !code.contains("\n") && !code.contains("%\\") &&  // only a single line
-	           code.lastIndexOf("\\") == 0) {                   // only one latex command in the line
+
+QString CodeSnippet::expandCode(const QString & code){
+
+	if(
+		code == "%<%:TEXMAKERX-GENERIC-ENVIRONMENT-TEMPLATE%>" ||
+	    code == "%<%:TEXSTUDIO-GENERIC-ENVIRONMENT-TEMPLATE%>"
+	) return "\\begin{%<" + QObject::tr("*environment-name*") + "%:select,id:2%>}\n"
+		     "%<" + QObject::tr("content...") + "%:select,multiline%>\n"
+		     "\\end{%<" + QObject::tr("*environment-name*") + "%:mirror,id:2%>}";
+
+	if(
+		code.startsWith("\\begin{") &&
+	    !code.contains("\n") && 
+		!code.contains("%\\") &&  // only a single line
+		code.lastIndexOf("\\") == 0
+	){                   // only one latex command in the line
 		// plain \begin{env}
 		int p = code.indexOf("{") + 1;
 		QString environmentName = code.mid(p, code.indexOf("}") - p); //contains the {}
 		return code + "\n" + environmentContent(environmentName) + "\n\\end{" + environmentName + "}";
 	}
+
 	return code;
 
 }
@@ -269,34 +355,50 @@ QString CodeSnippet::expandCode(const QString &code)
  * This is currently hard coded for the most common cases. Might become user-definable in the future
  * (via addition to the snippet code (what would that imply for cwls?) or other means
  */
-QString CodeSnippet::environmentContent(const QString &envName)
-{
-	if (envName == "enumerate" || envName == "itemize") {
+
+QString CodeSnippet::environmentContent(const QString & environment){
+
+	if(environment == "enumerate")
 		return "\\item %|";
-	} else if (envName == "description") {
+
+	if(environment == "itemize")
+		return "\\item %|";
+
+	if(environment == "description")
 		return "\\item[%<" + QObject::tr("label") + "%:multiline%>] %<" + QObject::tr("description") + "%>";
-	} else {
-		return "%<" + QObject::tr("content...") + "%:multiline%>";
-	}
+
+	return "%<" + QObject::tr("content...") + "%:multiline%>";
 }
 
-void CodeSnippet::insert(QEditor *editor) const
-{
-	if (!editor) return;
-	QDocumentCursor c = editor->cursor();
-	insertAt(editor, &c);
+
+void CodeSnippet::insert(QEditor * editor) const {
+
+	if(!editor)
+		return;
+	
+	QDocumentCursor c = editor -> cursor();
+	insertAt(editor,&c);
 }
 
-void CodeSnippet::insertAt(QEditor *editor, QDocumentCursor *cursor, PlaceholderMode placeholderMode, bool byCompleter, bool isKeyVal) const
-{
-	if (lines.empty() || !editor || !cursor) return;
+void CodeSnippet::insertAt(QEditor * editor, QDocumentCursor * cursor,PlaceholderMode placeholderMode,bool byCompleter,bool isKeyVal) const {
 
-	int phrmCursorLine = -1;
-	int phrmCursorOffset = -1;
-	int phrmCursorLineRemovedChars = 0;
+	if(lines.empty())
+		return;
+	
+	if(!editor)
+		return;
+		
+	if(!cursor)
+		return;
+
+	int 
+		phrmCursorLine = -1,
+		phrmCursorOffset = -1,
+		phrmCursorLineRemovedChars = 0;
 
 	QString line;
 	// construct text
+
 	if (placeholderMode == PlaceholdersRemoved) {
 		for (int l = 0; l < lines.count(); l++) {
 			QString ln = lines[l];
@@ -599,46 +701,53 @@ void CodeSnippet::insertAt(QEditor *editor, QDocumentCursor *cursor, Placeholder
     }
 }
 
-void CodeSnippet::setName(const QString &newName)
-{
-	name = newName;
+void CodeSnippet::setName(const QString & name){
+	this -> name = name;
 }
 
-QString CodeSnippet::getName() const
-{
+QString CodeSnippet::getName() const {
 	return name;
 }
 
-QDocumentCursor CodeSnippet::getCursor(QEditor *editor, const CodeSnippetPlaceHolder &ph, int snippetLine, int baseLine, int baseLineIndent, int lastLineRemainingLength) const
-{
-	QDocumentCursor cursor = editor->document()->cursor(baseLine + snippetLine, ph.offset);
-	if (snippetLine == 0) cursor.movePosition(baseLineIndent, QDocumentCursor::NextCharacter);
+QDocumentCursor CodeSnippet::getCursor(QEditor * editor,const CodeSnippetPlaceHolder & ph,int snippetLine,int baseLine,int baseLineIndent,int lastLineRemainingLength) const {
+
+	QDocumentCursor cursor = editor -> document() -> cursor(baseLine + snippetLine,ph.offset);
+	
+	if (snippetLine == 0)
+		cursor.movePosition(baseLineIndent, QDocumentCursor::NextCharacter);
 	else {
-		cursor.movePosition(cursor.line().length() - lines[snippetLine].length(), QDocumentCursor::NextCharacter);
-		if (snippetLine + 1 == lines.size())
-			cursor.movePosition(lastLineRemainingLength, QDocumentCursor::PreviousCharacter);
+		cursor.movePosition(cursor.line().length() - lines[snippetLine].length(),QDocumentCursor::NextCharacter);
+
+		if(snippetLine + 1 == lines.size())
+			cursor.movePosition(lastLineRemainingLength,QDocumentCursor::PreviousCharacter);
 	}
+
 	return cursor;
 }
 
-void CodeSnippetList::unite(CodeSnippetList &lst)
-{
-	this->append(lst);
-	CodeSnippetList::iterator middle = this->end() - lst.length();
-	std::inplace_merge(this->begin(), middle, this->end());
+void CodeSnippetList::unite(CodeSnippetList & snippets){
+
+	this -> append(snippets);
+	
+	CodeSnippetList::iterator middle = this -> end() - snippets.length();
+	
+	std::inplace_merge(this -> begin(),middle,this -> end());
 }
 
-void CodeSnippetList::unite(const QList<CodeSnippet> &lst)
-{
-	this->append(lst);
-	CodeSnippetList::iterator middle = this->end() - lst.length();
-	std::inplace_merge(this->begin(), middle, this->end());
+void CodeSnippetList::unite(const QList<CodeSnippet> & snippets){
+
+	this -> append(snippets);
+	
+	CodeSnippetList::iterator middle = this -> end() - snippets.length();
+
+	std::inplace_merge(this -> begin(),middle,this -> end());
 }
 
-void CodeSnippetList::insert(const QString &elem)
-{
-	CodeSnippet cs(elem);
-	cs.usageCount = 2;
-    QList<CodeSnippet>::iterator it = std::lower_bound(this->begin(), this->end(), cs);
-	QList<CodeSnippet>::insert(it, cs);
+void CodeSnippetList::insert(const QString & string){
+
+	CodeSnippet snippet(string);
+	snippet.usageCount = 2;
+    
+	QList<CodeSnippet>::iterator it = std::lower_bound(this -> begin(),this -> end(),snippet);
+	QList<CodeSnippet>::insert(it,snippet);
 }
