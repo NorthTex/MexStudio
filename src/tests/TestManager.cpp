@@ -100,7 +100,7 @@ QString TestManager::execute(TestLevel level, LatexEditorView* edView, QCodeEdit
 		<< new UtilsUITest(level==TL_ALL)
 		<< new VersionTest(level==TL_ALL)
 		<< new Test::Help(buildManager)
-        << new UserMacroTest()
+        << new Test::UserMacro()
         << new Test::Git(buildManager,level!=TL_AUTO);
 	bool allPassed=true;
 	if (level!=TL_ALL)

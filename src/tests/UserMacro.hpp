@@ -1,23 +1,28 @@
-#ifndef Header_UserMacro_Test
-#define Header_UserMacro_Test
+#ifndef Test_UserMacro
+#define Test_UserMacro
 #ifndef QT_NO_DEBUG
+
 #include "mostQtHeaders.h"
 #include <QtTest/QtTest>
+#include "Test.hpp"
 
-class UserMacroTest : public QObject
-{
-    Q_OBJECT
-public:
-    explicit UserMacroTest(QObject *parent = nullptr);
 
-signals:
+testclass(UserMacro){
 
-private:
-    QString fileName;
+    Q_OBJECT;
 
-private slots:
-    void saveRead_data();
-    void saveRead();
+    private:
+
+        QString fileName;
+
+    public:
+
+        explicit UserMacro(QObject * parent = nullptr);
+
+    testcase( saveRead_data );
+    testcase( saveRead );
 };
+
+
 #endif
-#endif // USERMACROTEST_H
+#endif

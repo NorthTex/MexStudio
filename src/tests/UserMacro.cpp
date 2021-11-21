@@ -1,22 +1,28 @@
 #include "tests/UserMacro.hpp"
 #include "usermacro.h"
 
-UserMacroTest::UserMacroTest(QObject *parent) : QObject(parent)
-{
-    fileName="/tmp/testMacro.txsMacro";
+
+using QTest::addColumn;
+using QTest::newRow;
+using Test::UserMacro;
+
+
+UserMacro::UserMacro(QObject * parent) : QObject(parent){
+    fileName = "/tmp/testMacro.txsMacro";
 }
 
-void UserMacroTest::saveRead_data(){
-    QTest::addColumn<QString>("name");
-    QTest::addColumn<QString>("type");
-    QTest::addColumn<QString>("tag");
-    QTest::addColumn<QString>("abbrev");
-    QTest::addColumn<QString>("trigger");
-    QTest::addColumn<QString>("shortcut");
-    QTest::addColumn<QString>("menu");
-    QTest::addColumn<QString>("description");
+void UserMacro::saveRead_data(){
 
-    QTest::newRow("trivial")
+    addColumn<QString>("name");
+    addColumn<QString>("type");
+    addColumn<QString>("tag");
+    addColumn<QString>("abbrev");
+    addColumn<QString>("trigger");
+    addColumn<QString>("shortcut");
+    addColumn<QString>("menu");
+    addColumn<QString>("description");
+
+    newRow("trivial")
         << "abcd"
         << "Snippet"
         << "abc"
@@ -26,7 +32,7 @@ void UserMacroTest::saveRead_data(){
         << "sdfsdf"
         << "fgh";
 
-    QTest::newRow("env")
+    newRow("env")
         << "abcd"
         << "Environment"
         << "abc"
@@ -36,7 +42,7 @@ void UserMacroTest::saveRead_data(){
         << ""
         << "";
 
-    QTest::newRow("script")
+    newRow("script")
         << "abcd"
         << "Script"
         << "abc\ncde\ndef"
@@ -45,7 +51,7 @@ void UserMacroTest::saveRead_data(){
         << ""
         << ""
         << "";
-    QTest::newRow("quotes")
+    newRow("quotes")
         << "abcd"
         << "Script"
         << "abc\nc\"de\"\ndef"
@@ -54,7 +60,7 @@ void UserMacroTest::saveRead_data(){
         << ""
         << ""
         << "";
-    QTest::newRow("quotes plus backslash")
+    newRow("quotes plus backslash")
         << "abcd"
         << "Script"
         << "abc\nc\\\"de\\\"\ndef"
@@ -63,7 +69,7 @@ void UserMacroTest::saveRead_data(){
         << ""
         << ""
         << "";
-    QTest::newRow("brackets")
+    newRow("brackets")
         << "abcd"
         << "Script"
         << "abc\ncd]fsd\nd[ef"
@@ -73,7 +79,7 @@ void UserMacroTest::saveRead_data(){
         << ""
         << "";
 
-    QTest::newRow("name with backslash at end")
+    newRow("name with backslash at end")
         << "abcd\\"
         << "Script"
         << "abc\ncd]fsd\nd[ef"
@@ -83,7 +89,7 @@ void UserMacroTest::saveRead_data(){
         << ""
         << "";
 
-    QTest::newRow("name/tag with backslash at end")
+    newRow("name/tag with backslash at end")
         << "abcd\\"
         << "Script"
         << "abc\ncd]fsd\nd[ef\\"
@@ -96,30 +102,36 @@ void UserMacroTest::saveRead_data(){
 
 }
 
-void UserMacroTest::saveRead(){
+void UserMacro::saveRead(){
+
     Q_ASSERT(!fileName.isEmpty());
-    QFETCH(QString, name);
-    QFETCH(QString, type);
-    QFETCH(QString, tag);
-    QFETCH(QString, abbrev);
-    QFETCH(QString, trigger);
-    QFETCH(QString, shortcut);
-    QFETCH(QString, menu);
-    QFETCH(QString, description);
-    Macro::Type tp=Macro::Snippet;
-    if(type=="Script"){
-        tp=Macro::Script;
-    }
-    if(type=="Environment"){
-        tp=Macro::Environment;
-    }
+    
+    QFETCH(QString,name);
+    QFETCH(QString,type);
+    QFETCH(QString,tag);
+    QFETCH(QString,abbrev);
+    QFETCH(QString,trigger);
+    QFETCH(QString,shortcut);
+    QFETCH(QString,menu);
+    QFETCH(QString,description);
+    
+    Macro::Type tp = Macro::Snippet;
+
+    if(type == "Script")
+        tp = Macro::Script;
+
+    if(type=="Environment")
+        tp = Macro::Environment;
+
     Macro macro(name,tp,tag,abbrev,trigger);
     macro.setShortcut(shortcut);
-    macro.menu=menu;
-    macro.description=description;
+    macro.menu = menu;
+    macro.description = description;
     macro.save(fileName);
+
     Macro macro2;
     macro2.load(fileName);
+
     QCOMPARE(macro2.name,name);
     QCOMPARE(macro2.type,tp);
     QCOMPARE(macro2.trigger,trigger);
