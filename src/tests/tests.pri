@@ -32,36 +32,38 @@ isEmpty(NO_TESTS){
 		src/tests/Util.cpp
 
 
-	HEADERS += \
-    	src/tests/Help2.hpp \
-		src/tests/Test.hpp \
-		src/tests/ExecProgram.hpp \
-		src/tests/SearchReplacementPanel.hpp \
-		src/tests/UpdateChecker.hpp \
-		src/tests/DocumentCursor.hpp \
-		src/tests/DocumentLine.hpp \
-		src/tests/DocumentSearch.hpp \
-		src/tests/CodeSnippet.hpp \
-		src/tests/LatexCompleter.hpp \
-		src/tests/LatexEditorViewBenchmark.hpp \
-		src/tests/LatexEditorView.hpp \
-		src/tests/LatexOutputFilter.hpp \
-		src/tests/LatexParsing.hpp \
-		src/tests/LatexStyleParser.hpp \
-		src/tests/ScriptEngine.hpp \
-		src/tests/Editor.hpp \
-		src/tests/BuildManager.hpp \
-		src/tests/TableManipulation.hpp \
-		src/tests/Misc.hpp \
-		src/tests/UtilUI.hpp \
-		src/tests/UtilVersion.hpp \
-		src/tests/Encoding.hpp \
-		src/tests/SyntaxChecker.hpp \
-		src/tests/QCETestUtil.hpp \
-		src/tests/TestManager.hpp \
-		src/tests/Util.hpp \
-		src/tests/UserMacro.hpp \
-		src/tests/Git.hpp \
+	HEADERS += 											   \
+    	src/tests/Help2.hpp 							   \
+		src/tests/Test.hpp 								   \
+		src/tests/ExecProgram.hpp 						   \
+		src/tests/SearchReplacementPanel.hpp 			   \
+		src/tests/UpdateChecker.hpp 					   \
+		src/tests/DocumentCursor.hpp  					   \
+		src/tests/DocumentLine.hpp 						   \
+		src/tests/DocumentSearch.hpp 					   \
+		src/tests/CodeSnippet.hpp 						   \
+		src/tests/LatexCompleter.hpp 					   \
+		src/tests/LatexEditorViewBenchmark.hpp 			   \
+		src/tests/LatexEditorView.hpp 					   \
+		src/tests/LatexOutputFilter.hpp 				   \
+		src/tests/LatexParsing.hpp 						   \
+		src/tests/LatexParserTest.hpp 		 			   \
+		src/tests/TestToken.hpp 						   \
+		src/tests/LatexStyleParser.hpp 					   \
+		src/tests/ScriptEngine.hpp 						   \
+		src/tests/Editor.hpp 							   \
+		src/tests/BuildManager.hpp 						   \
+		src/tests/TableManipulation.hpp 				   \
+		src/tests/Misc.hpp 								   \
+		src/tests/UtilUI.hpp 							   \
+		src/tests/UtilVersion.hpp 						   \
+		src/tests/Encoding.hpp 							   \
+		src/tests/SyntaxChecker.hpp 					   \
+		src/tests/QCETestUtil.hpp 						   \
+		src/tests/TestManager.hpp 						   \
+		src/tests/Util.hpp 								   \
+		src/tests/UserMacro.hpp 						   \
+		src/tests/Git.hpp 								   \
 		src/tests/StructureView.hpp
 
 } else {
@@ -71,8 +73,3 @@ isEmpty(NO_TESTS){
 	DEFINES += NO_TESTS
 
 }
-
-HEADERS += \
-    $$PWD/LatexParserTest.hpp \
-    $$PWD/TestToken.hpp
-
