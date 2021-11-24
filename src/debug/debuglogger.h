@@ -19,9 +19,9 @@
 
 #else // DEBUG_LOGGER
 
-#define debugLoggerStart(pathname)
-#define debugLoggerStop()
-#define debugLoggerIsLogging() false
+// #define debugLoggerStart(pathname)
+// #define debugLoggerStop()
+// #define debugLoggerIsLogging() false
 
 #define DLOG_DEBUG(message)
 #define DLOG_INFO(message)

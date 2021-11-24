@@ -12,6 +12,16 @@
         "array": "cpp",
         "string_view": "cpp",
         "initializer_list": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "utility": "cpp",
+        "chrono": "cpp",
+        "compare": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "variant": "cpp"
     }
 }

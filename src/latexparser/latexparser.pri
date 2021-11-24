@@ -13,7 +13,6 @@ HEADERS += \
     $$PWD/commanddescription.h
 
 SOURCES += \
-    $$PWD/argumentlist.cpp \
     $$PWD/latextokens.cpp \
     $$PWD/latexparser.cpp \
     $$PWD/latexparsing.cpp \
