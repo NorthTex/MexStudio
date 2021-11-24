@@ -120,7 +120,6 @@ SOURCES += \
     $$PWD/Help.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
-    $$PWD/arraydialog.cpp \
     $$PWD/bidiextender.cpp \
     $$PWD/bookmarks.cpp \
     $$PWD/buildmanager.cpp \

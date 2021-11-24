@@ -1,3 +1,4 @@
+ 
 /***************************************************************************
  *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
@@ -13,11 +14,13 @@
 #include "utilsUI.h"
 
 
-ArrayDialog::ArrayDialog(QWidget * parent,const char * name) : QDialog(parent) {
+ArrayDialog::ArrayDialog(QWidget * parent,const char * name)
+	: QDialog(parent) {
 
 	setWindowTitle(name);
 	setModal(true);
 	ui.setupUi(this);
+
 	UtilsUi::resizeInFontHeight(this,36,30);
 
 	ui.tableWidget -> setRowCount(2);
@@ -25,10 +28,12 @@ ArrayDialog::ArrayDialog(QWidget * parent,const char * name) : QDialog(parent) {
 
 	ui.spinBoxRows -> setValue(2);
 	ui.spinBoxRows -> setRange(1, 99);
+
 	connect(ui.spinBoxRows,SIGNAL(valueChanged(int)),this,SLOT(newRows(int)));
 
 	ui.spinBoxColumns -> setValue(2);
 	ui.spinBoxColumns -> setRange(1,99);
+
 	connect(ui.spinBoxColumns,SIGNAL(valueChanged(int)),this,SLOT(newColumns(int)));
 
 	ui.comboAlignment -> insertItem(0,tr("Center"),'c');
@@ -56,51 +61,43 @@ QString ArrayDialog::getLatexText(){
 	int ncols = ui.spinBoxColumns -> value();
 
 	QString env = ui.comboEnvironment -> currentText();
-	QString text = QString("\\begin{") + env + "}";
+	QString text = QString("\\begin{%1}").arg(env);
 
 	if(env == "array"){
 		QChar alignChar = ui.comboAlignment -> itemData(ui.comboAlignment -> currentIndex()).toChar();
-		text += "{" + QString(ncols,alignChar) + "}";
+		text += '{' + QString(ncols,alignChar) + '}';
 	}
 
-	text += QString("\n");
+	text += '\n';
+
+	auto addItem = [ this , & text ](const int x,const int y) -> void {
+
+		auto item = ui.tableWidget -> item(y,x);
+
+		if(item)
+			text += item -> text();
+	};
 
 	for(int i = 0;i < nrows - 1;i++){
 
 		for(int j = 0;j < ncols - 1;j++){
 
-			QTableWidgetItem * item = ui.tableWidget -> item(i,j);
-
-			if(item)
-				text += item -> text();
-
-			text += QString(" & ");
+			addItem(j,i);
+			text += " & ";
 		}
 
-		QTableWidgetItem * item = ui.tableWidget -> item(i,ncols - 1);
-
-		if(item)
-			text += item -> text();
-
-		text += QString(" \\\\\n");
+		addItem(ncols - 1,i);
+		text += " \\\\\n";
 	}
 
-	for (int j = 0; j < ncols - 1; j++) {
+	for (int j = 0; j < ncols - 1; j++){
 
-		QTableWidgetItem * item = ui.tableWidget -> item(nrows - 1,j);
-
-		if (item)
-			text += item -> text();
-
-		text += QString(" & ");
+		addItem(j,nrows - 1);
+		text += " & ";
 	}
 
-	QTableWidgetItem * item = ui.tableWidget -> item(nrows - 1,ncols - 1);
-
-	if (item)
-		text += item -> text();
-
-	text += QString("\n\\end{") + env + "}";
+	addItem(ncols - 1,nrows - 1);
+	text += QString("\n\\end{%1}").arg(env);
 
 	return text;
 }

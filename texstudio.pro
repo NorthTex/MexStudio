@@ -113,6 +113,7 @@ include(src/qtsingleapplication/qtsingleapplication.pri)
 # principal sources
 include(src/sources.pri)
 include(Include/Include.pri)
+include(Source/Source.pri)
 include(src/debug/debug.pri)
 
 RESOURCES += texstudio.qrc \
