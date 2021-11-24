@@ -112,6 +112,7 @@ include(src/qtsingleapplication/qtsingleapplication.pri)
 # precompile_header: PRECOMPILED_HEADER = mostQtHeaders.h
 # principal sources
 include(src/sources.pri)
+include(Include/Include.pri)
 include(src/debug/debug.pri)
 
 RESOURCES += texstudio.qrc \

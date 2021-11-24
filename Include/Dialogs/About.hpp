@@ -23,7 +23,7 @@ class AboutDialog : public QDialog {
 
 	public:
 
-        AboutDialog(QWidget * parent = nullptr); ///< set-up about dialog
+        AboutDialog(QWidget * parent = nullptr);
         ~AboutDialog();
 
         Ui::AboutDialog ui;

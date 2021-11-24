@@ -8,7 +8,6 @@ HEADERS += \
     $$PWD/BibTex/Reader.hpp \
     $$PWD/BibTex/Parser.hpp \
     $$PWD/TransformCharacters.hpp \
-    $$PWD/aboutdialog.h \
     $$PWD/arraydialog.h \
     $$PWD/bidiextender.h \
     $$PWD/bookmarks.h \

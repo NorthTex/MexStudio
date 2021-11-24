@@ -38,7 +38,7 @@
 #include "templateselector.h"
 #include "templatemanager.h"
 #include "usermenudialog.h"
-#include "aboutdialog.h"
+#include "Dialogs/About.hpp"
 #include "encodingdialog.h"
 #include "encoding.h"
 #include "randomtextgenerator.h"
