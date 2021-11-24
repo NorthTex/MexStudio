@@ -23,7 +23,7 @@ class ArrayDialog : public QDialog {
 
     public:
 
-        ArrayDialog(QWidget *parent = nullptr, const char *name = 0);
+        ArrayDialog(QWidget * parent = nullptr,const char * name = 0);
         ~ArrayDialog();
 
         Ui::ArrayDialog ui;

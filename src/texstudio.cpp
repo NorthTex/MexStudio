@@ -27,7 +27,7 @@
 #include "filedialog.h"
 #include "findindirs.h"
 #include "tabdialog.h"
-#include "arraydialog.h"
+#include "Dialogs/Array.hpp"
 #include "BibTex/Dialog.hpp"
 #include "tabbingdialog.h"
 #include "letterdialog.h"

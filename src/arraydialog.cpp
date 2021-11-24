@@ -9,7 +9,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "arraydialog.h"
+#include "Dialogs/Array.hpp"
 #include "utilsUI.h"
 
 
