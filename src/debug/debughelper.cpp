@@ -5,56 +5,98 @@
 #include <stdlib.h>
 
 //backtrace is only available on GNU libc
-#if !defined(__GLIBC__)&&!defined(Q_OS_WIN32)
-#define NO_CRASH_HANDLER
+
+/*
+ *  Disable Backtrace on non-GNU-libc
+ */
+
+#if(!defined( __GLIBC__ ) && !defined( Q_OS_WIN32 ))
+    #define NO_CRASH_HANDLER
 #endif
 
-// disable backtrace on ARM as the code does not compile
-// disable backtrace on RISC-V. RISC-V does not support stack unwinding using frame pointer.
-// Recommended approach for RISC-V is dwarf cfi info.
-#if (defined(arm) || defined(__arm__) || defined(__riscv))
-#define NO_CRASH_HANDLER
+
+/*
+ *  Disable Backtrace on ARM
+ *  <- Does not compile.
+ */
+
+#if(defined( arm ) || defined( __arm__ ))
+    #define NO_CRASH_HANDLER
 #endif
+
+/*
+ *  Disable Backtrace on RISC-V
+ *  <- Does not support stack unwinding
+ *     using frame pointers.
+ */
+
+#if(defined( __riscv ))
+    #define NO_CRASH_HANDLER
+#endif
+
 
 #ifndef NO_CRASH_HANDLER
-#if (defined(x86_64) || defined(__x86_64__))
-#define CPU_IS_X86_64
-#elif (defined(ppc) || defined(__ppc__) || defined(__powerpc__) || defined(__POWERPC__) || defined(PPC) || defined(__PPC) || defined(_ARCH_PPC))
-#define CPU_IS_PPC
-#elif (defined(ppc64) || defined(__ppc64__) || defined(__powerpc64__) || defined(__POWERPC64__) || defined(PPC64))
-#define CPU_IS_PPC
-#elif (defined(arm) || defined(__arm__))
-#define CPU_IS_ARM
-#elif (defined(__aarch64__))
-#define CPU_IS_ARM64
-#elif (defined(ia64) || defined(__ia64__))
-#define CPU_IS_IA64
-#elif (defined(mips) || defined(__mips__) || defined(mipsel) || defined(__mipsel__))
-#define CPU_IS_MIPS
-#elif (defined(sparc) || defined(__sparc__))
-#define CPU_IS_SPARC32
-#elif (defined(s390x) || defined(__s390x__))
-#define CPU_IS_S390_64
-#elif (defined(s390) || defined(__s390__) )
-#define CPU_IS_S390_31
-#else
-#define CPU_IS_X86_32
+    #if (defined(x86_64) || defined(__x86_64__))
+        #define CPU_IS_X86_64
+    #elif (defined(ppc) || defined(__ppc__) || defined(__powerpc__) || defined(__POWERPC__) || defined(PPC) || defined(__PPC) || defined(_ARCH_PPC))
+        #define CPU_IS_PPC
+    #elif (defined(ppc64) || defined(__ppc64__) || defined(__powerpc64__) || defined(__POWERPC64__) || defined(PPC64))
+        #define CPU_IS_PPC
+    #elif (defined(arm) || defined(__arm__))
+        #define CPU_IS_ARM
+    #elif (defined(__aarch64__))
+        #define CPU_IS_ARM64
+    #elif (defined(ia64) || defined(__ia64__))
+        #define CPU_IS_IA64
+    #elif (defined(mips) || defined(__mips__) || defined(mipsel) || defined(__mipsel__))
+        #define CPU_IS_MIPS
+    #elif (defined(sparc) || defined(__sparc__))
+        #define CPU_IS_SPARC32
+    #elif (defined(s390x) || defined(__s390x__))
+        #define CPU_IS_S390_64
+    #elif (defined(s390) || defined(__s390__) )
+        #define CPU_IS_S390_31
+    #else
+        #define CPU_IS_X86_32
 #endif
 
 
-#if (defined(__unix__) || defined(unix) || defined(__linux__) || defined(linux) || defined(__gnu_hurd__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__))
-#define OS_IS_LINUX_LIKE
+/*
+ *  Linux Systems
+ */
+
+#if(defined( __unix__ ) || defined( unix ))
+    #define OS_IS_LINUX_LIKE
 #endif
 
-#if (defined(OS_IS_LINUX_LIKE) || defined(Q_OS_MAC))
-#define OS_IS_UNIX_LIKE
+#if(defined( __linux__ ) || defined( linux ))
+    #define OS_IS_LINUX_LIKE
 #endif
+
+#if(defined( __FreeBSD__ ) || defined( __FreeBSD_kernel__ ))
+    #define OS_IS_LINUX_LIKE
+#endif
+
+#if(defined( __gnu_hurd__ ))
+    #define OS_IS_LINUX_LIKE
+#endif
+
+
+/*
+ *  Unix Systems
+ */
+
+#if(defined( OS_IS_LINUX_LIKE ) || defined( Q_OS_MAC ))
+    #define OS_IS_UNIX_LIKE
+#endif
+
 
 //===========================Abstract CPU model==========================
 
 //platfom independent implementation of assembler instructions
 //(use case: before changing eip, the old eip must be pushed in the correct way on the stack, otherwise the
 //           backtrace doesn't show the function that actually crashed)
+
 struct SimulatedCPU {
 	char *pc;  //e.g. eip, r15
 	char *frame;  //e.g. ebp, r11
@@ -120,17 +162,16 @@ struct SimulatedCPU {
 	}
 };
 
-#ifdef CPU_CONTEXT_TYPE
+
 #undef CPU_CONTEXT_TYPE
-#endif
-#ifdef RETURNTO_FROM_UCONTEXT
 #undef RETURNTO_FROM_UCONTEXT
-#endif
+
 
 
 //===========================CRASH HANDLER HEADER==============================
 
 #ifdef OS_IS_UNIX_LIKE
+
     #include "signal.h"
     #include "unistd.h"
     #include "sys/wait.h"
@@ -141,14 +182,12 @@ struct SimulatedCPU {
 #endif
 
 SAFE_INT crashHandlerType = 1;
-enum { ERR_NONE = 0, ERR_SIGNAL, ERR_ASSERT, ERR_LOOP, ERR_EXCEPTION};
 SAFE_INT lastErrorType = 0;
+
+enum { ERR_NONE = 0 , ERR_SIGNAL , ERR_ASSERT , ERR_LOOP , ERR_EXCEPTION };
+
 volatile void *sigSegvRecoverReturnAddress = 0; //address where it should jump to, if recovering causes another sigsegv
 
-/*#define CRASH_HANDLER_RECOVER 1
-#define CRASH_HANDLER_PRINT_BACKTRACE_IN_HANDLER 2
-#define CRASH_HANDLER_LOOP_GUARDIAN_DISABLED 4
-#define CRASH_HANDLER_USE_NATIVE_BACKTRACE 8*/
 
 const SAFE_INT
     CRASH_HANDLER_RECOVER = 1,
@@ -429,54 +468,55 @@ QString temporaryFileNameFormat()
 	return QDir::tempPath() + QString("/texstudio_backtrace%1.txt");
 }
 
-#elif defined(__GLIBC__)
-#include "execinfo.h"
-QString temporaryFileNameFormat()
-{
-	return "/tmp/texstudio_backtrace%1.txt";
-}
-QStringList backtrace_symbols_win(void **, int)
-{
-	return QStringList();
-}
+#elif defined( __GLIBC__ )
+
+	#include "execinfo.h"
+
+	QString temporaryFileNameFormat(){
+		return "/tmp/texstudio_backtrace%1.txt";
+	}
+
+	QStringList backtrace_symbols_win(void **,int){
+		return QStringList();
+	}
 
 #endif
 
-QString print_backtrace(const SimulatedCPU &state, const QString &message)
-{
-#ifdef Q_OS_WIN32
-	qDebug("%s", qPrintable(message));
-#define PRINT(...) do { qDebug(__VA_ARGS__); if (logFile) fprintf(logFile, __VA_ARGS__);  } while (0)
-#else
-	fprintf(stderr, "%s\n", qPrintable(message));
-	qDebug("%s", qPrintable(message));
-#define PRINT(...) do { fprintf(stderr, __VA_ARGS__); qDebug(__VA_ARGS__); if (logFile) fprintf(logFile, __VA_ARGS__); } while (0)
-#endif
-	static int count = 0;
-	count++;
-	QString backtraceFilename = temporaryFileNameFormat().arg(count);
-	FILE *logFile = fopen(qPrintable(backtraceFilename), "w");
-	PRINT("%s\n", qPrintable(message));
 
-	void *trace[48];
-	SimulatedCPU copystate = state;
-	int size;
+QString print_backtrace(const SimulatedCPU &state, const QString &message){
+	#ifdef Q_OS_WIN32
+		qDebug("%s", qPrintable(message));
+	#define PRINT(...) do { qDebug(__VA_ARGS__); if (logFile) fprintf(logFile, __VA_ARGS__);  } while (0)
+	#else
+		fprintf(stderr, "%s\n", qPrintable(message));
+		qDebug("%s", qPrintable(message));
+	#define PRINT(...) do { fprintf(stderr, __VA_ARGS__); qDebug(__VA_ARGS__); if (logFile) fprintf(logFile, __VA_ARGS__); } while (0)
+	#endif
+		static int count = 0;
+		count++;
+		QString backtraceFilename = temporaryFileNameFormat().arg(count);
+		FILE *logFile = fopen(qPrintable(backtraceFilename), "w");
+		PRINT("%s\n", qPrintable(message));
 
-#if defined(CPU_IS_MIPS) || defined(CPU_IS_IA64) || defined(CPU_IS_SPARC32) || defined(CPU_IS_S390_31) || defined(CPU_IS_390_64)
-	bool useNativeBacktrace = true //always use standard backtrace on exotic architectures
-#else
-	bool useNativeBacktrace = (crashHandlerType & CRASH_HANDLER_USE_NATIVE_BACKTRACE);
-#endif
-	                          if (useNativeBacktrace) size = backtrace(trace, 48);
-	else size = copystate.backtrace(trace, 48);
+		void *trace[48];
+		SimulatedCPU copystate = state;
+		int size;
 
-#ifdef Q_OS_WIN32
-	QStringList additionalMessages = backtrace_symbols_win(trace, size);
-	char **messages = 0;
-#else
-	QStringList additionalMessages;
-	char **messages = backtrace_symbols(trace, size);
-#endif
+	#if defined(CPU_IS_MIPS) || defined(CPU_IS_IA64) || defined(CPU_IS_SPARC32) || defined(CPU_IS_S390_31) || defined(CPU_IS_390_64)
+		bool useNativeBacktrace = true //always use standard backtrace on exotic architectures
+	#else
+		bool useNativeBacktrace = (crashHandlerType & CRASH_HANDLER_USE_NATIVE_BACKTRACE);
+	#endif
+								  if (useNativeBacktrace) size = backtrace(trace, 48);
+		else size = copystate.backtrace(trace, 48);
+
+	#ifdef Q_OS_WIN32
+		QStringList additionalMessages = backtrace_symbols_win(trace, size);
+		char **messages = 0;
+	#else
+		QStringList additionalMessages;
+		char **messages = backtrace_symbols(trace, size);
+	#endif
 	for (int i = 0; i < size; ++i) {
 		const char *message = messages ? messages[i] : "";
 		if (i >= additionalMessages.size()) PRINT("[bt] %s\n", message);
@@ -487,8 +527,7 @@ QString print_backtrace(const SimulatedCPU &state, const QString &message)
 	return backtraceFilename;
 }
 
-QString print_backtrace(const QString &message)
-{
+QString print_backtrace(const QString & message){
 	SimulatedCPU cpu;
 	cpu.set_from_real();
 	return print_backtrace(cpu, message);
