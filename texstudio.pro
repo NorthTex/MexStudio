@@ -48,41 +48,45 @@ defineTest(versionGreaterOrEqual) {
 ####################
 # Start of main code
 ####################
+
 TEMPLATE = app
 LANGUAGE = C++
 DESTDIR = ./
 DISTFILES = texstudio.astylerc
-win32 {
-	!versionGreaterOrEqual($$QT_VERSION, "5.10.0") {
-		error(Windows builds require Qt version 5.10.0 or newer)
-	}
-} else {
-	!versionGreaterOrEqual($$QT_VERSION, "5.0.0") {
-		error(Non-Windows builds require Qt version 5.0.0 or newer)
-	}
-}
+
+#win32 {
+#	!versionGreaterOrEqual($$QT_VERSION, "5.10.0") {
+#		error(Windows builds require Qt version 5.10.0 or newer)
+#	}
+#} else {
+#	!versionGreaterOrEqual($$QT_VERSION, "5.0.0") {
+#		error(Non-Windows builds require Qt version 5.0.0 or newer)
+#	}
+#}
+
 message(Building with Qt $$QT_VERSION)
+
 CONFIG += qt
 CONFIG -= precompile_header
 CONFIG += c++2a
 CONFIG += object_parallel_to_source
 # allow loading extra config by file for automatic compilations (OBS)
 exists(texstudio.pri):include(texstudio.pri)
-QT += network \
-    xml \
-    svg \
-    qml \
-    printsupport \
-    concurrent
 
 QT += \
+    printsupport \
+    concurrent \
+    network \
     widgets \
-    uitools
+    uitools \
+    xml \
+    svg \
+    qml
 
 
-versionGreaterOrEqual($$QT_VERSION, "6.0.0") {
+#versionGreaterOrEqual($$QT_VERSION, "6.0.0") {
     QT += core5compat
-}
+#}
 
 !isEmpty(MXE){
     DEFINES += MXE
@@ -94,17 +98,17 @@ versionGreaterOrEqual($$QT_VERSION, "6.0.0") {
     DEFINES += PHONON
 }
 
-!versionGreaterOrEqual($$QT_VERSION, "6.0.0") {
-    isEmpty(INTERNAL_TERMINAL):pkgAtLeastVersion("qtermwidget5", "0.9.0") {
-        INTERNAL_TERMINAL=1
-        message(Use detected qterminal)
-    }
-    !isEmpty(INTERNAL_TERMINAL){
-        LIBS += -lqtermwidget5
-        DEFINES += INTERNAL_TERMINAL
-        message(Use qterminal)
-    }
-}
+#!versionGreaterOrEqual($$QT_VERSION, "6.0.0") {
+#    isEmpty(INTERNAL_TERMINAL):pkgAtLeastVersion("qtermwidget5", "0.9.0") {
+#        INTERNAL_TERMINAL=1
+#        message(Use detected qterminal)
+#    }
+#    !isEmpty(INTERNAL_TERMINAL){
+#        LIBS += -lqtermwidget5
+#        DEFINES += INTERNAL_TERMINAL
+#        message(Use qterminal)
+#    }
+#}
 
 include(src/qtsingleapplication/qtsingleapplication.pri)
 
@@ -372,11 +376,11 @@ isEmpty(USE_SYSTEM_HUNSPELL){
     PKGCONFIG += hunspell
 }
 
+
 include(src/qcodeedit/qcodeedit.pri)
-
 include(src/latexparser/latexparser.pri)
-
 include(src/symbolpanel/symbolpanel.pri)
+
 
 isEmpty(USE_SYSTEM_QUAZIP) {
     include(src/quazip/quazip/quazip.pri)
@@ -388,9 +392,10 @@ isEmpty(USE_SYSTEM_QUAZIP) {
         LIBS += $${QUAZIP_LIB}
 }
 
-include(src/pdfviewer/pdfviewer.pri)
 
+include(src/pdfviewer/pdfviewer.pri)
 include(src/adwaita-qt/adwaita.pri)
+
 
 # ###############################
 
@@ -413,43 +418,49 @@ freebsd-* {
     DEFINES += NO_CRASH_HANDLER
     message("Internal crash handler disabled as you wish.")
 }
+
 include(src/tests/tests.pri)
+
 !isEmpty(DEBUG_LOGGER) {
     DEFINES += DEBUG_LOGGER
     message("Enabling debug logger.")
 }
 
-# add git revision
-exists(./.git)  {
-  win32:isEmpty(MXE): {
-    message(GIT)
-    system(\"$${PWD}/git_revision.bat\" $${QMAKE_CXX} \"$${OUT_PWD}\" \"$${PWD}\")
-    SOURCES += src/git_revision.cpp
-  } else {
-    message(GIT)
-    QMAKE_PRE_LINK += \"$${PWD}/git_revision.sh\" $${QMAKE_CXX} \"$${OUT_PWD}\" \"$${PWD}\"
-    LIBS += git_revision.o
-  }
-} else {
+## add git revision
+#exists(./.git)  {
+#  win32:isEmpty(MXE): {
+#    message(GIT)
+#    system(\"$${PWD}/git_revision.bat\" $${QMAKE_CXX} \"$${OUT_PWD}\" \"$${PWD}\")
+#    SOURCES += src/git_revision.cpp
+#  } else {
+#    message(GIT)
+#    QMAKE_PRE_LINK += \"$${PWD}/git_revision.sh\" $${QMAKE_CXX} \"$${OUT_PWD}\" \"$${PWD}\"
+#    LIBS += git_revision.o
+#  }
+#} else {
   !exists(src/git_revision.cpp){
     win32:isEmpty(MXE): system(echo const char * TEXSTUDIO_GIT_REVISION = 0; > src\git_revision.cpp)
     else: system(echo \"const char * TEXSTUDIO_GIT_REVISION = 0;\" > src/git_revision.cpp)
   }
   SOURCES += src/git_revision.cpp
-}
+#}
 
 
 
 !win32-msvc*: {
+
   QMAKE_CXXFLAGS_DEBUG -= -O -O1 -O2 -O3
   QMAKE_CXXFLAGS_DEBUG += -Wall -Wextra -Wmissing-include-dirs -Wunknown-pragmas -Wundef -Wpointer-arith -Winline -O0
-
   QMAKE_CXXFLAGS += -fno-omit-frame-pointer
+
   !isEmpty(MXE): QMAKE_CXXFLAGS += -fpermissive
+
   !win32:!haiku: QMAKE_LFLAGS += -rdynamic # option not supported by mingw and haiku
   else {
+
     QMAKE_CXXFLAGS += -gstabs -g
     QMAKE_LFLAGS -= -Wl,-s
+
     isEmpty(STRIP){
         QMAKE_LFLAGS_RELEASE -= -Wl,-s
     }
@@ -458,6 +469,7 @@ exists(./.git)  {
   DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
-*-g++:equals(QT_MAJOR_VERSION, 5):lessThan(QT_MINOR_VERSION, 13) {
-  QMAKE_CXXFLAGS += -Wno-deprecated-copy
-}
+
+#*-g++:equals(QT_MAJOR_VERSION, 5):lessThan(QT_MINOR_VERSION, 13) {
+#  QMAKE_CXXFLAGS += -Wno-deprecated-copy
+#}
