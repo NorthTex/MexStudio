@@ -23,6 +23,7 @@
 #include "smallUsefulFunctions.h"
 #include "debughelper.h"
 #include "debuglogger.h"
+#include "Debug/Logger.hpp"
 #include "utilsVersion.h"
 #include <qtsingleapplication.h>
 #include <QSplashScreen>
@@ -166,7 +167,7 @@ QStringList parseArguments(const QStringList & args,bool & outStartAlways){
 				ConfigManager::configDirOverride = args[i];
 		#ifdef DEBUG_LOGGER
 			else if ((cmdArgument == "--debug-logfile") && (++i < args.count()))
-				debugLoggerStart(args[i]);
+				DebugLogger::Start(args[i]);
 		#endif
 			else
 				cmdLine << cmdArgument;
@@ -267,8 +268,8 @@ int main(int args,char ** argument){
 		int execResult = a.exec();
 
 		#ifdef DEBUG_LOGGER
-		if (debugLoggerIsLogging()) {
-			debugLoggerStop();
+		if (DebugLogger::isLogging()) {
+			DebugLogger::Stop();
 		}
 		#endif
 

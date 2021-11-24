@@ -7,4 +7,5 @@ HEADERS += \
 
 
 HEADERS += \
-    $$PWD/Debug/Guardian.hpp
+    $$PWD/Debug/Guardian.hpp \
+    $$PWD/Debug/Logger.hpp

@@ -22,6 +22,7 @@
 
 #include "debughelper.h"
 #include "debuglogger.h"
+#include "Debug/Logger.hpp"
 
 #include "dblclickmenubar.h"
 #include "filechooser.h"

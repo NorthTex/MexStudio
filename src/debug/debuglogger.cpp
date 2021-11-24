@@ -1,4 +1,5 @@
 #include "debuglogger.h"
+#include "Debug/Logger.hpp"
 #include <inttypes.h>
 
 #ifdef DEBUG_LOGGER
