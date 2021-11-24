@@ -1,4 +1,5 @@
 #include "debughelper.h"
+#include "Debug/Guardian.hpp"
 #include "mostQtHeaders.h"
 #include "smallUsefulFunctions.h"
 #include <stdio.h>

@@ -8,3 +8,4 @@ HEADERS += \
 SOURCES += \
     $$PWD/debughelper.cpp \
     $$PWD/debuglogger.cpp
+

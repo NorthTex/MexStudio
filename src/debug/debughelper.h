@@ -5,39 +5,44 @@
 #include "smallUsefulFunctions.h"
 
 
-QString print_backtrace(const QString &message);
+QString print_backtrace(const QString & message);
+QString getLastCrashInformation(bool & wasLoop);
 
+void catchUnhandledException();
+void initCrashHandler(int mode);
 void recover(); //defined in texstudio.cpp
 
-void initCrashHandler(int mode);
-QString getLastCrashInformation(bool &wasLoop);
-void catchUnhandledException();
 
+// class Guardian : public SafeThread {
 
-class Guardian: public SafeThread
-{
-	Q_OBJECT
+// 	Q_OBJECT
 
-public:
-	Guardian(): SafeThread(), slowOperations(0) {}
-	static void summon();
-	static void calm();
-	static void shutdown();
+// 	private:
 
-	static void continueEndlessLoop();
+// 		int slowOperations;
 
-	static Guardian *instance();
-	
-protected:
-	void run();
+// 	protected:
 
-public slots:
-	void slowOperationStarted();
-	void slowOperationEnded();
+// 		void run();
 
-private:
-	int slowOperations;
-};
+// 	public:
 
+// 		Guardian()
+// 			: SafeThread()
+// 			, slowOperations(0) {}
 
-#endif // DEBUGHELPER_H
+// 		static void continueEndlessLoop();
+// 		static void shutdown();
+// 		static void summon();
+// 		static void calm();
+
+// 		static Guardian * instance();
+
+// 	public slots:
+
+// 		void slowOperationStarted();
+// 		void slowOperationEnded();
+
+// };
+
+#endif

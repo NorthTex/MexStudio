@@ -12,6 +12,7 @@
 //#include <stdlib.h>
 //#include "/usr/include/valgrind/callgrind.h"
 
+#include "Debug/Guardian.hpp"
 #include "texstudio.h"
 #include "latexeditorview.h"
 
