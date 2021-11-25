@@ -11969,9 +11969,11 @@ void Texstudio::toggleSingleDocMode()
   - there are multiple labels on one line (always the first label is chosen)
   - the label is more than one line after the entry (label not detected)
 */
-StructureEntry* Texstudio::labelForStructureEntry(const StructureEntry *entry)
-{
-    REQUIRE_RET(entry && entry->document, nullptr );
+
+StructureEntry * Texstudio::labelForStructureEntry(const StructureEntry * entry){
+
+    REQUIRE_RET(entry && entry -> document,nullptr);
+    
     QDocumentLineHandle *dlh = entry->getLineHandle();
     if (!dlh) return nullptr;
     QDocumentLineHandle *nextDlh = entry->document->line(entry->getRealLineNumber() + 1).handle();
@@ -11988,33 +11990,38 @@ StructureEntry* Texstudio::labelForStructureEntry(const StructureEntry *entry)
     }
     return nullptr;
 }
+
+
+
+std::optional<QTreeWidgetItem *> Texstudio::subItems() const {
+    return (topTOCTreeWidget -> isVisible())
+        ? topTOCTreeWidget -> currentItem()
+        : structureTreeWidget -> currentItem();
+}
+
+void Texstudio::setSubItemsExpanded(bool expanded) const {
+    auto item = this -> subItems();
+
+    if(item)
+        UtilsUi::setSubtreeExpanded(item.value(),expanded);
+}
+
+
 /*!
  * \brief expand item and subitems in structureWidget
  */
-void Texstudio::expandSubitems()
-{
-    QTreeWidgetItem *item = nullptr;
-    if(topTOCTreeWidget->isVisible()){
-        item = topTOCTreeWidget->currentItem();
-    }else{
-        item = structureTreeWidget->currentItem();
-    }
-    if(!item) return;
-    UtilsUi::setSubtreeExpanded(item, true);
+
+void Texstudio::expandSubitems(){
+    this -> setSubItemsExpanded(true);
 }
+
+
 /*!
  * \brief collapse item and subitems in structureWidget
  */
-void Texstudio::collapseSubitems()
-{
-    QTreeWidgetItem *item = nullptr;
-    if(topTOCTreeWidget->isVisible()){
-        item = topTOCTreeWidget->currentItem();
-    }else{
-        item = structureTreeWidget->currentItem();
-    }
-    if(!item) return;
-    UtilsUi::setSubtreeExpanded(item, false);
+
+void Texstudio::collapseSubitems(){
+    this -> setSubItemsExpanded(false);
 }
 
 /*! @} */

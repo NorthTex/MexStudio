@@ -8,3 +8,7 @@ SOURCES += \
     $$PWD/LatexParser/Arguments.cpp \
     $$PWD/LatexParser/Reader.cpp \
     $$PWD/LatexParser/Token.cpp
+
+
+SOURCES += \
+    $$PWD/TexStudio.cpp

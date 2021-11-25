@@ -47,6 +47,8 @@
 #include "diffoperations.h"
 #include "svn.h"
 #include "git.h"
+#include <optional>
+
 //#include "help.h"
 
 #include <QProgressDialog>
@@ -72,6 +74,11 @@ Q_DECLARE_METATYPE(QSet<QString>)
 class Texstudio : public QMainWindow {
 
 	Q_OBJECT
+
+	public:
+
+		std::optional<QTreeWidgetItem *> subItems() const;
+		void setSubItemsExpanded(bool) const;
 
 	public:
 
