@@ -121,7 +121,6 @@ SOURCES += \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
     $$PWD/bidiextender.cpp \
-    $$PWD/bookmarks.cpp \
     $$PWD/buildmanager.cpp \
     $$PWD/cleandialog.cpp \
     $$PWD/codesnippet.cpp \

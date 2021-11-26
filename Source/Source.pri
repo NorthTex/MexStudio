@@ -11,4 +11,6 @@ SOURCES += \
 
 
 SOURCES += \
+    $$PWD/Bookmark.cpp \
+    $$PWD/Bookmarks.cpp \
     $$PWD/TexStudio.cpp
