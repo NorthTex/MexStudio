@@ -1,42 +1,17 @@
 
-[Codacy Badge]: https://app.codacy.com/project/badge/Grade/892de515e8c54a7a99bd836743c4510c
-[Codacy TeXstudio]: https://www.codacy.com/gh/texstudio-org/texstudio/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=texstudio-org/texstudio&amp;utm_campaign=Badge_Grade
-
-[CI]: https://github.com/texstudio-org/texstudio/workflows/CI/badge.svg
-
-[website]: http://www.texstudio.org
-
-[Download]: https://www.texstudio.org/#download
-[Releases]: https://github.com/texstudio-org/texstudio/releases/
-[News]: https://www.texstudio.org/#news
-[Contribute]: https://github.com/texstudio-org/texstudio/wiki/Contribute
-[user manual]: https://htmlpreview.github.io/?https://github.com/texstudio-org/texstudio/master/utilities/manual/usermanual_en.html
-[dev builds]: https://github.com/texstudio-org/texstudio/actions/workflows/cd.yml
+[Fork of TexStudio]: https://github.com/texstudio-org/texstudio
 
 
-# TeXstudio
-[![Codacy Badge]][Codacy TeXstudio] ![CI]
+# MexStudio
 
-**TeXstudio** is a fully featured **LaTeX** editor.
+A [Fork of TeXStudio] from the *18th October 2021*,<br>
+aiming to make the project maintainable.
 
-Our goal is to make ***writing LaTeX documents as easy and comfortable*** as possible.
+For info on how to use MexStudio, please check the<br>
+parent repo, as **MexStudio** won't yet differ in<br>
+any functionality.
 
----
-#### 〔 [Download] / [Releases] / [dev builds]〕 〔 [News] 〕 〔 [Contribute] 〕( [user manual] )
----
+# Goal
 
-
-### Features
-- Advanced **Syntax Highlighting**
-- Live **Reference Checking**
-- An integrated **PDF viewer**
-- Live **Inline Preview**
-- **Latex Commands completion and syntax checking**
-- Live **Grammar checking** 
-- Local and global **structure view**
-- **Citations checking and completion**
-- **Spellchecking**
-
-<br>
-
-#### Find out more at our [website].
+Slowly updating the existing codebase to a modern
+C++ standard while not adding more new features.
