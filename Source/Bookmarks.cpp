@@ -33,11 +33,19 @@ void Bookmarks::initializeWidget(){
 }
 
 
+void Bookmarks::addWidgetAction(const char * label,std::function<void()> f){
+	auto action = new QAction(tr(label),bookmarksWidget);
+	connect(action,SIGNAL(triggered()),SLOT(f));
+	bookmarksWidget -> addAction(action);
+}
+
 void Bookmarks::createContextMenu(){
 
 	bookmarksWidget -> setContextMenuPolicy(Qt::ActionsContextMenu);
 
-	QAction * action = new QAction(tr("Move Up"),bookmarksWidget);
+	QAction * action;
+
+	action = new QAction(tr("Move Up"),bookmarksWidget);
 	connect(action,SIGNAL(triggered()),SLOT(moveBookmarkUp()));
 	bookmarksWidget -> addAction(action);
 
@@ -59,17 +67,17 @@ void Bookmarks::setBookmarks(const QList<Bookmark> & bookmarks){
 
 	bookmarksWidget -> clear();
 
-	foreach (const Bookmark & bookmark,bookmarks){
+	for(const auto & bookmark : bookmarks){
 
-		QListWidgetItem * item = new QListWidgetItem(bookmark.text,bookmarksWidget);
-		item -> setData(FileName,bookmark.filename);
-		item -> setData(LineNr,bookmark.lineNumber);
-		item -> setData(BookmarkNr,bookmark.bookmarkNumber);
+		auto item = new QListWidgetItem(bookmark.label,bookmarksWidget);
+		item -> setData(FileName,bookmark.path);
+		item -> setData(LineNr,bookmark.line);
+		item -> setData(BookmarkNr,bookmark.id);
 
-		LatexDocument * document = documents -> findDocumentFromName(bookmark.filename);
+		auto document = documents -> findDocumentFromName(bookmark.path);
 
-		if(document && bookmark.lineNumber < document -> lineCount() && bookmark.lineNumber >= 0){
-			QDocumentLineHandle * handle = document -> line( bookmark.lineNumber).handle();
+		if(document && bookmark.line < (document -> lineCount()) && bookmark.line >= 0){
+			auto handle = document -> line(bookmark.line).handle();
 			item -> setData(DocLineHandle,QVariant::fromValue(handle));
 		} else {
 			item -> setData(DocLineHandle,0);
@@ -85,14 +93,15 @@ QList<Bookmark> Bookmarks::getBookmarks(){
 	for(int i = 0;i < bookmarksWidget -> count();i++){
 
 		Bookmark bookmark;
-		QListWidgetItem * item = bookmarksWidget -> item(i);
-		QString path = item -> data(FileName).toString();
+
+		auto item = bookmarksWidget -> item(i);
+		auto path = item -> data(FileName).toString();
 
 		int line = item -> data(LineNr).toInt();
 		int bookmarkNumber = item -> data(BookmarkNr).toInt();
 
-		QDocumentLineHandle * handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
-		LatexDocument * document = documents -> findDocumentFromName(path);
+		auto handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
+		auto document = documents -> findDocumentFromName(path);
 
 		if(document){
 
@@ -102,10 +111,10 @@ QList<Bookmark> Bookmarks::getBookmarks(){
 				line = temp;
 		}
 
-		bookmark.filename = path;
-		bookmark.lineNumber = line;
-		bookmark.bookmarkNumber = bookmarkNumber;
-		bookmark.text = item -> text();
+		bookmark.label = item -> text();
+		bookmark.path = path;
+		bookmark.line = line;
+		bookmark.id = bookmarkNumber;
 
 		bookmarks << bookmark;
 	}
@@ -117,17 +126,18 @@ QList<Bookmark> Bookmarks::getBookmarks(){
 void Bookmarks::bookmarkDeleted(QDocumentLineHandle * handle){
 
 	QString text = handle -> document() -> getFileInfo().fileName();
-	QList<QListWidgetItem *> items = bookmarksWidget -> findItems(text,Qt::MatchStartsWith);
+	auto items = bookmarksWidget -> findItems(text,Qt::MatchStartsWith);
 
-	foreach (QListWidgetItem * item,items){
+	for(auto item : items){
 
-		QDocumentLineHandle * lineHandle = qvariant_cast<QDocumentLineHandle *>(item->data(DocLineHandle));
+		auto linehandle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
 
-		if(lineHandle != handle)
+		if(linehandle != handle)
 			continue;
 
 		int row = bookmarksWidget -> row(item);
 		bookmarksWidget -> takeItem(row);
+
 		return;
 	}
 }
@@ -135,12 +145,12 @@ void Bookmarks::bookmarkDeleted(QDocumentLineHandle * handle){
 
 void Bookmarks::bookmarkAdded(QDocumentLineHandle * handle,int bookmark){
 
-	QDocument * document = handle -> document();
+	auto document = handle -> document();
 
 	QString text = document -> getFileInfo().fileName();
 	text += "\n" + handle -> text().trimmed();
 
-	QListWidgetItem * item = new QListWidgetItem(text,bookmarksWidget);
+	auto item = new QListWidgetItem(text,bookmarksWidget);
 	item -> setData(FileName, document -> getFileName());
 	item -> setData(LineNr, document -> indexOf(handle));
 	item -> setData(DocLineHandle,QVariant::fromValue(handle));
@@ -155,28 +165,28 @@ void Bookmarks::bookmarkAdded(QDocumentLineHandle * handle,int bookmark){
 
 void Bookmarks::updateLineWithBookmark(int line){
 
-	LatexDocument * document = qobject_cast<LatexDocument *>(sender());
+	auto document = qobject_cast<LatexDocument *>(sender());
 
 	if(!document)
 		return;
 
 	QString text = document -> getFileInfo().fileName();
-	QDocumentLineHandle * handle = document -> line(line).handle();
+	auto handle = document -> line(line).handle();
 
     if(!handle)
         return;
 
-    QList<QListWidgetItem *> items = bookmarksWidget -> findItems(text, Qt::MatchStartsWith);
+    auto items = bookmarksWidget -> findItems(text,Qt::MatchStartsWith);
 
-    foreach (QListWidgetItem * item,items){
+	for(auto item : items){
 
-        QDocumentLineHandle * lineHandle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
+		auto linehandle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
 
-		if(lineHandle != handle)
+		if(linehandle != handle)
 			continue;
-
+		
 		QString text = document -> getFileInfo().fileName();
-		text += "\n" + handle -> text().trimmed();
+		text += '\n' + handle -> text().trimmed();
 		item -> setText(text);
 		line = (line > 1) ? line - 2 : 0;
 		item -> setToolTip(document -> exportAsHtml(document -> cursor(line,0,line + 4),true,true,60));
@@ -190,33 +200,35 @@ void Bookmarks::restoreBookmarks(LatexEditorView * view){
 
 	Q_ASSERT(view);
 
-	LatexDocument * document = view -> document;
+	auto document = view -> document;
 
 	if(!document)
 		return;
 
 	// go trough bookmarks
-	for (int i = 0; i < bookmarksWidget -> count(); i++){
 
-		QListWidgetItem *item = bookmarksWidget -> item(i);
-		QString fn = item->data(FileName).toString();
+	for(int i = 0;i < bookmarksWidget -> count();i++){
+
+		auto item = bookmarksWidget -> item(i);
+		auto fn = item -> data(FileName).toString();
 
 		if(document -> getFileName() != fn)
 			continue;
 
-		int lineNr = item -> data(LineNr).toInt();
-		int bookmarkNumber = item->data(BookmarkNr).toInt();
+		int line = item -> data(LineNr).toInt();
+		int id = item -> data(BookmarkNr).toInt();
 
-		view -> addBookmark(lineNr,bookmarkNumber);
+		view -> addBookmark(line,id);
 
-		QDocumentLineHandle * handle = document -> line(lineNr).handle();
+		auto handle = document -> line(line).handle();
 
 		if(!handle)
 			continue;
 
 		item -> setData(DocLineHandle,QVariant::fromValue(handle));
 		item -> text() = handle -> text();
-		item -> setToolTip(document -> exportAsHtml(document -> cursor(lineNr,0,lineNr + 4),true,true,60));
+		item -> setToolTip(document -> exportAsHtml(document -> cursor(line,0,line + 4),true,true,60));
+
 	}
 }
 
@@ -226,32 +238,32 @@ void Bookmarks::updateBookmarks(LatexEditorView * view){
 	if(!view)
 		return;
 
-	LatexDocument * document = view -> document;
+	auto document = view -> document;
 	QString text = document -> getFileInfo().fileName();
-	QList<QListWidgetItem *> items = bookmarksWidget -> findItems(text, Qt::MatchStartsWith);
+	auto items = bookmarksWidget -> findItems(text, Qt::MatchStartsWith);
 
-	foreach (QListWidgetItem * item,items){
+	for(auto item : items){
 
-		QDocumentLineHandle * handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
+		auto handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
 
-        if(!handle)
-            continue;
+		if(!handle)
+			continue;
 
-        if(text.isEmpty()){
-            if(handle -> document() == document){
-                int row = bookmarksWidget -> row(item);
+		if(text.isEmpty()){
+			if(handle -> document() == document){
+				int row = bookmarksWidget -> row(item);
 
-                if(row < 0)
-                    continue;
+				if(row < 0)
+					continue;
 
-                bookmarksWidget -> takeItem(row);
-            }
-        } else {
-            int lineNr = document -> indexOf(handle);
-            item -> setData(LineNr,lineNr);
+				bookmarksWidget -> takeItem(row);
+			}
+		} else {
+			int line = document -> indexOf(handle);
+            item -> setData(LineNr,line);
             item -> setData(DocLineHandle,0);
-        }
-    }
+		}
+	}
 }
 
 
@@ -288,11 +300,11 @@ void Bookmarks::clickedOnBookmark(QListWidgetItem * item){
 		return; // avoid jumping to line if contextmenu is called
 
 	QString fn = item -> data(FileName).toString();
-	int lineNr = item -> data(LineNr).toInt();
+	int line = item -> data(LineNr).toInt();
 
-	QDocumentLineHandle * handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
+	auto handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
 
-	LatexDocument * document = documents -> findDocumentFromName(fn);
+	auto document = documents -> findDocumentFromName(fn);
 
 	if(!document){
 		emit loadFileRequest(fn);
@@ -305,19 +317,19 @@ void Bookmarks::clickedOnBookmark(QListWidgetItem * item){
 	int ln = document -> indexOf(handle);
 
 	if(ln < 0){
-		handle = document -> line(lineNr).handle();
+		handle = document -> line(line).handle();
 		item -> setData(DocLineHandle,QVariant::fromValue(handle));
 	} else { // linenr in case it has been shifted
-        lineNr=ln;
+        line = ln;
     }
 
-    emit gotoLineRequest(lineNr,0,document -> getEditorView());
+    emit gotoLineRequest(line,0,document -> getEditorView());
 }
 
 
 void Bookmarks::moveBookmarkUp(){
 
-	QListWidgetItem * item = bookmarksWidget -> currentItem();
+	auto item = bookmarksWidget -> currentItem();
 
 	if(!item)
 		return;
@@ -374,7 +386,7 @@ void Bookmarks::removeBookmark(){
 	if(!document)
 		return;
 
-	LatexEditorView * view = document -> getEditorView();
+	auto view = document -> getEditorView();
 
 	if(handle){
 		view -> removeBookmark(handle,bookmarkNumber);
@@ -388,25 +400,25 @@ void Bookmarks::removeAllBookmarks(){
 
 	while(bookmarksWidget -> count() > 0){
 
-		QListWidgetItem * item = bookmarksWidget -> takeItem(0);
+		auto item = bookmarksWidget -> takeItem(0);
 		QString path = item -> data(FileName).toString();
 
 		int line = item -> data(LineNr).toInt();
-		int bookmarkNumber = item -> data(BookmarkNr).toInt();
+		int id = item -> data(BookmarkNr).toInt();
 
-		QDocumentLineHandle * handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
+		auto handle = qvariant_cast<QDocumentLineHandle *>(item -> data(DocLineHandle));
 
-		LatexDocument * document = documents -> findDocumentFromName(path);
+		auto document = documents -> findDocumentFromName(path);
 
 		if(!document)
 			continue;
 
-		LatexEditorView * view = document -> getEditorView();
+		auto view = document -> getEditorView();
 
 		if(handle){
-			view -> removeBookmark(handle,bookmarkNumber);
+			view -> removeBookmark(handle,id);
 		} else {
-			view -> removeBookmark(line,bookmarkNumber);
+			view -> removeBookmark(line,id);
 		}
 	}
 }

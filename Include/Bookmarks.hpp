@@ -5,11 +5,35 @@
 #include "latexeditorview.h"
 #include "latexdocument.h"
 #include "Bookmark.hpp"
+#include <functional>
 
 
 class Bookmarks : public QObject {
 
 	Q_OBJECT
+
+    private:
+
+        enum DataRole {
+            FileName = Qt::UserRole,
+            LineNr,
+            DocLineHandle,
+            BookmarkNr
+        };
+
+    private:
+
+        const LatexDocuments * documents;
+        QListWidget * bookmarksWidget;
+
+        bool m_darkMode;
+        
+    private:
+
+        void initializeWidget();
+        void createContextMenu();
+
+        void addWidgetAction(const char * label,std::function<void()>);
 
 	public:
 
@@ -18,7 +42,9 @@ class Bookmarks : public QObject {
         void setBookmarks(const QList<Bookmark> & bookmarkList);
         QList<Bookmark> getBookmarks();
 
-        QListWidget * widget() { return bookmarksWidget; }
+        QListWidget * widget(){
+            return bookmarksWidget;
+        }
 
 
     signals:
@@ -48,24 +74,7 @@ class Bookmarks : public QObject {
         void removeBookmark();
         void removeAllBookmarks();
 
-
-    private:
-
-        enum DataRole {
-            FileName = Qt::UserRole,
-            LineNr,
-            DocLineHandle,
-            BookmarkNr
-        };
-
-        void initializeWidget();
-        void createContextMenu();
-
-        const LatexDocuments * documents;
-        QListWidget * bookmarksWidget;
-
-        bool m_darkMode;
-
 };
+
 
 #endif

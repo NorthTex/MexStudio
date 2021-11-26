@@ -6,16 +6,23 @@
 
 struct Bookmark {
 
-	Bookmark();
-	
-	static Bookmark fromStringList(QStringList slist);
-	QStringList toStringList() const;
-	
-	QString filename;
-	QString text;
+	public:
 
-	int bookmarkNumber;
-	int lineNumber;
+		QString label , path;
+		int id , line;
+
+	public:
+
+		Bookmark();
+
+	public:
+
+		QStringList toStringList() const;
+
+	public:
+
+		static Bookmark fromStringList(QStringList slist);
+
 };
 
 

@@ -45,7 +45,7 @@ bool Session::load(const QString &file)
 	
 	foreach (const QVariant &v, s.value("Bookmarks").value<QList<QVariant> >()) {
 		Bookmark bm = Bookmark::fromStringList(v.toStringList());
-		bm.filename = QDir::cleanPath(dir.filePath(bm.filename));
+		bm.path = QDir::cleanPath(dir.filePath(bm.path));
 		m_bookmarks << bm;
 	}
 	s.endGroup();
@@ -82,7 +82,7 @@ bool Session::save(const QString &file, bool relPaths) const
 	QList<QVariant> bookmarkList;
 	foreach (Bookmark bm, m_bookmarks) {
 		if (relPaths) {
-			bm.filename = fmtPath(dir, bm.filename, relPaths);
+			bm.path = fmtPath(dir, bm.path, relPaths);
 		}
 		bookmarkList << bm.toStringList();
 	}
