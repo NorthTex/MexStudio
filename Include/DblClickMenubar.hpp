@@ -1,5 +1,5 @@
-#ifndef Header_DblClick_MenuBar
-#define Header_DblClick_MenuBar
+#ifndef Header_DblClickMenuBar
+#define Header_DblClickMenuBar
 
 
 #include <QMenuBar>
@@ -9,6 +9,10 @@ class DblClickMenuBar : public QMenuBar {
 
 	Q_OBJECT
 
+	protected:
+
+		virtual void mouseDoubleClickEvent(QMouseEvent *);
+
 	public:
 
 		explicit DblClickMenuBar(QWidget * parent = nullptr);
@@ -16,10 +20,6 @@ class DblClickMenuBar : public QMenuBar {
 	signals:
 
 		void doubleClicked(); // emitted when double clicking empty part of menu bar
-
-	protected:
-
-		virtual void mouseDoubleClickEvent(QMouseEvent *);
 
 };
 

@@ -18,7 +18,6 @@ HEADERS += \
     $$PWD/configmanagerinterface.h \
     $$PWD/cursorhistory.h \
     $$PWD/cursorposition.h \
-    $$PWD/dblclickmenubar.h \
     $$PWD/diff/diff_match_patch.h \
     $$PWD/diffoperations.h \
     $$PWD/directoryreader.h \
@@ -128,7 +127,6 @@ SOURCES += \
     $$PWD/configmanager.cpp \
     $$PWD/cursorhistory.cpp \
     $$PWD/cursorposition.cpp \
-    $$PWD/dblclickmenubar.cpp \
     $$PWD/diff/diff_match_patch.cpp \
     $$PWD/diffoperations.cpp \
     $$PWD/directoryreader.cpp \

@@ -12,4 +12,5 @@ HEADERS += \
 
 HEADERS += \
     $$PWD/Bookmark.hpp \
+    $$PWD/DblClickMenubar.hpp \
     $$PWD/Bookmarks.hpp

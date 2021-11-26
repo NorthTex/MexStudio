@@ -24,7 +24,7 @@
 #include "debuglogger.h"
 #include "Debug/Logger.hpp"
 
-#include "dblclickmenubar.h"
+#include "DblClickMenubar.hpp"
 #include "filechooser.h"
 #include "filedialog.h"
 #include "findindirs.h"
