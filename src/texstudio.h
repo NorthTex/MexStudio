@@ -18,7 +18,7 @@
 
 #include "bibtexparser.h"
 #include "buildmanager.h"
-#include "bookmarks.h"
+#include "Bookmarks.hpp"
 #include "codesnippet.h"
 #include "configmanager.h"
 #include "cursorhistory.h"

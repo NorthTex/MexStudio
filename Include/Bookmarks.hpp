@@ -4,21 +4,7 @@
 #include "mostQtHeaders.h"
 #include "latexeditorview.h"
 #include "latexdocument.h"
-
-
-struct Bookmark {
-
-	Bookmark();
-	
-	static Bookmark fromStringList(QStringList slist);
-	QStringList toStringList() const;
-	
-	QString filename;
-	QString text;
-
-	int bookmarkNumber;
-	int lineNumber;
-};
+#include "Bookmark.hpp"
 
 
 class Bookmarks : public QObject {

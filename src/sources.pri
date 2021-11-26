@@ -9,7 +9,7 @@ HEADERS += \
     $$PWD/BibTex/Parser.hpp \
     $$PWD/TransformCharacters.hpp \
     $$PWD/bidiextender.h \
-    $$PWD/bookmarks.h \
+#    $$PWD/bookmarks.h \
     $$PWD/buildmanager.h \
     $$PWD/cleandialog.h \
     $$PWD/codesnippet.h \

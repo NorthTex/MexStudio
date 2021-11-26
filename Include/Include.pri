@@ -9,3 +9,7 @@ HEADERS += \
 HEADERS += \
     $$PWD/Debug/Guardian.hpp \
     $$PWD/Debug/Logger.hpp
+
+HEADERS += \
+    $$PWD/Bookmark.hpp \
+    $$PWD/Bookmarks.hpp

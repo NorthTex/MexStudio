@@ -1,4 +1,4 @@
-#include "bookmarks.h"
+#include "Bookmarks.hpp"
 #include "latexdocument.h"
 #include "latexeditorview.h"
 
