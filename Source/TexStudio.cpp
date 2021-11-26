@@ -11800,122 +11800,191 @@ void Texstudio::updateStructureLocally(){
  * \param se root structureentry
  * \param rootVector
  */
-void Texstudio::parseStructLocally(StructureEntry* se, QVector<QTreeWidgetItem *> &rootVector, QList<QTreeWidgetItem *> *todoList, QList<QTreeWidgetItem *> *labelList, QList<QTreeWidgetItem *> *magicList, QList<QTreeWidgetItem *> *biblioList) {
-    static const QColor beyondEndColor(255, 170, 0);
-    static const QColor inAppendixColor(200, 230, 200);
 
-    foreach(StructureEntry* elem,se->children){
-        if(todoList && (elem->type == StructureEntry::SE_OVERVIEW)){
-            parseStructLocally(elem,rootVector,todoList,labelList,magicList,biblioList);
-        }
-        if(todoList && (elem->type == StructureEntry::SE_TODO)){
-            QTreeWidgetItem * item=new QTreeWidgetItem();
-            item->setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(elem));
-            item->setText(0,elem->title);
-            todoList->append(item);
-        }
-        if(labelList && (elem->type == StructureEntry::SE_LABEL)){
-            QTreeWidgetItem * item=new QTreeWidgetItem();
-            item->setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(elem));
-            item->setText(0,elem->title);
-            labelList->append(item);
-        }
-        if(magicList && (elem->type == StructureEntry::SE_MAGICCOMMENT)){
-            QTreeWidgetItem * item=new QTreeWidgetItem();
-            item->setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(elem));
-            item->setText(0,elem->title);
-            magicList->append(item);
-        }
-        if(biblioList && (elem->type == StructureEntry::SE_BIBTEX)){
-            QTreeWidgetItem * item=new QTreeWidgetItem();
-            item->setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(elem));
-            item->setText(0,elem->title);
-            biblioList->append(item);
-        }
-        if(elem->type == StructureEntry::SE_SECTION){
-            QTreeWidgetItem * item=new QTreeWidgetItem();
-            item->setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(elem));
-            item->setText(0,elem->title);
-            item->setIcon(0,iconSection.value(elem->level));
-            rootVector[elem->level]->addChild(item);
-            item->setExpanded(elem->expanded);
-            if (documents.markStructureElementsInAppendix && elem->hasContext(StructureEntry::InAppendix)) item->setBackground(0,inAppendixColor);
-            if (documents.markStructureElementsBeyondEnd && elem->hasContext(StructureEntry::BeyondEnd)) item->setBackground(0,beyondEndColor);
-            // fill rootVector with item for subsequent lower level elements (which are children of item then)
-            for(int i=elem->level+1;i<latexParser.MAX_STRUCTURE_LEVEL;i++){
-                rootVector[i]=item;
+void Texstudio::parseStructLocally(
+    StructureEntry * se,
+    QVector<QTreeWidgetItem *> & rootVector,
+    QList<QTreeWidgetItem *> * todoList,
+    QList<QTreeWidgetItem *> * labelList,
+    QList<QTreeWidgetItem *> * magicList,
+    QList<QTreeWidgetItem *> * biblioList
+){
+    
+    static const QColor beyondEndColor(255,170,0);
+    static const QColor inAppendixColor(200,230,200);
+
+	for(auto entry : se -> children)
+		switch(entry -> type){
+		case StructureEntry::SE_OVERVIEW:
+
+			if(todoList)
+				parseStructLocally(entry,rootVector,todoList,labelList,magicList,biblioList);
+
+			continue;
+		case StructureEntry::SE_TODO:
+
+			if(todoList){
+				auto item = new QTreeWidgetItem();
+				item -> setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(entry));
+				item -> setText(0,entry -> title);
+				todoList -> append(item);
+			}
+
+			continue;
+		case StructureEntry::SE_LABEL:
+
+			if(labelList){
+				auto item = new QTreeWidgetItem();
+				item -> setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(entry));
+				item -> setText(0,entry -> title);
+				labelList -> append(item);
+			}
+
+			continue;
+		case StructureEntry::SE_MAGICCOMMENT:
+
+			if(magicList){
+				auto item = new QTreeWidgetItem();
+				item -> setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(entry));
+				item -> setText(0,entry -> title);
+				magicList -> append(item);
+			}
+
+			continue;
+		case StructureEntry::SE_BIBTEX:
+
+			if(biblioList){
+				auto item = new QTreeWidgetItem();
+				item -> setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(entry));
+				item -> setText(0,entry -> title);
+				biblioList -> append(item);
+			}
+
+			continue;
+		case StructureEntry::SE_SECTION: {
+
+			auto item = new QTreeWidgetItem();
+            item -> setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(entry));
+            item -> setText(0,entry -> title);
+            item -> setIcon(0,iconSection.value(entry -> level));
+            rootVector[entry -> level] -> addChild(item);
+            item -> setExpanded(entry -> expanded);
+            
+			if(documents.markStructureElementsInAppendix && entry -> hasContext(StructureEntry::InAppendix))
+				item -> setBackground(0,inAppendixColor);
+            
+			if(documents.markStructureElementsBeyondEnd && entry -> hasContext(StructureEntry::BeyondEnd))
+				item -> setBackground(0,beyondEndColor);
+            
+			// fill rootVector with item for subsequent lower level elements (which are children of item then)
+            for(int i = entry -> level + 1;i < latexParser.MAX_STRUCTURE_LEVEL;i++)
+                rootVector[i] = item;
+
+            parseStructLocally(entry,rootVector,todoList,labelList,magicList);
+
             }
-            parseStructLocally(elem,rootVector,todoList,labelList,magicList);
-        }
-        if(elem->type == StructureEntry::SE_INCLUDE){
-            LatexDocument *doc=elem->document;
-            LatexDocument *rootDoc=doc->getRootDocument();
-            //QString fn=ensureTrailingDirSeparator(rootDoc->getFileInfo().absolutePath())+elem->title;
-            QFileInfo fi(rootDoc->getFileInfo().absolutePath(),elem->title);
-            doc=documents.findDocumentFromName(fi.absoluteFilePath());
-            if(!doc){
-                doc=documents.findDocumentFromName(fi.absoluteFilePath()+".tex");
+
+			continue;
+		case StructureEntry::SE_INCLUDE: {
+
+			auto doc = entry -> document;
+            const auto root = doc -> getRootDocument();
+
+            QFileInfo fi(root -> getFileInfo().absolutePath(),entry -> title);
+            doc = documents.findDocumentFromName(fi.absoluteFilePath());
+
+            if(!doc)
+                doc = documents.findDocumentFromName(fi.absoluteFilePath() + ".tex");
+
+            auto item = new QTreeWidgetItem();
+            item -> setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(entry));
+            item -> setText(0,entry -> title);
+
+            if(!doc)
+                item -> setForeground(0,Qt::red);
+
+            item -> setIcon(0,QIcon(":/images/include.png"));
+            
+			if(configManager.indentIncludesInStructure)
+                rootVector[latexParser.MAX_STRUCTURE_LEVEL - 1] -> addChild(item);
+            else {
+                rootVector[0] -> addChild(item);
+                
+				for(int i = 1;i < latexParser.MAX_STRUCTURE_LEVEL;i++)
+                    rootVector[i] = rootVector[0];
             }
-            QTreeWidgetItem * item=new QTreeWidgetItem();
-            item->setData(0,Qt::UserRole,QVariant::fromValue<StructureEntry *>(elem));
-            item->setText(0,elem->title);
-            if(!doc){
-                item->setForeground(0,Qt::red);
+
             }
-            item->setIcon(0,QIcon(":/images/include.png"));
-            if(configManager.indentIncludesInStructure){
-                rootVector[latexParser.MAX_STRUCTURE_LEVEL-1]->addChild(item);
-            }else{
-                rootVector[0]->addChild(item);
-                for(int i=1;i<latexParser.MAX_STRUCTURE_LEVEL;i++){
-                    rootVector[i]=rootVector[0];
-                }
-            }
-        }
-    }
+
+			continue;
+		}
 }
 
-void Texstudio::openAllRelatedDocuments()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (!action) return;
-    LatexDocument *document = qvariant_cast<LatexDocument *>(action->data());
-    if (!document) return;
-    QSet<QString> checkedFiles, filesToCheck;
-    filesToCheck.insert(document->getFileName());
 
-    while (!filesToCheck.isEmpty()) {
+void Texstudio::openAllRelatedDocuments(){
+
+    auto document = senderDocument().value();
+
+    if(!document)
+        return;
+
+    QSet<QString> checkedFiles , filesToCheck;
+
+    filesToCheck.insert(document -> getFileName());
+
+    while(!filesToCheck.isEmpty()){
+        
         QString f = *filesToCheck.begin();
+        
         filesToCheck.erase(filesToCheck.begin());
-        if (checkedFiles.contains(f)) continue;
+        
+        if(checkedFiles.contains(f)) 
+            continue;
+        
         checkedFiles.insert(f);
+        
         document = documents.findDocument(f);
-        if (!document) {
+        
+        if(!document){
             LatexEditorView *lev = load(f);
             document = lev ? lev->document : nullptr;
         }
-        if (!document) continue;
-        foreach (const QString &fn, document->includedFilesAndParent()) {
-            QString t = document->findFileName(fn);
-            if (!t.isEmpty()) filesToCheck.insert(t);
+
+        if(!document)
+            continue;
+        
+        for(const auto filename : document -> includedFilesAndParent()){
+            
+            auto file = document -> findFileName(filename);
+            
+            if(file.isEmpty())
+                continue;
+            
+            filesToCheck.insert(file);
         }
     }
 }
 
-void Texstudio::closeAllRelatedDocuments()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (!action) return;
-    LatexDocument *document = qvariant_cast<LatexDocument *>(action->data());
-    if (!document) return;
-    QList<LatexDocument *> l = document->getListOfDocs();
 
-    if (!saveFilesForClosing(l)) return;
-    foreach (LatexDocument *d, l) {
-        if (documents.documents.contains(d))
-            documents.deleteDocument(d); //this might hide the document
-        if (documents.hiddenDocuments.contains(d))
-            documents.deleteDocument(d, d->isHidden(), d->isHidden());
+void Texstudio::closeAllRelatedDocuments(){
+
+    const auto document = senderDocument().value();
+    
+    if(!document)
+        return;
+    
+    auto docs = document -> getListOfDocs();
+
+    if(!saveFilesForClosing(docs))
+        return;
+
+    for(auto document : docs){
+        
+        if(documents.documents.contains(document))
+            documents.deleteDocument(document);
+        
+        if(documents.hiddenDocuments.contains(document))
+            documents.deleteDocument(document,document -> isHidden(),document -> isHidden());
     }
 }
 
@@ -11924,15 +11993,22 @@ void Texstudio::closeAllRelatedDocuments()
  *
  * Called from structure view
  */
-void Texstudio::copyFileName()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (!action) return;
-    LatexDocument *document = qvariant_cast<LatexDocument *>(action->data());
-    if (!document) return;
-    QClipboard* clipboard = QGuiApplication::clipboard();
-    if (!clipboard) return;
-    clipboard->setText(document->getFileInfo().fileName());
+
+void Texstudio::copyFileName(){
+
+    const auto document = senderDocument().value();
+
+    if(!document)
+        return;
+    
+    auto clipboard = QGuiApplication::clipboard();
+    
+    if(!clipboard) 
+        return;
+    
+    const auto filename = document -> getFileInfo().fileName();
+
+    clipboard -> setText(filename);
 }
 
 /*!
@@ -11940,25 +12016,34 @@ void Texstudio::copyFileName()
  *
  * Called from structure view
  */
-void Texstudio::copyFilePath()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (!action) return;
-    LatexDocument *document = qvariant_cast<LatexDocument *>(action->data());
-    if (!document) return;
-    QClipboard* clipboard = QGuiApplication::clipboard();
-    if (!clipboard) return;
-    clipboard->setText(document->getFileInfo().absoluteFilePath());
+
+void Texstudio::copyFilePath(){
+
+    const auto document = senderDocument().value();
+    
+    if(!document)
+        return;
+    
+    auto clipboard = QGuiApplication::clipboard();
+    
+    if(!clipboard)
+        return;
+    
+    const auto path = document -> getFileInfo().absoluteFilePath();
+
+    clipboard -> setText(path);
 }
+
 
 /*!
  * \brief toggle single/multiple documents view in structureWidget
  */
 
-void Texstudio::toggleSingleDocMode()
-{
+void Texstudio::toggleSingleDocMode(){
+
     bool mode = configManager.structureShowSingleDoc;
-    configManager.structureShowSingleDoc= !mode;
+    configManager.structureShowSingleDoc = ! mode;
+    
     updateStructureLocally();
 }
 
@@ -11974,20 +12059,28 @@ StructureEntry * Texstudio::labelForStructureEntry(const StructureEntry * entry)
 
     REQUIRE_RET(entry && entry -> document,nullptr);
     
-    QDocumentLineHandle *dlh = entry->getLineHandle();
-    if (!dlh) return nullptr;
-    QDocumentLineHandle *nextDlh = entry->document->line(entry->getRealLineNumber() + 1).handle();
-    StructureEntryIterator iter(entry->document->baseStructure);
+    auto handler = entry -> getLineHandle();
 
-    while (iter.hasNext()) {
-        StructureEntry *se = iter.next();
-        if (se->type == StructureEntry::SE_LABEL) {
-            QDocumentLineHandle *labelDlh = se->getLineHandle();
-            if (labelDlh == dlh || labelDlh == nextDlh) {
-                return se;
-            }
+    if(!handler)
+        return nullptr;
+    
+    auto nextHandle = entry -> document -> line(entry -> getRealLineNumber() + 1).handle();
+
+    StructureEntryIterator iter(entry -> document -> baseStructure);
+
+    while(iter.hasNext()){
+        
+        auto entry = iter.next();
+        
+        if(entry -> type == StructureEntry::SE_LABEL){
+
+            auto label = entry -> getLineHandle();
+            
+            if(label == handler || label == nextHandle)
+                return entry;
         }
     }
+
     return nullptr;
 }
 

@@ -80,6 +80,17 @@ class Texstudio : public QMainWindow {
 		std::optional<QTreeWidgetItem *> subItems() const;
 		void setSubItemsExpanded(bool) const;
 
+		std::optional<QAction *> senderAction() const {
+			return qobject_cast<QAction *>(sender());
+		}
+
+		std::optional<LatexDocument *> senderDocument() const {
+			auto action = senderAction();
+			return action
+				? qvariant_cast<LatexDocument *>(action.value() -> data())
+				: nullptr;
+		}
+
 	public:
 
 		Texstudio(QWidget * parent = nullptr,Qt::WindowFlags flags = Qt::WindowFlags(),QSplashScreen * splash = nullptr);
