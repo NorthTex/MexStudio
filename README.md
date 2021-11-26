@@ -19,3 +19,14 @@ C++ standard while not adding more new features.
 # Notes
 
 **MexStudio** as in `Maintainable TeXStudio`
+
+**MexStudio** is not using **Githubs** forking
+system as this project is not aimed to ever merge
+with it's parent project for new features again,
+but rather, for now, focus soley on updating
+the existing code and at some point establish
+it's own unique features if seen useful.
+
+**MexStudio** is not in any rush, the codebase
+is big, a `Great Monolith` as one may say, there
+is lot's to be done, this will take a while~
