@@ -130,7 +130,6 @@ SOURCES += \
     $$PWD/diff/diff_match_patch.cpp \
     $$PWD/diffoperations.cpp \
     $$PWD/directoryreader.cpp \
-    $$PWD/editors.cpp \
     $$PWD/encoding.cpp \
     $$PWD/encodingdialog.cpp \
     $$PWD/execprogram.cpp \

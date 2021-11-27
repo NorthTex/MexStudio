@@ -3380,9 +3380,9 @@ Session Texstudio::getCurrentSession()
 	return s;
 }
 
-void Texstudio::MarkCurrentFileAsRecent()
-{
-	configManager.addRecentFile(getCurrentFileName(), documents.masterDocument == currentEditorView()->document);
+void Texstudio::MarkCurrentFileAsRecent(){
+	bool isMaster = documents.masterDocument == (currentEditorView() -> document);
+	configManager.addRecentFile(getCurrentFileName(),isMaster);
 }
 
 //////////////////////////// EDIT ///////////////////////
@@ -11953,7 +11953,7 @@ void Texstudio::openAllRelatedDocuments(){
         if(!document)
             continue;
         
-        for(const auto filename : document -> includedFilesAndParent()){
+        for(const auto & filename : document -> includedFilesAndParent()){
             
             auto file = document -> findFileName(filename);
             
