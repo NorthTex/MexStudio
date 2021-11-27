@@ -174,7 +174,6 @@ SOURCES += \
     $$PWD/session.cpp \
     $$PWD/sessionlist.cpp \
     $$PWD/smallUsefulFunctions.cpp \
-    $$PWD/spellerdialog.cpp \
     $$PWD/spellerutility.cpp \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
