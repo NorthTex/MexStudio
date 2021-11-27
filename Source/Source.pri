@@ -15,6 +15,7 @@ SOURCES += \
     $$PWD/Bookmark.cpp \
     $$PWD/Bookmarks.cpp \
     $$PWD/DblClickMenubar.cpp \
+    $$PWD/DirectoryReader.cpp \
     $$PWD/Editors.cpp \
     $$PWD/Git.cpp \
     $$PWD/TexStudio.cpp
