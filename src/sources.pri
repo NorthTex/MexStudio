@@ -132,7 +132,6 @@ SOURCES += \
     $$PWD/encoding.cpp \
     $$PWD/encodingdialog.cpp \
     $$PWD/execprogram.cpp \
-    $$PWD/filechooser.cpp \
     $$PWD/fileselector.cpp \
     $$PWD/findindirs.cpp \
     $$PWD/flowlayout.cpp \
