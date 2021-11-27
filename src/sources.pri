@@ -137,7 +137,6 @@ SOURCES += \
     $$PWD/fileselector.cpp \
     $$PWD/findindirs.cpp \
     $$PWD/flowlayout.cpp \
-    $$PWD/git.cpp \
     $$PWD/grammarcheck.cpp \
 #    $$PWD/help.cpp \
     $$PWD/LatexReference.cpp \

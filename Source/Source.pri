@@ -15,4 +15,5 @@ SOURCES += \
     $$PWD/Bookmarks.cpp \
     $$PWD/DblClickMenubar.cpp \
     $$PWD/Editors.cpp \
+    $$PWD/Git.cpp \
     $$PWD/TexStudio.cpp
