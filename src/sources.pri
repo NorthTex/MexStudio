@@ -144,7 +144,6 @@ SOURCES += \
     $$PWD/latexcompleter.cpp \
     $$PWD/latexdocument.cpp \
     $$PWD/latexeditorview.cpp \
-    $$PWD/latexlog.cpp \
     $$PWD/latexlogwidget.cpp \
     $$PWD/latexoutputfilter.cpp \
     $$PWD/latexpackage.cpp \

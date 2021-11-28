@@ -20,3 +20,6 @@ SOURCES += \
     $$PWD/Editors.cpp \
     $$PWD/Git.cpp \
     $$PWD/TexStudio.cpp
+
+SOURCES += \
+    $$PWD/Latex/Log.cpp
