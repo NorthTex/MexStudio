@@ -155,7 +155,6 @@ SOURCES += \
     $$PWD/logeditor.cpp \
     $$PWD/loghighlighter.cpp \
     $$PWD/main.cpp \
-    $$PWD/maketemplatedialog.cpp \
     $$PWD/manhattanstyle.cpp \
     $$PWD/mathassistant.cpp \
     $$PWD/minisplitter.cpp \
