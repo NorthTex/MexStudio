@@ -177,7 +177,6 @@ SOURCES += \
     $$PWD/svn.cpp \
     $$PWD/syntaxcheck.cpp \
     $$PWD/tabbingdialog.cpp \
-    $$PWD/tabdialog.cpp \
     $$PWD/tablemanipulation.cpp \
     $$PWD/templatemanager.cpp \
     $$PWD/templatemanager_p.cpp \

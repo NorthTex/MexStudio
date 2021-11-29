@@ -14,3 +14,6 @@ HEADERS += \
     $$PWD/Bookmark.hpp \
     $$PWD/DblClickMenubar.hpp \
     $$PWD/Bookmarks.hpp
+
+HEADERS += \
+    $$PWD/Wrapper/Connect.hpp

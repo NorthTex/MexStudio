@@ -3,6 +3,7 @@ DEPENDPATH += $$PWD
 
 SOURCES += \
     $$PWD/Dialogs/Speller.cpp \
+    $$PWD/Dialogs/Tab.cpp \
     $$PWD/Dialogs/Array.cpp
 
 SOURCES += \
