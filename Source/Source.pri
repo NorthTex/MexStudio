@@ -25,3 +25,16 @@ SOURCES += \
 
 SOURCES += \
     $$PWD/Latex/Log.cpp
+
+
+SOURCES += \
+    $$PWD/TableManipulation/AddColumn.cpp \
+    $$PWD/TableManipulation/Defaults.cpp \
+    $$PWD/TableManipulation/NumberOfColumns.cpp \
+    $$PWD/TableManipulation/Column.cpp \
+    $$PWD/TableManipulation/Token.cpp \
+    $$PWD/TableManipulation/Manipulation.cpp \
+    $$PWD/TableManipulation/Line.cpp \
+    $$PWD/TableManipulation/Table.cpp \
+    $$PWD/TableManipulation/Row.cpp \
+    $$PWD/TableManipulation/RemoveColumn.cpp

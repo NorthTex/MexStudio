@@ -3,13 +3,23 @@
 
 #include "mostQtHeaders.h"
 #include "qdocument.h"
+#include <optional>
+#include <tuple>
 
 class QEditor;
 class LatexEditorView;
 
+
+
 class LatexTables {
 
 	public:
+
+		struct Span {
+			int columns = 0;
+			QString alignment = "", text = "";
+		};
+
 		static void addRow(QDocumentCursor &c, const int numberOfColumns );
 		static void addColumn(QDocument *doc, const int lineNumber, const int afterColumn, QStringList *cutBuffer = nullptr);
 		static void removeColumn(QDocument *doc, const int lineNumber, const int column, QStringList *cutBuffer = nullptr);
@@ -25,7 +35,7 @@ class LatexTables {
 		static int incNumOfColsInMultiColumn(const QString &str, int add);
 		static int getNumberOfColumns(QDocumentCursor &cur);
 		static int getNumberOfColumns(QStringList values);
-		static int getNumOfColsInMultiColumn(const QString &str, QString *outAlignment = nullptr, QString *outText = nullptr);
+		static Span getNumOfColsInMultiColumn(const QString & str);
 
 		static bool inTableEnv(QDocumentCursor &cur);
 
