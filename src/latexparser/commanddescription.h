@@ -38,6 +38,9 @@ Q_DECLARE_METATYPE(CommandStack);
  */
 class CommandDescriptionHash : public QHash<QString, CommandDescription>
 {
+	private:
+	bool isRelevant(const CommandDescriptionHash & other,const QString key) const;
+
 public:
     void unite(const CommandDescriptionHash &other); // special unite which avoids overwritiung good defined CDs with poorly defined one (...#S)
 };

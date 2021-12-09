@@ -14,7 +14,6 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/latexparser.cpp \
-    $$PWD/latexparsing.cpp \
-    $$PWD/commanddescription.cpp
+    $$PWD/latexparsing.cpp
 
 
