@@ -15,6 +15,9 @@ SOURCES += \
     $$PWD/LatexParser/CommandDescriptions.cpp \
     $$PWD/LatexParser/Token.cpp
 
+SOURCES += \
+    $$PWD/SymbolPanel/Proxy.cpp
+
 
 SOURCES += \
     $$PWD/Bookmark.cpp \
