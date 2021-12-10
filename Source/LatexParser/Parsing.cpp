@@ -1,8 +1,10 @@
+
 #include "latexparsing.h"
 #include "qdocumentline_p.h"
 #include "qdocument.h"
 #include "latexparser/latexparser.h"
 #include "configmanager.h"
+
 
 /*!
  * This is the new Token-based parser.
@@ -24,15 +26,20 @@ namespace Parsing {
  * \param dlh linehandle
  * \return tokenlist
  */
-TokenList simpleLexLatexLine(QDocumentLineHandle *dlh)
-{
+
+TokenList simpleLexLatexLine(QDocumentLineHandle * dlh){
+
 	// dumbed down lexer in order to allow full parallelization and full change of verbatim/non-verbatim later on
 	TokenList lexed;
-	if (!dlh)
+
+	if(!dlh)
 		return lexed;
-	dlh->lockForWrite();
-	QString s = dlh->text();
-	Token present, previous;
+	
+    dlh -> lockForWrite();
+	
+    QString s = dlh -> text();
+
+	Token present , previous;
 
 	present.type = Token::none;
 	present.dlh = dlh;
@@ -42,160 +49,202 @@ TokenList simpleLexLatexLine(QDocumentLineHandle *dlh)
 
     int i = 0;
 
-    for (; i < s.length(); i++) {
+    for(;i < s.length();i++){
 
         QChar c = s.at(i);
 
-		if (present.type == Token::command && c == '@') {
+		if(present.type == Token::command && c == '@')
 			continue; // add @ as letter to command
-		}
 
-		if (present.type == Token::command
-				&& present.start == i - 1
-				&& (c.isSymbol() || c.isPunct())) {
+		if(
+            present.type == Token::command &&
+			present.start == i - 1 &&
+			(c.isSymbol() || c.isPunct())
+        ){
 			// handle \$ etc
 			present.length = i - present.start + 1;
 			lexed.append(present);
 			present.type = Token::none;
-			continue;
+		
+        	continue;
 		}
 
-		if (c == '%') {
-			if (present.type != Token::none) {
+		if(c == '%'){
+
+			if(present.type != Token::none){
 				present.length = i - present.start;
 				lexed.append(present);
 			}
+
 			present.type = Token::comment;
 			present.length = 1;
             present.start = i;
-			lexed.append(present);
+			
+            lexed.append(present);
 			present.type = Token::none;
-			continue;
+			
+            continue;
 		}
 
 
-		if (specialChars.contains(c) || c.isSpace() || c.isPunct() || c.isSymbol()) {
+		if(
+            specialChars.contains(c) || 
+            c.isSpace() || 
+            c.isPunct() || 
+            c.isSymbol()
+        ){
 			//close token
-			if (present.type != Token::none) {
+			if(present.type != Token::none){
 				present.length = i - present.start;
 				lexed.append(present);
 				present.type = Token::none;
 			}
 		} else {
-			if (present.type == Token::none) {
-				if (c.isLetter()) {
-					present.type = Token::word;
-				} else {
-					present.type = Token::number;
-				}
+
+			if(present.type == Token::none){
+
 				present.start = i;
+                present.type = (c.isLetter())
+                    ? Token::word
+                    : Token::number;
+
 			} else { // separate numbers and text (latex considers \test1 as two tokens ...)
-				if (c.isDigit() && present.type != Token::number) {
-					present.length = i - present.start;
+		
+        		if(c.isDigit() && present.type != Token::number){
+					
+                    present.length = i - present.start;
 					lexed.append(present);
 					present.start = i;
 					present.type = Token::number;
+
 					continue;
 				}
-				if (c.isLetter() && present.type == Token::number) {
-					present.length = i - present.start;
+		
+        		if(c.isLetter() && present.type == Token::number){
+					
+                    present.length = i - present.start;
 					lexed.append(present);
 					present.start = i;
 					present.type = Token::word;
-					continue;
+					
+                    continue;
 				}
 			}
+
 			continue;
 		}
 
 		//start new Token
 		present.start = i;
-		if (c == '\\') {
+		
+        if(c == '\\'){
 			present.type = Token::command;
 			continue;
 		}
 
 		int l = specialChars.indexOf(c);
-        if (l > -1 && l < 4) {
-			present.type = Token::TokenType(int(Token::openBrace) + l);
+        
+        if(l > -1 && l < 4){
+		
+        	present.type = Token::TokenType(int(Token::openBrace) + l);
 			present.length = 1;
 			lexed.append(present);
 			present.type = Token::none;
-			continue;
+		
+        	continue;
 		}
-        if (l > 3) {
+
+        if(l > 3){
+
             present.type = Token::TokenType(int(Token::closeBrace) + (l - 4));
 			present.length = 1;
 			lexed.append(present);
 			present.type = Token::none;
-			continue;
+			
+            continue;
 		}
-		if (c.isSymbol()) {
+
+		if(c.isSymbol()){
+
 			present.type = Token::symbol;
 			present.length = 1;
 			lexed.append(present);
 			present.type = Token::none;
-			continue;
+			
+            continue;
 		}
-		if (c.isPunct()) {
+
+		if(c.isPunct()){
+
 			present.type = Token::punctuation;
 			present.length = 1;
 			lexed.append(present);
 			present.type = Token::none;
-			continue;
+			
+            continue;
 		}
-
 	}
 
-	if (present.type != Token::none) {
+	if(present.type != Token::none){
 		present.length = i - present.start;
 		lexed.append(present);
 		previous = present;
 	}
 
-	dlh->setCookie(QDocumentLine::LEXER_RAW_COOKIE, QVariant::fromValue<TokenList>(lexed));
-    dlh->removeCookie(QDocumentLine::LEXER_COOKIE);
-	dlh->unlock();
-	return lexed;
+	dlh -> setCookie(QDocumentLine::LEXER_RAW_COOKIE, QVariant::fromValue<TokenList>(lexed));
+    dlh -> removeCookie(QDocumentLine::LEXER_COOKIE);
+	dlh -> unlock();
+	
+    return lexed;
 }
 
 
-bool latexDetermineContexts2(QDocumentLineHandle *dlh, TokenStack &stack, CommandStack &commandStack, const LatexParser &lp)
-{
-	if (!dlh)
+bool latexDetermineContexts2(QDocumentLineHandle * dlh,TokenStack & stack,CommandStack & commandStack,const LatexParser & lp){
+	
+    if(!dlh)
 	    return false;
-	dlh->lockForWrite();
-	TokenList tl = dlh->getCookie(QDocumentLine::LEXER_RAW_COOKIE).value<TokenList>();
-	TokenStack oldRemainder = dlh->getCookie(QDocumentLine::LEXER_REMAINDER_COOKIE).value<TokenStack >();
-	CommandStack oldCommandStack = dlh->getCookie(QDocumentLine::LEXER_COMMANDSTACK_COOKIE).value<CommandStack >();
-	QString line = dlh->text();
-	bool verbatimMode = false;
+	
+    dlh -> lockForWrite();
+
+	TokenList tl = dlh -> getCookie(QDocumentLine::LEXER_RAW_COOKIE).value<TokenList>();
+	TokenStack oldRemainder = dlh -> getCookie(QDocumentLine::LEXER_REMAINDER_COOKIE).value<TokenStack >();
+	CommandStack oldCommandStack = dlh -> getCookie(QDocumentLine::LEXER_COMMANDSTACK_COOKIE).value<CommandStack >();
+	
+    QString line = dlh -> text();
+	
+    bool verbatimMode = false;
 	int level = 0;
-    if (!stack.isEmpty()) {
-        if (stack.top().type == Token::verbatim) {
+    
+    if(!stack.isEmpty())
+        if(stack.top().type == Token::verbatim){
             verbatimMode = true;
         } else {
             level = stack.top().level + 1;
         }
-    }
+
 	TokenList lexed;
 
 	QString verbatimSymbol;
-	int lastComma = -1;
+	
+    int lastComma = -1;
 	int lastEqual = -1e6;
     int commentStart=-1;
-	QString keyName;
+	
+    QString keyName;
 
-	int lineLength=line.length();
+	int lineLength = line.length();
 
-	for (int i = 0; i < tl.length(); i++) {
-	    Token &tk = tl[i];
+	for(int i = 0;i < tl.length();i++){
+	   
+        Token & tk = tl[i];
+
 	    /* parse tokenlist
 	     * check commands (1. syn check)
 	     * tie options/arguments to commands
 	     * lex otpions (key/val, comma separation,words,single arg,label etc)
 	     * => reclassification of arguments
 	     */
+        
         if (!verbatimSymbol.isNull()) {
             // handle \verb+ ... +  etc.
             if (tk.type == Token::symbol || tk.type == Token::punctuation) {
@@ -238,6 +287,7 @@ bool latexDetermineContexts2(QDocumentLineHandle *dlh, TokenStack &stack, Comman
             lexed << tk;
             continue;
         }
+
 	    // different handling for verbatimMode (verbatim-env, all content is practically ignored)
         if (verbatimMode) {
             // verbatim handling
@@ -261,6 +311,7 @@ bool latexDetermineContexts2(QDocumentLineHandle *dlh, TokenStack &stack, Comman
             } else
                 continue;
         }
+
         // non-verbatim handling
         // handle comments after definition/url as % may appear there ...
         if (tk.type == Token::comment){
@@ -270,6 +321,7 @@ bool latexDetermineContexts2(QDocumentLineHandle *dlh, TokenStack &stack, Comman
                 break; // stop at comment start
             }
         }
+
         // special definition handling, is not interpreted !!
         if(!stack.isEmpty() && (stack.top().subtype==Token::definition||stack.top().subtype==Token::url) ){
             EnumsTokenType::TokenType tokenType=stack.top().subtype;
@@ -808,77 +860,99 @@ bool latexDetermineContexts2(QDocumentLineHandle *dlh, TokenStack &stack, Comman
  * args  Tokenlist with all token after command at the same level (top level args, no content)
  *
  */
-int findCommandWithArgsFromTL(const TokenList &tl, Token &cmd, TokenList &args, int offset, bool parseComment)
-{
+
+int findCommandWithArgsFromTL(const TokenList & tl,Token & cmd,TokenList & args,int offset,bool parseComment){
+
 	int result = -1;
-	for (int i = 0; i < tl.length(); i++) {
+
+	for(int i = 0;i < tl.length();i++){
+
 		cmd = tl.at(i);
-		if (!parseComment && cmd.type == Token::comment)
+		
+        if(!parseComment && cmd.type == Token::comment)
 			return -1;
-		if (i < offset)
+		
+        if(i < offset)
 			continue;
-        if (cmd.type == Token::commandUnknown){
+        
+        if(cmd.type == Token::commandUnknown)
             return i;
-        }
+
 		if (cmd.type != Token::command)
 			continue;
+
 		// Token is command
 		result = i;
+
 		// now, collect arguments
 		i++;
-        int level = cmd.level+1;
-        QDocumentLineHandle *t_dlh=cmd.dlh;
-        int t_end=cmd.start+cmd.length;
-		for (; i < tl.length(); i++) {
-			Token tk = tl.at(i);
-			if (tk.type == Token::comment)
+        
+        int level = cmd.level + 1;
+        
+        auto t_dlh = cmd.dlh;
+        
+        int t_end = cmd.start + cmd.length;
+
+		for(;i < tl.length();i++){
+
+			auto token = tl.at(i);
+			
+            if(token.type == Token::comment)
 				break;
-			if (tk.level < level)
+			
+            if(token.level < level)
 				break;
-			if (tk.level == level) {
-                if( (tk.start>=t_end) || (tk.dlh!=t_dlh) ){
-                    args.append(tk);
-                    t_dlh=tk.dlh;
-                    t_end=tk.start+tk.length;
+			
+            if(token.level == level)
+                if((token.start >= t_end) || (token.dlh != t_dlh)){
+                    args.append(token);
+                    t_dlh = token.dlh;
+                    t_end = token.start + token.length;
                 }
-			}
 		}
+
 		break;
 	}
+
 	return result;
 }
 
 
-QString getArg(const TokenList &tl, Token::TokenType type)
-{
-    foreach (Token tk, tl) {
-        if (tk.subtype==type) {
-            QString result;
-            QString line=tk.getText();
-            if (Token::tkBraces().contains(tk.type)) {
-                result = line.mid(1, line.length() - 2);
-            }
-            if (Token::tkOpen().contains(tk.type)) {
-                result = line.mid( 1) + findRestArg(tk.dlh, Token::opposite(tk.type), -1,ConfigManager::RUNAWAYLIMIT);
-            }
-            if (Token::tkClose().contains(tk.type)) {
-                result = line.left(line.length()-1);
-            }
-            if (result.isEmpty()) {
-                result = line;
-            }
-            return result;
-        }
+QString getArg(const TokenList & tokens,Token::TokenType type){
+
+    for(const auto token : tokens){
+
+        if(token.subtype != type)
+            continue;
+            
+        QString result;
+        auto line = token.getText();
+
+        if(Token::tkBraces().contains(token.type))
+            result = line.mid(1,line.length() - 2);
+
+        if(Token::tkOpen().contains(token.type))
+            result = line.mid(1) + findRestArg(token.dlh,Token::opposite(token.type),-1,ConfigManager::RUNAWAYLIMIT);
+
+        if(Token::tkClose().contains(token.type))
+            result = line.left(line.length() - 1);
+
+        if(result.isEmpty())
+            result = line;
+
+        return result;
     }
-    return QString();
+
+    return "";
 }
 
 
-QString getArg(TokenList tl, QDocumentLineHandle *dlh, int argNumber, ArgumentList::ArgType type,bool enableMultiLineSearch,int hint)
-{
-	// argNumber 0 -> first argument
-    QDocument *doc=dlh->document();
-    int lineNr=-1;
+QString getArg(TokenList tl,QDocumentLineHandle * dlh,int argNumber,ArgumentList::ArgType type,bool enableMultiLineSearch,int hint){
+	
+    // argNumber 0 -> first argument
+    auto doc = dlh -> document();
+    
+    int lineNr = -1;
 
 	// do only create the relevant token sets once and keep them around for later use for speedup.
 	static const QSet<Token::TokenType> tokensForMandatoryArg = QSet<Token::TokenType>()
@@ -893,24 +967,39 @@ QString getArg(TokenList tl, QDocumentLineHandle *dlh, int argNumber, ArgumentLi
 
     const QSet<Token::TokenType> *searchTokens = nullptr;
 
-	if (type == ArgumentList::Mandatory) {
-		searchTokens = &tokensForMandatoryArg;
-	} else if (type == ArgumentList::MandatoryWithBraces) {
-		searchTokens = &tokensForMandatoryBraceArg;
-	} else {
-		searchTokens = &tokensForOptionalArg;
-	}
-	if (!searchTokens)
-		return QString();
-
-    bool skipOptionalArgument=false;
-    int cnt=0;
-	int k = 0;
-    int level=1;
-    if(!tl.isEmpty()){
-        level=tl.first().level;
+    switch(type){
+    case ArgumentList::Mandatory:
+        searchTokens = & tokensForMandatoryArg;
+        break;
+    case ArgumentList::MandatoryWithBraces:
+        searchTokens = & tokensForMandatoryBraceArg;
+        break;
+    default:
+        searchTokens = & tokensForOptionalArg;
     }
-    while( cnt<ConfigManager::RUNAWAYLIMIT){
+
+	// if (type == ArgumentList::Mandatory) {
+	// 	searchTokens = &tokensForMandatoryArg;
+	// } else if (type == ArgumentList::MandatoryWithBraces) {
+	// 	searchTokens = &tokensForMandatoryBraceArg;
+	// } else {
+	// 	searchTokens = &tokensForOptionalArg;
+	// }
+
+	if(!searchTokens)
+		return "";
+
+    bool skipOptionalArgument = false;
+
+    int 
+        level = 1,
+        cnt = 0,
+        k = 0;
+
+    if(!tl.isEmpty())
+        level = tl.first().level;
+
+    while(cnt<ConfigManager::RUNAWAYLIMIT){
         QString line = dlh ? dlh->text() : "";
         foreach (Token tk,tl) {
             if(tk.level>level)
@@ -965,64 +1054,84 @@ QString getArg(TokenList tl, QDocumentLineHandle *dlh, int argNumber, ArgumentLi
                 }
 			}
         }
+
         if(!enableMultiLineSearch)
             break;
-        if(lineNr<0){
-            lineNr=doc->indexOf(dlh,hint); // perform lineNr search only when really needed
-        }
+        
+        if(lineNr<0)
+            lineNr = doc -> indexOf(dlh,hint); // perform lineNr search only when really needed
+
         lineNr++;
-        if(lineNr>=doc->lineCount()){
+
+        if(lineNr >= doc -> lineCount())
             break;
-        }
-        dlh=doc->line(lineNr).handle();
+
+        dlh = doc -> line(lineNr).handle();
+        
         if(dlh)
-            tl= dlh->getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+            tl = dlh -> getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+        
         cnt++;
     }
 
-    return QString();
+    return "";
 }
 
 
-QString findRestArg(QDocumentLineHandle *dlh, Token::TokenType type, int hint, int count)
-{
-	// dlh is current line, next line will be checked here!!!
-    if (count <= 0)
-		return QString(); // limit search depth
-	QDocument *document = dlh->document();
-    int index = document->indexOf(dlh,hint);
-	if (index + 1 >= document->lines())
-		return QString(); // last line reached
-	dlh = document->line(index + 1).handle();
-	TokenList tl = dlh->getCookie(QDocumentLine::LEXER_COOKIE).value<TokenList>();
-	QString result = dlh->text();
+QString findRestArg(QDocumentLineHandle * lineHandle,Token::TokenType type,int hint,int count){
+
+	// lineHandle is current line, next line will be checked here!!!
+    if(count <= 0)
+        return ""; // limit search depth
+
+	auto document = lineHandle -> document();
+
+    int index = document -> indexOf(lineHandle,hint);
+	
+    if(index + 1 >= document -> lines())
+		return ""; // last line reached
+	
+    lineHandle = document -> line(index + 1).handle();
+	TokenList tl = lineHandle -> getCookie(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+	QString result = lineHandle -> text();
+
     if(!tl.isEmpty()){
-        int len=tl.last().start+tl.last().length;
-        if(len<result.length()){// comment present or untranslated characters (e.g. comma)
+    
+        int len = tl.last().start + tl.last().length;
+    
+        if(len < result.length()){// comment present or untranslated characters (e.g. comma)
+            
             // make sure it is a comment !!!!
-            int j=result.indexOf("%",len);
-            if(j>=len){
-                result=result.left(j); // avoid comments
-            }else{
+            int j = result.indexOf("%",len);
+            
+            if(j >= len){
+                result = result.left(j); // avoid comments
+            } else {
                 result.append(" "); // in case of multiline arguments, linebreak is considered as space in latex
             }
-        }else{
+        } else {
             result.append(" "); // in case of multiline arguments, linebreak is considered as space in latex
         }
     }
-	for (int i = 0; i < tl.length(); i++) {
-		Token tk = tl.at(i);
-		if (tk.type == type) {
-			// closing found
-			return result.left(tk.start);
-		}
-		if (Token::tkClose().contains(tk.type)) {
-			// wrong closing found/ syntax problem
-			//return value anyway
-			return result.left(tk.start + 1);
-		}
+
+	for(int i = 0;i < tl.length();i++){
+
+		auto token = tl.at(i);
+
+		// closing found
+		
+        if(token.type == type)
+			return result.left(token.start);
+
+
+        // wrong closing found/ syntax problem
+		//return value anyway
+
+    	if(Token::tkClose().contains(token.type))
+			return result.left(token.start + 1);
 	}
-    return result + findRestArg(dlh, type, index+1, count - 1);
+
+    return result + findRestArg(lineHandle,type,index + 1,count - 1);
 }
 
 
@@ -1033,27 +1142,45 @@ QString findRestArg(QDocumentLineHandle *dlh, Token::TokenType type, int hint, i
  * \param first get first token that encompasses \a pos, otherwise the latest token which fulfils the condition is returned
  * \return found token
  */
-Token getTokenAtCol(QDocumentLineHandle *dlh, int pos, bool first)
-{
-	if (!dlh) return Token();
-	TokenList tl = dlh->getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
-	Token tk;
-	for (int i = 0; i < tl.length(); i++) {
-		Token elem = tl.at(i);
-		if (elem.start > pos)
+
+Token getTokenAtCol(QDocumentLineHandle * lineHandle,int pos,bool first){
+	
+    if(!lineHandle)
+        return Token();
+
+	auto tokens = lineHandle -> getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+
+	Token result;
+	
+    for(int i = 0;i < tokens.length();i++){
+
+		Token token = tokens.at(i);
+		
+        if(token.start > pos)
 			break;
-		if (elem.start + elem.length >= pos) {
-			tk = elem; // get deepest element at col
-			if (first)
+		
+        if(token.start + token.length >= pos){
+		
+        	result = token; // get deepest element at col
+		
+        	if(first)
 				break;
 		}
-		if (!Token::tkBraces().contains(elem.type) && !Token::tkClose().contains(elem.type) && elem.start + elem.length >= pos) { // get abc|} -> abc
-			tk = elem; // get deepest element at col
-			if (first)
+		
+        if(
+            !Token::tkBraces().contains(token.type) && 
+            !Token::tkClose().contains(token.type) && 
+            token.start + token.length >= pos
+        ){ // get abc|} -> abc
+		
+        	result = token; // get deepest element at col
+		
+        	if(first)
 				break;
 		}
 	}
-	return tk;
+
+	return result;
 }
 
 
@@ -1064,20 +1191,28 @@ Token getTokenAtCol(QDocumentLineHandle *dlh, int pos, bool first)
  * \param first first get first token that encompasses \a pos, otherwise the latest token which fulfils the condition is returned
  * \return number of token, -1 if not found
  */
-int getTokenAtCol(TokenList &tl, int pos, bool first)
-{
+
+int getTokenAtCol(TokenList & tokens,int pos,bool first){
+
 	int result = -1;
-	for (int i = 0; i < tl.length(); i++) {
-		Token elem = tl.at(i);
-		if (elem.start > pos)
+	
+    for(int i = 0;i < tokens.length();i++){
+	
+    	Token token = tokens.at(i);
+	
+    	if(token.start > pos)
 			break;
-		if (elem.start + elem.length >= pos) {
-			result = i; // get deepest element at col
-			if (first)
+		
+        if(token.start + token.length >= pos){
+		
+        	result = i; // get deepest element at col
+		
+        	if(first)
 				break;
 		}
 	}
-	return result;
+	
+    return result;
 }
 
 
@@ -1090,22 +1225,25 @@ int getTokenAtCol(TokenList &tl, int pos, bool first)
  * \param tk argument top-level
  * \return tokenlist with all tokens within the argument
  */
-TokenList getArgContent(Token &tk)
-{
-	TokenList results;
-	QDocumentLineHandle *dlh = tk.dlh;
-	if (!dlh)
-		return results;
-	dlh->lockForRead();
-	TokenList tl = dlh->getCookie(QDocumentLine::LEXER_COOKIE).value<TokenList>();
-	dlh->unlock();
-	for (int i = 0; i < tl.length(); i++) {
-		if (tk == tl.at(i)) {
-			results = getArgContent(tl, i, tk.level);
-			break;
-		}
-	}
-	return results;
+
+TokenList getArgContent(Token & token){
+
+	auto lineHandle = token.dlh;
+	
+    if(!lineHandle)
+		return TokenList();
+	
+    lineHandle -> lockForRead();
+	
+    auto tokens = lineHandle -> getCookie(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+	
+    lineHandle -> unlock();
+	
+    for(int i = 0;i < tokens.length();i++)
+		if(token == tokens.at(i))
+			return getArgContent(tokens,i,token.level);
+
+	return TokenList();
 }
 
 
@@ -1121,52 +1259,74 @@ TokenList getArgContent(Token &tk)
  * \param runAwayPrevention counts down to zero for subsequent lines to prevent unlimited processing of lines on unclosed arguments
  * \return tokenlist with all tokens within the argument
  */
-TokenList getArgContent(TokenList &tl, int pos, int level, int runAwayPrevention)
-{
-	TokenList result;
-	if (runAwayPrevention < 0)
+
+TokenList getArgContent(TokenList & tokens,int pos,int level,int runAwayPrevention){
+	
+    TokenList result;
+	
+    if(runAwayPrevention < 0)
 		return result;
-	bool finished = false;
+	
+    bool finished = false;
 	Token tk;
-	// adapt strategy after token type (word, closed , open)
-	if (pos >= 0 && pos < tl.length()) {
-		tk = tl.at(pos);
-		if (tk.type == Token::word) {
+	
+    // adapt strategy after token type (word, closed , open)
+	
+    if(pos >= 0 && pos < tokens.length()){
+
+		tk = tokens.at(pos);
+		
+        if(tk.type == Token::word){
 			result.append(tk);
 			return result;
 		}
-		if (Token::tkBraces().contains(tk.type)) {
+
+		if(Token::tkBraces().contains(tk.type)){
 			//closed , no spill in next line
 			runAwayPrevention = 0; // in case there is no token after the last usable one
 		}
 	}
 
-	for (int i = pos + 1; i < tl.length(); i++) {
-		tk = tl.at(i);
-		if (tk.level < level) {
+	for(int i = pos + 1;i < tokens.length();i++){
+		
+        tk = tokens.at(i);
+		
+        if(tk.level < level){
 			finished = true;
 			break; // end reached
 		}
-		if (tk.level == level) {
+
+		if(tk.level == level)
 			result.append(tk);
-		}
+
 		//ignore other levels
 	}
-	if (!finished && tk.dlh) {
-		//getRestArgfrom
-		QDocument *document = tk.dlh->document();
-		int index = document->indexOf(tk.dlh);
-		TokenList tl;
-		while (index + 1 < document->lines()) {
-			QDocumentLineHandle *dlh = document->line(index + 1).handle();
-            tl = dlh->getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
-			if (!tl.isEmpty())
+
+	if(!finished && tk.dlh){
+		
+        //getRestArgfrom
+		auto document = tk.dlh -> document();
+		
+        int index = document -> indexOf(tk.dlh);
+		
+        TokenList tokens;
+		
+        while(index + 1 < document -> lines()){
+
+			auto lineHandle = document -> line(index + 1).handle();
+            
+            tokens = lineHandle -> getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+			
+            if(!tokens.isEmpty())
 				break;
-			index++;
+	
+    		index++;
 		}
-		if (!tl.isEmpty())
-			result.append(getArgContent(tl, -1, level - tk.level, runAwayPrevention - 1));
+	
+    	if(!tokens.isEmpty())
+			result.append(getArgContent(tokens,-1,level - tk.level,runAwayPrevention - 1));
 	}
+
 	return result;
 }
 
@@ -1180,78 +1340,105 @@ TokenList getArgContent(TokenList &tl, int pos, int level, int runAwayPrevention
  * \param pos column
  * \return tokenstack
  */
-TokenStack getContext(QDocumentLineHandle *dlh, int pos)
-{
-	if (!dlh) return TokenStack();
-	dlh->lockForRead();
-	TokenList tl = dlh->getCookie(QDocumentLine::LEXER_COOKIE).value<TokenList>();
-	dlh->unlock();
-	QDocument *doc = dlh->document();
-	int lineNr = doc->indexOf(dlh);
+
+TokenStack getContext(QDocumentLineHandle * lineHandle,int pos){
+
+	if(!lineHandle)
+        return TokenStack();
+	
+    lineHandle -> lockForRead();
+	
+    auto tokens = lineHandle -> getCookie(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+	
+    lineHandle -> unlock();
+	
+	auto doc = lineHandle -> document();
+	int lineNr = doc -> indexOf(lineHandle);
+
 	TokenStack stack;
-	if (lineNr > 0) {
-		QDocumentLineHandle *previous = doc->line(lineNr - 1).handle();
-		previous->lockForRead();
-		stack = previous->getCookie(QDocumentLine::LEXER_REMAINDER_COOKIE).value<TokenStack >();
-		previous->unlock();
+
+	if(lineNr > 0){
+        auto previous = doc -> line(lineNr - 1).handle();
+		previous -> lockForRead();
+		stack = previous -> getCookie(QDocumentLine::LEXER_REMAINDER_COOKIE).value<TokenStack>();
+		previous -> unlock();
 	}
+
 	// find innermost token at pos
 	TokenStack ts;
-	for (int i = 0; i < tl.length(); i++) {
-		Token tk = tl.at(i);
-		if (tk.start > pos) {
+
+	for(int i = 0;i < tokens.length();i++){
+		
+        Token token = tokens.at(i);
+		
+		if(token.start > pos)
 			break;
-		}
-		if (Token::tkOpen().contains(tk.type)) {
-			stack.push(tk);
-		}
-        if (Token::tkClose().contains(tk.type) && !stack.isEmpty() ) {
-            if (stack.top().type == Token::opposite(tk.type) && (tk.start<pos)) {
+
+		if(Token::tkOpen().contains(token.type))
+			stack.push(token);
+
+        if(Token::tkClose().contains(token.type) && !stack.isEmpty()){
+          
+            if(stack.top().type == Token::opposite(token.type) && (token.start < pos))
 				stack.pop();
-			}
+
             continue;
         }
 
 
-
-		if (ts.isEmpty()) {
-			ts.push(tk);
+		if(ts.isEmpty()){
+			ts.push(token);
 		} else {
-			// if level identical, replace top
+		
+        	// if level identical, replace top
 			// if level > , add
 			// if level < , remove and replace
-			if (ts.top().level == tk.level) {
-                int top_end=ts.top().start+ts.top().length;
-                if(top_end<pos){
+		
+        	if(ts.top().level == token.level){
+
+                int top_end = ts.top().start + ts.top().length;
+                
+                if(top_end < pos)
                     ts.pop();
-                }
-				ts.push(tk);
+
+				ts.push(token);
 			} else {
-				if (ts.top().level < tk.level) {
-					ts.push(tk);
+				if(ts.top().level < token.level){
+					ts.push(token);
 				} else {
+
 					ts.pop();
-					if (ts.isEmpty()) {
-						ts.push(tk);
+					
+                    if(ts.isEmpty()){
+						ts.push(token);
 					} else {
 						ts.pop();
-						ts.push(tk);
+						ts.push(token);
 					}
 				}
 			}
 
 		}
 	} //for
-	while (!ts.isEmpty()) {
+
+	while(!ts.isEmpty()){
+
 		// check that pos is within stack
-		if (ts.top().start + ts.top().length > pos)
+		if(ts.top().start + ts.top().length > pos)
 			break;
-		if (ts.top().start + ts.top().length == pos && !Token::tkBraces().contains(ts.top().type)) // equal is accceptable for other than braces
+		
+        if(
+            ts.top().start + ts.top().length == pos && 
+            !Token::tkBraces().contains(ts.top().type)
+        ) // equal is accceptable for other than braces
 			break;
-		ts.pop();
+		
+        ts.pop();
 	}
+
 	stack << ts;
-	return stack;
+	
+    return stack;
 }
 
 
@@ -1260,38 +1447,48 @@ TokenStack getContext(QDocumentLineHandle *dlh, int pos)
  * it assumes that the command is at level--
  * at the moment, only single line detection
  */
-QString getCommandFromToken(Token tk)
-{
-    // don't use outside of main thread as "previous" may be invalid
-    if(!tk.optionalCommandName.isEmpty())
-        return tk.optionalCommandName;
 
-    QString cmd;
-	QDocumentLineHandle *dlh = tk.dlh;
-	if (dlh) {
-        TokenList tl;
-        QDocument *doc = dlh->document();
+QString getCommandFromToken(Token token){
+
+    // don't use outside of main thread as "previous" may be invalid
+    if(!token.optionalCommandName.isEmpty())
+        return token.optionalCommandName;
+
+    auto lineHandle = token.dlh;
+
+	if(lineHandle){
+        
+        TokenList tokens;
+        
+        auto doc = lineHandle -> document();
+        
         if(doc){ // doc is NULL if line was deleted in the meantime
-            int lineNr = doc->indexOf(dlh);
-            if (lineNr > 0) {
-                QDocumentLineHandle *previous = doc->line(lineNr - 1).handle();
-                TokenStack stack=previous->getCookieLocked(QDocumentLine::LEXER_REMAINDER_COOKIE).value<TokenStack >();
+            
+            int line = doc -> indexOf(lineHandle);
+            
+            if(line > 0){
+
+                auto previous = doc -> line(line - 1).handle();
+                auto stack = previous -> getCookieLocked(QDocumentLine::LEXER_REMAINDER_COOKIE).value<TokenStack>();
+                
                 if(!stack.isEmpty()){
-                    Token tk_group=stack.top();
-                    if(tk_group.dlh){
-                        tl<< tk_group.dlh->getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
-                    }
+                    Token tk_group = stack.top();
+
+                    if(tk_group.dlh)
+                        tokens << tk_group.dlh -> getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
                 }
             }
-            tl<< dlh->getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
 
-            Token result = getCommandTokenFromToken(tl, tk);
-            if (result.type == Token::command) {
-                cmd = result.getText();
-            }
+            tokens << lineHandle -> getCookieLocked(QDocumentLine::LEXER_COOKIE).value<TokenList>();
+
+            auto result = getCommandTokenFromToken(tokens,token);
+    
+            if(result.type == Token::command)
+                return result.getText();
         }
 	}
-	return cmd;
+
+	return "";
 }
 
 
@@ -1301,23 +1498,30 @@ QString getCommandFromToken(Token tk)
  * \param tk token which is argument of a command
  * \return token of command
  */
-Token getCommandTokenFromToken(TokenList tl, Token tk)
-{
+
+Token getCommandTokenFromToken(TokenList tokens,Token token){
+
 	Token result;
-	int tkPos = tl.indexOf(tk);
-	int level = tk.level - 1;
-	if (tk.subtype == Token::keyVal_val) {
-		level = tk.level - 2; // command is 2 levels up
-	}
-	for (int i = tkPos - 1; i >= 0; i--) {
-		Token elem = tl.at(i);
-		if (elem.level == level && (elem.type == Token::command || elem.type == Token::commandUnknown) ) {
+	
+    int index = tokens.indexOf(token);
+	int level = token.level - 1;
+	
+    if(token.subtype == Token::keyVal_val)
+		level = token.level - 2; // command is 2 levels up
+
+	for(int i = index - 1;i >= 0;i--){
+
+		Token elem = tokens.at(i);
+		
+        if(elem.level == level && (elem.type == Token::command || elem.type == Token::commandUnknown)){
 			result = elem;
 			break;
 		}
-		if (elem.level < level)
+		
+        if(elem.level < level)
 			break;
 	}
+
 	return result;
 }
 
@@ -1328,33 +1532,32 @@ Token getCommandTokenFromToken(TokenList tl, Token tk)
  * \param column
  * \return 512 if token at column is 'width'
  */
-int getCompleterContext(QDocumentLineHandle *dlh, int column)
-{
-	TokenStack ts = getContext(dlh, column);
-	Token tk;
-	if (!ts.isEmpty()) {
-		tk = ts.top();
-		if (tk.type == Token::word && tk.subtype == Token::none && ts.size() > 1) {
+
+int getCompleterContext(QDocumentLineHandle * lineHandle,int column){
+
+	auto stack = getContext(lineHandle,column);
+	Token token;
+
+	if(!stack.isEmpty()){
+
+		token = stack.top();
+	
+    	if(token.type == Token::word && token.subtype == Token::none && stack.size() > 1){
 
 			// set brace type
-			ts.pop();
-			tk = ts.top();
+			stack.pop();
+			token = stack.top();
 		}
 	}
 
-	Token::TokenType type = tk.type;
-	if (tk.subtype != Token::none && tk.subtype != Token::keyVal_val)
-		type = tk.subtype;
+	Token::TokenType type = token.type;
 
-	int result = 0;
-	switch (type) {
-	case Token::width:
-		result = 512;
-		break;
-	default:
-		;
-	}
-	return result;
+	if(token.subtype != Token::none && token.subtype != Token::keyVal_val)
+		type = token.subtype;
+
+    return (type == Token::width)
+        ? 512
+        : 0;
 }
 
 }  // namespace Parsing

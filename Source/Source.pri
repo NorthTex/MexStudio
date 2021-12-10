@@ -11,6 +11,7 @@ SOURCES += \
     $$PWD/LatexParser/Arguments.cpp \
     $$PWD/LatexParser/Reader.cpp \
     $$PWD/LatexParser/Parser.cpp \
+    $$PWD/LatexParser/Parsing.cpp \
     $$PWD/LatexParser/CommandDescriptions.cpp \
     $$PWD/LatexParser/Token.cpp
 
