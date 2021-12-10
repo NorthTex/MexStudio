@@ -13,7 +13,6 @@ HEADERS += \
     $$PWD/commanddescription.h
 
 SOURCES += \
-    $$PWD/latexparser.cpp \
     $$PWD/latexparsing.cpp
 
 

@@ -1,57 +1,60 @@
+
 #include "latexparser.h"
 
-const QString CommonEOW = QString("~!#$%^&*()_+{}|:\"\\<>?,./;[]-= \t\n\r`'") +
-						  QChar(171) + QChar(187) + QChar(8223) + QChar(8222) + QChar(8221) + QChar(8220) +  /* fancy quotation marks */
-						  QChar(160);  /* non-breaking Space */
+const QString CommonEOW = 
+	QString("~!#$%^&*()_+{}|:\"\\<>?,./;[]-= \t\n\r`'") +
+	QChar(171) + QChar(187) + QChar(8223) + QChar(8222) + 
+	QChar(8221) + QChar(8220) +  /* fancy quotation marks */
+	QChar(160);  /* non-breaking Space */
 
 
-const QString & getCommonEOW()
-{
+const QString & getCommonEOW(){
 	return CommonEOW;
 }
 
 
-
 const int LatexParser::MAX_STRUCTURE_LEVEL = 10;
 
-LatexParser *LatexParserInstance = nullptr;
+LatexParser * LatexParserInstance = nullptr;
 
-LatexParser::LatexParser()
-{
-	if (!LatexParserInstance) {
-		LatexParserInstance = this;
-		init();
-	}
+LatexParser::LatexParser(){
+	
+	if(LatexParserInstance)
+		return;
+
+	LatexParserInstance = this;
+	init();
 }
 
-LatexParser::~LatexParser()
-{
-	if (LatexParserInstance == this) {
-        LatexParserInstance = nullptr;
-	}
+
+LatexParser::~LatexParser(){
+
+	if(LatexParserInstance == this)
+	    LatexParserInstance = nullptr;
 }
 
-LatexParser &LatexParser::getInstance()
-{
+
+LatexParser & LatexParser::getInstance(){
 	Q_ASSERT(LatexParserInstance);
-	return *LatexParserInstance;
+	return * LatexParserInstance;
 }
 
-LatexParser * LatexParser::getInstancePtr()
-{
+
+LatexParser * LatexParser::getInstancePtr(){
 	return LatexParserInstance;
 }
 
-void LatexParser::init()
-{
-    environmentCommands = QSet<QString>{"\\begin" , "\\end" , "\\newenvironment" , "\\renewenvironment"};
+
+void LatexParser::init(){
+
+    environmentCommands = QSet<QString> { "\\begin" , "\\end" , "\\newenvironment" , "\\renewenvironment" };
     mathStartCommands = QStringList{ "$" , "$$" , "\\(" , "\\[" };
     mathStopCommands = QStringList{ "$" , "$$" , "\\)" , "\\]" } ;
 
 	possibleCommands.clear();
-    possibleCommands["tabular"] = QSet<QString>{"&" };
+    possibleCommands["tabular"] = QSet<QString>{ "&" };
     possibleCommands["array"] = QSet<QString>{ "&" };
-    possibleCommands["tabbing"] = QSet<QString>{"\\<" , "\\>" , "\\=" , "\\+"};
+    possibleCommands["tabbing"] = QSet<QString>{ "\\<" , "\\>" , "\\=" , "\\+" };
     possibleCommands["normal"] = QSet<QString>{ "\\\\" , "\\_" , "\\-" , "$" , "$$" , "\\$" , "\\#" , "\\{" , "\\}" , "\\S" , "\\'" , "\\`" , "\\^" , "\\=" , "\\." , "\\u" , "\\v" , "\\H" , "\\t" , "\\c" , "\\d" , "\\b" , "\\o" , "\\O" , "\\P" , "\\l" , "\\L" , "\\&" , "\\~" , "\\" , "\\," , "\\%" , "\\\"", "\\," , "\\!" , "\\;" , "\\:"};
     possibleCommands["math"] = QSet<QString>{ "_" , "^" , "\\$" , "\\#" , "\\{" , "\\}" , "\\S" , "\\," , "\\!" , "\\;" , "\\:" , "\\\\" , "\\ " , "\\|"};
     possibleCommands["%definition"] = QSet<QString>{ "\\newcommand" , "\\renewcommand" , "\\newcommand*" , "\\renewcommand*" , "\\providecommand" , "\\newlength" , "\\let"};
@@ -70,34 +73,48 @@ void LatexParser::init()
 	commandDefs.clear();
 }
 
+
 ///position of the % starting a comment (takes care of multiple backslashes before comment character ..)
-int LatexParser::commentStart(const QString &text)
-{
-	if (text.startsWith("%")) return 0;
-	QString test = text;
-	test.replace("\\\\", "  ");
-    int cs = test.indexOf(QRegularExpression("[^\\\\]%")); // find start of comment (if any)
-    if (cs > -1) {
-        return cs + 1;
-    } else return -1;
+
+int LatexParser::commentStart(const QString & text){
+
+	if(text.startsWith("%"))
+		return 0;
+	
+	int index = QString(text)
+		.replace("\\\\","  ")
+		.indexOf(QRegularExpression("[^\\\\]%"));
+
+	// QString test = text;
+	// test.replace("\\\\","  ");
+    
+	// int cs = test.indexOf(QRegularExpression("[^\\\\]%")); // find start of comment (if any)
+    
+	return (index < 0) ? -1 : index + 1;
 }
 
+
 /// remove comment from text, take care of multiple backslashes before comment character ...
-QString LatexParser::cutComment(const QString &text)
-{
+
+QString LatexParser::cutComment(const QString & text){
 	return text.left(LatexParser::commentStart(text));
 }
 
+
 /// returns true if the options are complete, false if the scanning ended while still in the options
-bool LatexParser::resolveCommandOptions(const QString &line, int column, QStringList &values, QList<int> *starts)
-{
+
+bool LatexParser::resolveCommandOptions(const QString & line,int column,QStringList &values,QList<int> * starts){
+	
 	const QString BracketsOpen("[{(");
 	const QString BracketsClose("]})");
+	
 	int start = column;
 	int stop = -1;
 	int type;
+
 	// check if between command and options is located text or other command
     int abort = line.indexOf(QRegularExpression("(\\s|\\\\)"), start + 1);
+	
 	while (start < line.length()) {
 		// find first available bracket after position start
 		int found = -1;
@@ -151,33 +168,58 @@ bool LatexParser::resolveCommandOptions(const QString &line, int column, QString
 	}
 	return true;
 }
+
+
 /*!
  * \brief remove option brackets from text on 'option'
  * \param option text
  * \return option without []
  */
-QString LatexParser::removeOptionBrackets(const QString &option)
-{
-	if (option.isNull() || option.length() < 2) return option;
-	if ((option.at(0) == '{' && option.at(option.length() - 1) == '}') ||
-	        (option.at(0) == '[' && option.at(option.length() - 1) == ']'))
-		return option.mid(1, option.length() - 2);
+
+QString LatexParser::removeOptionBrackets(const QString & option){
+
+	if(option.isNull())
+		return option;
+		
+	if(option.length() < 2)
+		return option;
+
+	auto 
+		first = option.front(),
+		last = option.back();
+		
+	if(first != last)
+		return option;
+	
+	if(first == '{' || first == '[')
+		return option.mid(1,option.length() - 2);
+
 	return option;
+	
+	// if(option.at(0) == '{' && option.at(option.length() - 1) == '}')
+	// 	return option.mid(1,option.length() - 2);
+	
+	// if(option.at(0) == '[' && option.at(option.length() - 1) == ']'))
+	// 	return option.mid(1, option.length() - 2);
+	// return option;
 }
+
+
 /*!
  * \brief determines level of structure in a section-command
  * \param cmd latex command
  * \return level of stucture
  */
-int LatexParser::structureCommandLevel(const QString &cmd) const
-{
-	for (int i=0; i<=MAX_STRUCTURE_LEVEL; i++) {
-		if (possibleCommands[QString("%structure%1").arg(i)].contains(cmd)) {
+
+int LatexParser::structureCommandLevel(const QString & cmd) const {
+
+	for(int i = 0;i <= MAX_STRUCTURE_LEVEL;i++)
+		if(possibleCommands[QString("%structure%1").arg(i)].contains(cmd))
 			return i;
-		}
-	}
+	
 	return -1;
 }
+
 
 /*! return a number for a context
  * 0 unknown
@@ -188,25 +230,32 @@ int LatexParser::structureCommandLevel(const QString &cmd) const
  * etc
  * \warning obsolete for lexer-based token system, though still in use in some code
  */
-int LatexParser::findContext(QString &line, int &column) const
-{
 
-	if (line.isEmpty())
+int LatexParser::findContext(QString & line,int & column) const {
+
+	if(line.isEmpty())
 		return 0;
+
 	QString eow = "\\[]{}$";
 	int i = column;
-	if (i >= line.length())
+	
+	if(i >= line.length())
 		i = line.length();
-	if (i > 0)
+	
+	if(i > 0)
 		i--; // character left of pos is to be checked
 	else
 		return 0; // no context can be detected at line start (old behavior)
+	
 	while (i >= 0 && !eow.contains(line.at(i)))
 		i--;
-	if (i < 0)
+	
+	if(i < 0)
 		return 0; // no eow found
+	
 	QChar ch = line.at(i);
-	if (ch == '\\') {
+
+	if(ch == '\\') {
 		// command found
 		int start = i;
 		i++;
@@ -216,10 +265,12 @@ int LatexParser::findContext(QString &line, int &column) const
 		column = start;
 		return 1;
 	}
+
 	int start_ref = findOpeningBracket(line, i);
 	int start_opt = findOpeningBracket(line, i, '[', ']');
 	int ret = 0;
-	if (start_ref > start_opt) {
+	
+	if(start_ref > start_opt) {
 		// assuming we are in command argument
 		ret = 3;
 		i = start_ref - 1;
@@ -273,15 +324,21 @@ int LatexParser::findContext(QString &line, int &column) const
 	return 0;
 }
 
-LatexParser::ContextType LatexParser::findContext(const QString &line, int column, QString &command, QString &value) const
-{
+
+LatexParser::ContextType LatexParser::findContext(const QString & line,int column,QString & command,QString & value) const {
+	
 	command = line;
+	
 	int col = column; //remember column
-	int temp = findContext(command, column);
+	int temp = findContext(command,column);
+	
 	QStringList vals;
-	resolveCommandOptions(line, column, vals);
+	
+	resolveCommandOptions(line,column,vals);
+	
 	value = "";
-	if (!vals.isEmpty()) {
+	
+	if(!vals.isEmpty()) {
 		value = vals.takeFirst();
 		if (value.startsWith('[') && temp != 2) {
 			if (!vals.isEmpty()) {
@@ -293,6 +350,7 @@ LatexParser::ContextType LatexParser::findContext(const QString &line, int colum
 		if (value.endsWith('}') || value.endsWith(']'))
 			value.chop(1);
 	}
+
 	switch (temp) {
 	case 0:
 		return Unknown;
@@ -408,99 +466,145 @@ LatexParser::ContextType LatexParser::findContext(const QString &line, int colum
 	}
 }
 
-void LatexParser::append(const LatexParser &elem)
-{
-	QHash<QString, QSet<QString> >::const_iterator i = elem.possibleCommands.constBegin();
-	while (i != elem.possibleCommands.constEnd()) {
+
+void LatexParser::append(const LatexParser & elem){
+
+	auto i = elem.possibleCommands.constBegin();
+
+	while(i != elem.possibleCommands.constEnd()){
+
 		QString key = i.key();
 		QSet<QString> set = i.value();
+		
 		possibleCommands[key].unite(set);
+		
 		++i;
 	}
-	foreach (const QString key, elem.environmentAliases.keys()) {
-		QStringList values = elem.environmentAliases.values(key);
-		foreach (const QString value, values) {
-			if (!environmentAliases.contains(key, value))
-				environmentAliases.insert(key, value);
-		}
+
+	const auto & aliases = elem.environmentAliases;
+
+	for(const QString & key : aliases.keys()){
+		
+		auto values = aliases.values(key);
+
+		for(const QString & value : values)
+			if(!environmentAliases.contains(key,value))
+				environmentAliases.insert(key,value);
 	}
+
+	// foreach (const QString key, elem.environmentAliases.keys()) {
+	// 	QStringList values = elem.environmentAliases.values(key);
+	// 	foreach (const QString value, values) {
+	// 		if (!environmentAliases.contains(key, value))
+	// 			environmentAliases.insert(key, value);
+	// 	}
+	// }
+
     specialTreatmentCommands.insert(elem.specialTreatmentCommands);
     specialDefCommands.insert(elem.specialDefCommands);
     commandDefs.unite(elem.commandDefs);
     mapSpecialArgs.insert(elem.mapSpecialArgs);
 }
 
-void LatexParser::substract(const LatexParser &elem)
-{
-	QHash<QString, QSet<QString> >::const_iterator i = elem.possibleCommands.constBegin();
-	while (i != elem.possibleCommands.constEnd()) {
-		QString key = i.key();
-		QSet<QString> set = i.value();
+
+void LatexParser::substract(const LatexParser & elem){
+
+	auto i = elem.possibleCommands.constBegin();
+	
+	while(i != elem.possibleCommands.constEnd()){
+
+		const auto key = i.key();
+		const auto set = i.value();
+		
 		possibleCommands[key].subtract(set);
 		++i;
 	}
-	foreach (QString key, elem.commandDefs.keys()) {
-		commandDefs.remove(key);
-	}
+
+	commandDefs.clear();
+
+	// for(const QString & key : elem.commandDefs.keys())
+	// 	commandDefs.remove(key);
 }
 
-void LatexParser::clear()
-{
+
+void LatexParser::clear(){
 	init();
 }
 
-void LatexParser::importCwlAliases(const QString filename)
-{
+
+void LatexParser::importCwlAliases(const QString filename){
+
 	QFile tagsfile(filename);
-	if (tagsfile.open(QFile::ReadOnly)) {
+	
+	if(tagsfile.open(QFile::ReadOnly)){
+
 		QString line;
 		QString alias;
-		while (!tagsfile.atEnd()) {
+		
+		while(!tagsfile.atEnd()){
+			
 			line = tagsfile.readLine().trimmed();
-			if (line.startsWith("#"))
+			
+			if(line.startsWith("#"))
 				continue;
-			if (line.endsWith(":")) {
+			
+			if(line.endsWith(":")){
 				alias = line.left(line.length() - 1);
 				continue;
 			}
-			if (!alias.isEmpty())
-                packageAliases.insert(alias, line);
+			
+			if(!alias.isEmpty())
+                packageAliases.insert(alias,line);
 		}
 	}
 }
 
 
-int findOpeningBracket(const QString &word, int start, QChar oc, QChar cc)
-{
+int findOpeningBracket(const QString & word,int start,QChar oc,QChar cc){
+
 	int i = start;
 	int n = 0;
-	while (i > -1) {
+	
+	while(i > -1){
+		
 		QChar ch = word.at(i);
-		if (ch == oc) {
+		
+		if(ch == oc){
+
 			n--;
-			if (n < 0)
+			
+			if(n < 0)
 				break;
 		}
-		if (ch == cc) {
+
+		if(ch == cc)
 			n++;
-		}
+
 		i--;
 	}
+
 	return i;
 }
 
 
-int findClosingBracket(const QString &word, int &start, QChar oc, QChar cc)
-{
+int findClosingBracket(const QString & word,int & start,QChar oc,QChar cc){
+
 	int i = 0;
-	if (start < 0) start = word.indexOf(oc, i);
+	
+	if(start < 0)
+		start = word.indexOf(oc,i);
+	
 	i = start > -1 ? start : 0;
-	int stop = word.indexOf(cc, i);
-	i = word.indexOf(oc, i + 1);
-	while (i > 0 && stop > 0 && i < stop) {
-		stop = word.indexOf(cc, stop + 1);
-		i = word.indexOf(oc, i + 1);
+	
+	int stop = word.indexOf(cc,i);
+	
+	i = word.indexOf(oc,i + 1);
+	
+	while(i > 0 && stop > 0 && i < stop){
+		stop = word.indexOf(cc,stop + 1);
+		i = word.indexOf(oc,i + 1);
 	}
+
 	return stop;
 }
 
