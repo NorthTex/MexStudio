@@ -8,11 +8,10 @@ MostUsedProxyModel::MostUsedProxyModel(QObject * parent)
 
 bool MostUsedProxyModel::filterAcceptsRow(int row,const QModelIndex & parent) const {
 
-	auto index = sourceModel() -> index(row,0,parent);
+	const auto model = sourceModel();
+	const auto index = model -> index(row,0,parent);
 
-	int count = sourceModel() -> data(index, sortRole()).toInt();
-	
-	return count > 0;
+	return (model -> data(index,sortRole()).toInt() > 0);
 }
 
 

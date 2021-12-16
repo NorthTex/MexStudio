@@ -16,7 +16,8 @@ SOURCES += \
     $$PWD/LatexParser/Token.cpp
 
 SOURCES += \
-    $$PWD/SymbolPanel/Proxy.cpp
+    $$PWD/SymbolPanel/Proxy.cpp \
+    $$PWD/SymbolPanel/ListModel.cpp
 
 
 SOURCES += \

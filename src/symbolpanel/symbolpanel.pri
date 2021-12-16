@@ -11,6 +11,5 @@ HEADERS += \
     $$PWD/symbolwidget.h
 
 SOURCES += \
-    $$PWD/symbollistmodel.cpp \
     $$PWD/symbollistview.cpp \
     $$PWD/symbolwidget.cpp

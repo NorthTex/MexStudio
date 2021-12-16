@@ -18,6 +18,11 @@ struct SymbolItem {
 
 class SymbolListModel : public QAbstractListModel
 {
+
+	private:
+
+		void updateFavorites(const QString & id);
+
 	Q_OBJECT
 public:
 	enum AdditionalDataRoles {
