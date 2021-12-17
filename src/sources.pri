@@ -129,7 +129,6 @@ SOURCES += \
     $$PWD/cursorposition.cpp \
     $$PWD/diff/diff_match_patch.cpp \
     $$PWD/diffoperations.cpp \
-    $$PWD/encoding.cpp \
     $$PWD/encodingdialog.cpp \
     $$PWD/execprogram.cpp \
     $$PWD/fileselector.cpp \

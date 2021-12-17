@@ -28,6 +28,7 @@ SOURCES += \
     $$PWD/FileChooser.cpp \
     $$PWD/Editors.cpp \
     $$PWD/Git.cpp \
+    $$PWD/Encoding.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \
