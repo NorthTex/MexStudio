@@ -7,6 +7,15 @@ SOURCES += \
     $$PWD/Dialogs/Tab.cpp \
     $$PWD/Dialogs/Array.cpp
 
+
+SOURCES += \
+    $$PWD/BibTex/BibLatex.cpp \
+    $$PWD/BibTex/BibTex.cpp \
+    $$PWD/BibTex/Dialog.cpp \
+    $$PWD/BibTex/Parser.cpp \
+    $$PWD/BibTex/Reader.cpp \
+    $$PWD/BibTex/UI.cpp
+
 SOURCES += \
     $$PWD/LatexParser/Arguments.cpp \
     $$PWD/LatexParser/Reader.cpp \

@@ -110,12 +110,6 @@ HEADERS += \
     $$PWD/terminal_config.h
 
 SOURCES += \
-    $$PWD/BibTex/Reader.cpp \
-    $$PWD/BibTex/Parser.cpp \
-    $$PWD/BibTex/Dialog.cpp \
-    $$PWD/BibTex/BibTex.cpp \
-    $$PWD/BibTex/BibLatex.cpp \
-    $$PWD/BibTex/UI.cpp \
     $$PWD/Help.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
