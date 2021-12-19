@@ -33,6 +33,7 @@ SOURCES += \
     $$PWD/TexStudio.cpp
 
 SOURCES += \
+    $$PWD/Latex/Document.cpp \
     $$PWD/Latex/Log.cpp
 
 

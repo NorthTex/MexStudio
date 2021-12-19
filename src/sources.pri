@@ -140,7 +140,6 @@ SOURCES += \
     $$PWD/insertgraphics.cpp \
     $$PWD/kpathseaParser.cpp \
     $$PWD/latexcompleter.cpp \
-    $$PWD/latexdocument.cpp \
     $$PWD/latexeditorview.cpp \
     $$PWD/latexlogwidget.cpp \
     $$PWD/latexoutputfilter.cpp \
