@@ -26,6 +26,7 @@ SOURCES += \
 
 SOURCES += \
     $$PWD/SymbolPanel/Proxy.cpp \
+    $$PWD/SymbolPanel/ListView.cpp \
     $$PWD/SymbolPanel/ListModel.cpp
 
 
