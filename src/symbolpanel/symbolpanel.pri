@@ -9,6 +9,3 @@ HEADERS += \
     $$PWD/symbollistmodel.h \
     $$PWD/symbollistview.h \
     $$PWD/symbolwidget.h
-
-SOURCES += \
-    $$PWD/symbolwidget.cpp
