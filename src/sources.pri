@@ -125,7 +125,6 @@ SOURCES += \
     $$PWD/diffoperations.cpp \
     $$PWD/encodingdialog.cpp \
     $$PWD/execprogram.cpp \
-    $$PWD/findindirs.cpp \
     $$PWD/flowlayout.cpp \
     $$PWD/grammarcheck.cpp \
 #    $$PWD/help.cpp \

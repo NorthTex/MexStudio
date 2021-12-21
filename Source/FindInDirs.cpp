@@ -1,6 +1,7 @@
 #include "findindirs.h"
 #include "utilsSystem.h"
 
+
 /*!
  * \brief     Creates a search object with search modifiers.
  * \param[in] mostRecent From all matching files return the most recent one.
@@ -14,16 +15,20 @@
  * Multiple directories should be separated by the platform-specific
  * directory separator.
  */
-FindInDirs::FindInDirs(bool mostRecent, bool checkReadable, const QString &resolveDir, const QString &dirs) :
-	m_mostRecent(mostRecent),
-	m_checkReadable(checkReadable),
-	m_resolveDir(resolveDir)
-{
+
+FindInDirs::FindInDirs(bool mostRecent,bool checkReadable,const QString & resolveDir,const QString & directories) 
+	: m_mostRecent(mostRecent)
+	, m_checkReadable(checkReadable)
+	, m_resolveDir(resolveDir) {
+
 	Q_ASSERT(QDir::isAbsolutePath(resolveDir));
-	if (!dirs.isEmpty()) {
-		loadDirs(dirs);
-	}
+	
+	if(directories.isEmpty())
+		return;
+
+	loadDirs(directories);
 }
+
 
 /*!
  * \brief     Load additional search directories into the search object.
@@ -32,26 +37,32 @@ FindInDirs::FindInDirs(bool mostRecent, bool checkReadable, const QString &resol
  * separator. Relative directory pathnames have resolveDir prepended
  * to them.
  */
-void FindInDirs::loadDirs(const QString &dirs)
-{
-	loadDirs(splitPaths(dirs));
+
+void FindInDirs::loadDirs(const QString & directories){
+	loadDirs(splitPaths(directories));
 }
+
 
 /*!
  * \brief Load additional search directories into the search object.
  * \param[in] dirs Search directories to load into the search object. Relative
  * directory pathnames have resolveDir prepended to them.
  */
-void FindInDirs::loadDirs(const QStringList &dirs)
-{
-	foreach(const QString &oneDir, dirs) {
-		m_absDirs.push_back(
-			QDir::isAbsolutePath(oneDir) ?
-			oneDir :
-			m_resolveDir + QDir::separator() + oneDir
-		);
-	}
+
+void FindInDirs::loadDirs(const QStringList & directories){
+
+	const auto toAbsolute = [ & ](auto directory){
+
+		if(QDir::isAbsolutePath(directory))
+			return directory;
+			
+		return m_resolveDir + QDir::separator() + directory;
+	};
+
+	for(const auto & directory : directories)
+		m_absDirs.push_back(toAbsolute(directory));
 }
+
 
 /*!
  * \brief Searches for a given filename.
@@ -66,40 +77,48 @@ void FindInDirs::loadDirs(const QStringList &dirs)
  * \return Returns the absolute pathname of the found file. If no matching
  * file is found then an empty string ("") is returned.
  */
-QString FindInDirs::findAbsolute(const QString &pathname) const
-{
-	QFileInfo pathInfo(pathname);
-	QFileInfo mrInfo;
-	if (findCheckFile(pathInfo)) {
-		if (m_mostRecent) {
-			mrInfo = pathInfo;
-		} else {
+
+QString FindInDirs::findAbsolute(const QString & path) const {
+
+	QFileInfo pathInfo(path);
+	QFileInfo fileInfo;
+
+	if(findCheckFile(pathInfo)){
+
+		if(!m_mostRecent)
 			return pathInfo.absoluteFilePath();
-		}
+
+		fileInfo = pathInfo;
 	}
-	foreach (const QString &oneSearchDir, m_absDirs) {
-		QFileInfo fi (QDir(oneSearchDir), pathInfo.fileName());
-		if (findCheckFile(fi)) {
-			if (m_mostRecent) {
-				if (
-					mrInfo.filePath().isEmpty() ||
-					mrInfo.lastModified() < fi.lastModified()
-				) {
-					mrInfo = fi;
-				}
-			} else {
-				return fi.absoluteFilePath();
-			}
-		}
+
+	for(const auto & directory : m_absDirs){
+
+		QFileInfo info (QDir(directory),pathInfo.fileName());
+		
+		if(!findCheckFile(info))
+			continue;
+
+		if(!m_mostRecent)
+			return info.absoluteFilePath();
+
+		if(
+			fileInfo.filePath().isEmpty() ||
+			fileInfo.lastModified() < info.lastModified()
+		) fileInfo = info;
 	}
-	if (m_mostRecent && (mrInfo.filePath().isEmpty() == false)) {
-		return mrInfo.absoluteFilePath();
-	} else {
+
+	if(!m_mostRecent)
 		return "";
-	}
+
+	if(fileInfo.filePath().isEmpty())
+		return "";
+
+	return fileInfo.absoluteFilePath();
 }
 
-bool FindInDirs::findCheckFile(const QFileInfo &fileInfo) const
-{
-	return(m_checkReadable ? fileInfo.isReadable() : fileInfo.exists());
+
+bool FindInDirs::findCheckFile(const QFileInfo & info) const {
+	return (m_checkReadable) 
+		? info.isReadable() 
+		: info.exists();
 }
