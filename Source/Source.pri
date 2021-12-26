@@ -41,6 +41,7 @@ SOURCES += \
     $$PWD/Git.cpp \
     $$PWD/Encoding.cpp \
     $$PWD/FindInDirs.cpp \
+    $$PWD/LogEditor.cpp \
     $$PWD/FileSelector.cpp \
     $$PWD/TexStudio.cpp
 

@@ -141,7 +141,6 @@ SOURCES += \
     $$PWD/latexstyleparser.cpp \
     $$PWD/letterdialog.cpp \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.cpp \
-    $$PWD/logeditor.cpp \
     $$PWD/loghighlighter.cpp \
     $$PWD/main.cpp \
     $$PWD/manhattanstyle.cpp \
