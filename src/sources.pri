@@ -160,7 +160,6 @@ SOURCES += \
     $$PWD/spellerutility.cpp \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
-    $$PWD/svn.cpp \
     $$PWD/syntaxcheck.cpp \
     $$PWD/tabbingdialog.cpp \
     $$PWD/templatemanager.cpp \
