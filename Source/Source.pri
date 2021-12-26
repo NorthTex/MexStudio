@@ -48,6 +48,10 @@ SOURCES += \
     $$PWD/Latex/Document.cpp \
     $$PWD/Latex/Log.cpp
 
+SOURCES += \
+    $$PWD/Grammar/JSONLanguageTool.cpp \
+    $$PWD/Grammar/Check.cpp
+
 
 SOURCES += \
     $$PWD/TableManipulation/AddColumn.cpp \
