@@ -1,10 +1,10 @@
 
-[Fork of TexStudio]: https://github.com/texstudio-org/texstudio
+[TeXStudio]: https://github.com/texstudio-org/texstudio
 
 
 # MexStudio
 
-A [Fork of TeXStudio] from the *18th October 2021*,<br>
+A **Fork** of **[TeXStudio]** from the *18th October 2021*,<br>
 aiming to make the project maintainable.
 
 For info on how to use **MexStudio**, please check the<br>
