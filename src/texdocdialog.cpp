@@ -1,7 +1,9 @@
-#include "texdocdialog.h"
+
 #include "ui_texdocdialog.h"
 #include "latexrepository.h"
 #include "utilsUI.h"
+
+#include "Dialogs/TexDoc.hpp"
 
 TexdocDialog::TexdocDialog(QWidget *parent,TexHelp *obj) :
 	QDialog(parent),

@@ -6,7 +6,7 @@
 #include "execprogram.h"
 #include "findindirs.h"
 
-#include "userquickdialog.h"
+#include "Dialogs/UserQuick.hpp"
 
 #ifdef Q_OS_WIN32
 #include "windows.h"

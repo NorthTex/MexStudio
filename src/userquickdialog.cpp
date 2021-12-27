@@ -13,7 +13,7 @@
 #include <QScrollBar>
 #include <QDebug>
 
-#include "userquickdialog.h"
+#include "Dialogs/UserQuick.hpp"
 #include "utilsUI.h"
 
 UserQuickDialog::UserQuickDialog(QWidget *parent, const QStringList &ids , const QStringList &usualNames, const QStringList &usualCommands)

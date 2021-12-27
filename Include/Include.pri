@@ -3,6 +3,11 @@ INCLUDEPATH += $$PWD
 
 HEADERS += \
     $$PWD/Dialogs/About.hpp \
+    $$PWD/Dialogs/UserQuick.hpp \
+    $$PWD/Dialogs/TexDoc.hpp \
+    $$PWD/Dialogs/Thesaurus.hpp \
+    $$PWD/Dialogs/Tabbing.hpp \
+    $$PWD/Dialogs/Speller.hpp \
     $$PWD/Dialogs/Array.hpp
 
 
@@ -16,6 +21,7 @@ HEADERS += \
     $$PWD/BidiExtender.hpp \
     $$PWD/Session.hpp \
     $$PWD/SessionList.hpp \
+    $$PWD/TexStudio.hpp \
     $$PWD/Bookmarks.hpp
 
 HEADERS += \

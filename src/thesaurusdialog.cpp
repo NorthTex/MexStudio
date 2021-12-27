@@ -1,9 +1,11 @@
-#include "thesaurusdialog.h"
+
 #include "smallUsefulFunctions.h"
 #include "universalinputdialog.h"
+
+#include "Dialogs/Thesaurus.hpp"
+
 #include <QMutex>
 #include <QFuture>
-
 #include <QtConcurrentRun>
 
 //==============================Database=============================

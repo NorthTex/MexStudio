@@ -9,8 +9,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "tabbingdialog.h"
+
 #include "utilsUI.h"
+
+#include "Dialogs/Tabbing.hpp"
 
 TabbingDialog::TabbingDialog(QWidget *parent, const char *name)
 	: QDialog(parent)

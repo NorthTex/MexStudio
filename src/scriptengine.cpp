@@ -5,10 +5,12 @@
 #include "scriptobject.h"
 #include "buildmanager.h"
 #include "latexdocument.h"
-#include "texstudio.h"
 #include "PDFDocument.h"
 #include "usermacro.h"
 #include <QCryptographicHash>
+
+#include "TexStudio.hpp"
+
 
 //Q_DECLARE_METATYPE(QDocument *)
 //Q_DECLARE_METATYPE(LatexDocuments *)

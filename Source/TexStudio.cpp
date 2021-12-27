@@ -13,7 +13,6 @@
 //#include "/usr/include/valgrind/callgrind.h"
 
 #include "Debug/Guardian.hpp"
-#include "texstudio.h"
 #include "latexeditorview.h"
 
 #include "smallUsefulFunctions.h"
@@ -31,7 +30,6 @@
 #include "tabdialog.h"
 #include "Dialogs/Array.hpp"
 #include "BibTex/Dialog.hpp"
-#include "tabbingdialog.h"
 #include "letterdialog.h"
 #include "quickdocumentdialog.h"
 #include "quickbeamerdialog.h"
@@ -45,7 +43,6 @@
 #include "encoding.h"
 #include "randomtextgenerator.h"
 #include "webpublishdialog.h"
-#include "thesaurusdialog.h"
 #include "qsearchreplacepanel.h"
 #include "latexcompleter_config.h"
 #include "universalinputdialog.h"
@@ -71,9 +68,12 @@
 #include "execprogram.h"
 
 #include "Session.hpp"
-
+#include "TexStudio.hpp"
+#include "Dialogs/Thesaurus.hpp"
+#include "Dialogs/Tabbing.hpp"
 
 #include <QScreen>
+
 
 #ifndef QT_NO_DEBUG
 #include "tests/TestManager.hpp"

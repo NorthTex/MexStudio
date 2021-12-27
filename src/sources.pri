@@ -70,22 +70,17 @@ HEADERS += \
     $$PWD/searchresultmodel.h \
     $$PWD/searchresultwidget.h \
     $$PWD/smallUsefulFunctions.h \
-    $$PWD/spellerdialog.h \
     $$PWD/spellerutility.h \
     $$PWD/styleanimator.h \
     $$PWD/stylehelper.h \
     $$PWD/svn.h \
     $$PWD/syntaxcheck.h \
-    $$PWD/tabbingdialog.h \
     $$PWD/tabdialog.h \
     $$PWD/tablemanipulation.h \
     $$PWD/templatemanager.h \
     $$PWD/templatemanager_p.h \
     $$PWD/templateselector.h \
-    $$PWD/texdocdialog.h \
-    $$PWD/texstudio.h \
     $$PWD/textanalysis.h \
-    $$PWD/thesaurusdialog.h \
     $$PWD/titledpanel.h \
     $$PWD/toolwidgets.h \
     $$PWD/txstabwidget.h \
@@ -95,7 +90,6 @@ HEADERS += \
     $$PWD/updatechecker.h \
     $$PWD/usermacro.h \
     $$PWD/usermenudialog.h \
-    $$PWD/userquickdialog.h \
     $$PWD/utilsSystem.h \
     $$PWD/utilsUI.h \
     $$PWD/utilsVersion.h \

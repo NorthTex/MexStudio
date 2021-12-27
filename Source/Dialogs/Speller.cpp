@@ -9,10 +9,12 @@
  ***************************************************************************/
 
 
-#include "spellerdialog.h"
 #include "smallUsefulFunctions.h"
 #include "utilsUI.h"
 #include "qdocumentline.h"
+
+#include "Dialogs/Speller.hpp"
+
 
 #include <QItemEditorCreatorBase>
 #include <QStyledItemDelegate>

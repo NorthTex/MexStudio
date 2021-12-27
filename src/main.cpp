@@ -19,7 +19,6 @@
  * \see PDFDocument
  */
 
-#include "texstudio.h"
 #include "smallUsefulFunctions.h"
 #include "debughelper.h"
 #include "debuglogger.h"
@@ -28,6 +27,9 @@
 #include <qtsingleapplication.h>
 #include <QSplashScreen>
 #include <iostream>
+
+#include "TexStudio.hpp"
+
 
 #ifdef Q_OS_WIN32
 	#include "windows.h"

@@ -1,9 +1,10 @@
 
 
 #include "Help.hpp"
-#include "texdocdialog.h"
 #include "buildmanager.h"
 #include "utilsUI.h"
+
+#include "Dialogs/TexDoc.hpp"
 
 
 

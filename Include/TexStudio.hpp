@@ -28,7 +28,6 @@
 #include "latexeditorview.h"
 #include "latexcompleter.h"
 #include "xmltagslistwidget.h"
-#include "spellerdialog.h"
 #include "textanalysis.h"
 #include "toolwidgets.h"
 #include "txstabwidget.h"
@@ -37,7 +36,6 @@
 #include "unicodeinsertion.h"
 #include "tablemanipulation.h"
 #include "PDFDocument.h"
-#include <QSplashScreen>
 #include "qformatfactory.h"
 #include "qlanguagefactory.h"
 #include "qlinemarksinfocenter.h"
@@ -46,14 +44,16 @@
 #include "diffoperations.h"
 #include "svn.h"
 #include "git.h"
-#include <optional>
 
 //#include "help.h"
 
+#include <optional>
+#include <QSplashScreen>
 #include <QProgressDialog>
 
 #include "Session.hpp"
 #include "SessionList.hpp"
+#include "Dialogs/Speller.hpp"
 
 
 
