@@ -167,7 +167,6 @@ SOURCES += \
     $$PWD/thesaurusdialog.cpp \
     $$PWD/titledpanel.cpp \
     $$PWD/toolwidgets.cpp \
-    $$PWD/txstabwidget.cpp \
     $$PWD/unicodeinsertion.cpp \
     $$PWD/universalinputdialog.cpp \
     $$PWD/unixutils.cpp \

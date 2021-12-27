@@ -48,6 +48,7 @@ SOURCES += \
     $$PWD/FileSelector.cpp \
     $$PWD/TemplateManager.cpp \
     $$PWD/TextAnalysis.cpp \
+    $$PWD/TabWidget.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \
