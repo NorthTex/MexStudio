@@ -120,10 +120,10 @@ include(Include/Include.pri)
 include(Source/Source.pri)
 include(src/debug/debug.pri)
 
-RESOURCES += texstudio.qrc \
-    symbols.qrc \
-    completion.qrc \
-    images.qrc
+RESOURCES += Resources/MexStudio.qrc \
+    Resources/Symbols.qrc \
+    Resources/Completion.qrc \
+    Resources/Images.qrc
 
 
 TRANSLATIONS += translation/texstudio_ar.ts \
@@ -157,7 +157,7 @@ TRANSLATIONS += translation/texstudio_ar.ts \
     translation/texstudio_zh_CN.ts
 
 # ###############################
-win32:RC_FILE = win.rc
+win32:RC_FILE = Resources/win.rc
 
 # ##############################
 macx {

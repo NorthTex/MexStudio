@@ -20,8 +20,8 @@ elif [ $QT = qt5Release ]; then
 elif [ $QT = qt5win ]; then
 	. travis-ci/get-version.sh
 	TXS_COMMA_VERSION=$(echo $TXS_VERSION | tr . ,)
-	sed -i win.rc -e "s/0,[0,]*/$TXS_COMMA_VERSION,0/"
-	sed -i win.rc -e "s/git[\]0/$VERSION_NAME/"
+	sed -i Resources/win.rc -e "s/0,[0,]*/$TXS_COMMA_VERSION,0/"
+	sed -i Resources/win.rc -e "s/git[\]0/$VERSION_NAME/"
 	PATH=$PATH:${MXEDIR}/usr/bin
 	$MXEDIR/usr/bin/${MXETARGET}-qmake-qt5 texstudio.pro CONFIG-=debug MXE=1 BUILD_ADWAITA=1
 elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
