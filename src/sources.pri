@@ -157,7 +157,6 @@ SOURCES += \
     $$PWD/session.cpp \
     $$PWD/sessionlist.cpp \
     $$PWD/smallUsefulFunctions.cpp \
-    $$PWD/spellerutility.cpp \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
     $$PWD/syntaxcheck.cpp \
