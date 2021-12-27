@@ -46,6 +46,7 @@ SOURCES += \
     $$PWD/Speller.cpp \
     $$PWD/LogEditor.cpp \
     $$PWD/FileSelector.cpp \
+    $$PWD/TextAnalysis.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \

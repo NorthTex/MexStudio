@@ -165,7 +165,6 @@ SOURCES += \
     $$PWD/templatemanager_p.cpp \
     $$PWD/templateselector.cpp \
     $$PWD/texdocdialog.cpp \
-    $$PWD/textanalysis.cpp \
     $$PWD/thesaurusdialog.cpp \
     $$PWD/titledpanel.cpp \
     $$PWD/toolwidgets.cpp \
