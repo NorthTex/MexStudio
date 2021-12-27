@@ -1,7 +1,7 @@
 #include "Bookmarks.hpp"
-#include "latexdocument.h"
-#include "latexeditorview.h"
 
+#include "Latex/Document.hpp"
+#include "Latex/EditorView.hpp"
 
 
 Bookmarks::Bookmarks(const LatexDocuments * documents,QObject * parent)

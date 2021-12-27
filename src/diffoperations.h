@@ -3,8 +3,8 @@
 
 
 #include "diff/diff_match_patch.h"
-#include "latexdocument.h"
 
+#include "Latex/Document.hpp"
 
 class DiffOp {
 

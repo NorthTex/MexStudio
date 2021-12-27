@@ -13,9 +13,11 @@
 
 #include "titledpanel.h"
 #include "logeditor.h"
-#include "latexlog.h"
-#include "latexlogwidget.h"
 #include "searchresultwidget.h"
+
+
+#include "Latex/Log.hpp"
+#include "Latex/LogWidget.hpp"
 
 
 class InternalTerminalConfig;

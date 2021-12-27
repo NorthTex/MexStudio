@@ -23,10 +23,6 @@
 #include "codesnippet.h"
 #include "configmanager.h"
 #include "cursorhistory.h"
-#include "latexlog.h"
-#include "latexdocument.h"
-#include "latexeditorview.h"
-#include "latexcompleter.h"
 #include "xmltagslistwidget.h"
 #include "textanalysis.h"
 #include "toolwidgets.h"
@@ -39,7 +35,6 @@
 #include "qformatfactory.h"
 #include "qlanguagefactory.h"
 #include "qlinemarksinfocenter.h"
-#include "latexstyleparser.h"
 #include "kpathseaParser.h"
 #include "diffoperations.h"
 #include "svn.h"
@@ -54,6 +49,15 @@
 #include "Session.hpp"
 #include "SessionList.hpp"
 #include "Dialogs/Speller.hpp"
+
+#include "Latex/StyleParser.hpp"
+#include "Latex/Completer.hpp"
+#include "Latex/EditorView.hpp"
+#include "Latex/Document.hpp"
+#include "Latex/Log.hpp"
+
+
+
 
 
 

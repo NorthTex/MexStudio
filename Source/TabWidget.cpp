@@ -1,7 +1,8 @@
 #include "txstabwidget.h"
-#include "latexeditorview.h"
-#include "latexdocument.h"
 #include "smallUsefulFunctions.h"
+
+#include "Latex/Document.hpp"
+#include "Latex/EditorView.hpp"
 
 
 TxsTabWidget::TxsTabWidget(QWidget * parent) 

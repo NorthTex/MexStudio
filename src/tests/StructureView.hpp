@@ -1,8 +1,10 @@
 #ifndef Header_StructureView_T
 #define Header_StructureView_T
 #ifndef QT_NO_DEBUG
+
 #include "mostQtHeaders.h"
-#include "latexdocument.h"
+
+#include "Latex/Document.hpp"
 
 class scriptengine;
 class QEditor;

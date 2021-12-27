@@ -1,5 +1,7 @@
-#include "latexlog.h"
+
 #include "qlinemarksinfocenter.h"
+
+#include "Latex/Log.hpp"
 
 
 LatexLogModel::LatexLogModel(QObject * parent)

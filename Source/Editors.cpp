@@ -2,9 +2,13 @@
 #include "txstabwidget.h"
 #include "mostQtHeaders.h"
 #include "utilsSystem.h"
-#include "latexeditorview.h"
 #include "minisplitter.h"
+
+
 #include <algorithm>
+
+#include "Latex/EditorView.hpp"
+
 
 using std::reverse;
 

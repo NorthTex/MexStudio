@@ -3,9 +3,11 @@
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
-#include "latexstyleparser.h"
 #include "tests/Util.hpp"
+
 #include <QtTest/QtTest>
+
+#include "Latex/StyleParser.hpp"
 
 class LatexStyleParserTest: public QObject{
 	Q_OBJECT

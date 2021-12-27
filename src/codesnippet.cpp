@@ -4,8 +4,9 @@
 #include "qdocumentcursor.h"
 #include "qdocumentline.h"
 #include "filechooser.h"
-#include "latexdocument.h"
 #include "smallUsefulFunctions.h"
+
+#include "Latex/Document.hpp"
 
 #include <algorithm>
 

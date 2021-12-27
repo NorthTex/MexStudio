@@ -7,9 +7,11 @@
 #include "qdocumentline_p.h"
 
 #include "latexparser/latexparser.h"
-#include "latexpackage.h"
 #include "tests/Util.hpp"
+
 #include <QtTest/QtTest>
+
+#include "Latex/Package.hpp"
 
 // shortcuts and semantic types
 typedef Token T;

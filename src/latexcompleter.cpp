@@ -1,7 +1,6 @@
-#include "latexcompleter.h"
 #include "latexcompleter_p.h"
 #include "latexcompleter_config.h"
-#include "LatexReference.hpp"
+
 #include "usermacro.h"
 
 #include "smallUsefulFunctions.h"
@@ -12,9 +11,12 @@
 #include "qformatfactory.h"
 #include "qdocumentline_p.h"
 
-#include "latexdocument.h"
-#include "latexeditorview.h"
 #include "qdocument.h"
+
+#include "Latex/Reference.hpp"
+#include "Latex/EditorView.hpp"
+#include "Latex/Completer.hpp"
+#include "Latex/Document.hpp"
 
 #include <algorithm>
 #include <QtConcurrentFilter>

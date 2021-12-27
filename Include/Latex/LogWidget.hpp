@@ -3,9 +3,10 @@
 
 
 #include "logeditor.h"
-#include "latexlog.h"
 #include <QSortFilterProxyModel>
 #include "mostQtHeaders.h"
+
+#include "Latex/Log.hpp"
 
 
 class LatexLogWidget : public QWidget {

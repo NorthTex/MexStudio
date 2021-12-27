@@ -1,5 +1,3 @@
-#include "latexdocument.h"
-#include "latexeditorview.h"
 #include "qdocument.h"
 #include "qformatscheme.h"
 #include "qlanguagedefinition.h"
@@ -7,12 +5,17 @@
 #include "qdocumentline_p.h"
 #include "qdocumentcursor.h"
 #include "qeditor.h"
-#include "latexcompleter.h"
 #include "latexcompleter_config.h"
 #include "configmanagerinterface.h"
 #include "smallUsefulFunctions.h"
 #include "latexparser/latexparsing.h"
+
 #include <QtConcurrent>
+
+
+#include "Latex/Document.hpp"
+#include "Latex/Completer.hpp"
+#include "Latex/EditorView.hpp"
 
 
 

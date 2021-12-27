@@ -2,13 +2,17 @@
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
 #include "LatexEditorView.hpp"
-#include "latexeditorview.h"
-#include "latexdocument.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
 #include "tests/Util.hpp"
+
 #include <QtTest/QtTest>
+
+#include "Latex/Document.hpp"
+#include "Latex/EditorView.hpp"
+
+
 LatexEditorViewTest::LatexEditorViewTest(LatexEditorView* view): edView(view){}
 
 void LatexEditorViewTest::insertHardLineBreaks_data(){

@@ -1,7 +1,9 @@
-#include "latexstyleparser.h"
+
 #include "latexparser/latexparser.h"
 #include "smallUsefulFunctions.h"
 #include "execprogram.h"
+
+#include "Latex/StyleParser.hpp"
 
 LatexStyleParser::LatexStyleParser(QObject *parent, QString baseDirName, QString kpsecmd) :
 	SafeThread(parent)

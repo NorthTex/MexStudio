@@ -2,10 +2,13 @@
 #define Header_Bookmarks
 
 #include "mostQtHeaders.h"
-#include "latexeditorview.h"
-#include "latexdocument.h"
 #include "Bookmark.hpp"
+
 #include <functional>
+
+#include "Latex/EditorView.hpp"
+#include "Latex/Document.hpp"
+
 
 
 class Bookmarks : public QObject {

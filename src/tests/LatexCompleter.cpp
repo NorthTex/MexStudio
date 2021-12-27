@@ -3,15 +3,17 @@
 #include "mostQtHeaders.h"
 #include "LatexCompleter.hpp"
 #include "latexcompleter_config.h"
-#include "latexcompleter.h"
-#include "latexeditorview.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
 #include "tests/Util.hpp"
-#include "latexdocument.h"
+
+#include "Latex/Document.hpp"
+#include "Latex/Completer.hpp"
+#include "Latex/EditorView.hpp"
 
 #include <QtTest/QtTest>
+
 LatexCompleterTest::LatexCompleterTest(LatexEditorView* view): edView(view){
 	Q_ASSERT(edView->getCompleter());
 	Q_ASSERT(edView->getCompleter()->getConfig());

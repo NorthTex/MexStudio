@@ -13,11 +13,14 @@
 
 
 #include "mostQtHeaders.h"
-#include "latexeditorview.h"
 #include "spellerutility.h"
 #include "ui_spellerdialog.h"
 #include "qeditor.h"
+
+
 #include <QStyledItemDelegate>
+
+#include "Latex/EditorView.hpp"
 
 
 class SpellerDialog : public QDialog {

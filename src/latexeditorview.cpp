@@ -9,12 +9,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "latexeditorview.h"
-#include "latexeditorview_config.h"
-
 #include "filedialog.h"
-#include "latexcompleter.h"
-#include "latexdocument.h"
 #include "smallUsefulFunctions.h"
 #include "spellerutility.h"
 #include "tablemanipulation.h"
@@ -39,7 +34,6 @@
 #include "qlinechangepanel.h"
 #include "qstatuspanel.h"
 #include "qsearchreplacepanel.h"
-#include "latexrepository.h"
 
 #include "latexparser/latexparsing.h"
 
@@ -48,9 +42,16 @@
 #include "scriptengine.h"
 #include "diffoperations.h"
 
-#include "LatexReference.hpp"
 
 #include "BidiExtender.hpp"
+
+#include "Latex/Reference.hpp"
+#include "Latex/Completer.hpp"
+#include "Latex/EditorView.hpp"
+#include "Latex/Document.hpp"
+#include "Latex/Repository.hpp"
+#include "Latex/EditorViewConfig.hpp"
+
 
 #include <random>
 

@@ -1,7 +1,7 @@
-#include "latexpackage.h"
 #include "latexcompleter_config.h"
 #include "latexparser/latexparser.h"
 
+#include "Latex/Package.hpp"
 
 CommandDescription extractCommandDef(QString line, QString definition);
 CommandDescription extractCommandDefKeyVal(QString line, QString &key);

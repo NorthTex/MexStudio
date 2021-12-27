@@ -19,8 +19,10 @@
 #include "qeditor.h"
 #include "directoryreader.h"
 #include "BibTex/Reader.hpp"
+
 #include <set>
-#include "LatexReference.hpp"
+
+#include "Latex/Reference.hpp"
 
 
 class CompletionListModel;

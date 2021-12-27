@@ -17,7 +17,8 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
-#include "latexoutputfilter.h"
+#include "Latex/OutputFilter.hpp"
+
 #include "utilsUI.h"
 
 

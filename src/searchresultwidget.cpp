@@ -1,6 +1,7 @@
 #include "searchresultwidget.h"
-#include "latexdocument.h"
 #include "configmanagerinterface.h"
+
+#include "Latex/Document.hpp"
 
 
 SearchResultWidget::SearchResultWidget(QWidget *parent) : QWidget(parent), query(nullptr)

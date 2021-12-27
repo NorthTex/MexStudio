@@ -1,7 +1,8 @@
 #include "searchquery.h"
-#include "latexdocument.h"
 // TODO: dependency should be refactored
 #include "buildmanager.h"
+
+#include "Latex/Document.hpp"
 
 SearchQuery::SearchQuery(QString expr, QString replaceText, SearchFlags f) :
     mType(tr("Search")), mScope(CurrentDocumentScope), mModel(nullptr), searchFlags(f)

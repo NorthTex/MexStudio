@@ -4,12 +4,13 @@
 #include "smallUsefulFunctions.h"
 #include "utilsUI.h"
 #include "latexparser/latexreader.h"
-#include "latexdocument.h"
 
 #include "qeditor.h"
 #include "qdocument.h"
 #include "qdocumentline.h"
 #include "filedialog.h"
+
+#include "Latex/Document.hpp"
 
 #include <algorithm>
 

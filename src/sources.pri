@@ -31,25 +31,13 @@ HEADERS += \
     $$PWD/git.h \
     $$PWD/grammarcheck.h \
     $$PWD/grammarcheck_config.h \
-    $$PWD/LatexReference.hpp \
     $$PWD/Help.hpp \
     #$$PWD/icondelegate.h \
     $$PWD/insertgraphics.h \
     $$PWD/insertgraphics_config.h \
     $$PWD/kpathseaParser.h \
-    $$PWD/latexcompleter.h \
     $$PWD/latexcompleter_config.h \
     $$PWD/latexcompleter_p.h \
-    $$PWD/latexdocument.h \
-    $$PWD/latexeditorview.h \
-    $$PWD/latexeditorview_config.h \
-    $$PWD/latexlog.h \
-    $$PWD/latexlogwidget.h \
-    $$PWD/latexoutputfilter.h \
-    $$PWD/latexpackage.h \
-    $$PWD/latexrepository.h \
-    $$PWD/latexstructure.h \
-    $$PWD/latexstyleparser.h \
     $$PWD/letterdialog.h \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \
     $$PWD/logeditor.h \

@@ -4,12 +4,12 @@
 #include "qdocumentsearch.h"
 #include "scriptobject.h"
 #include "buildmanager.h"
-#include "latexdocument.h"
 #include "PDFDocument.h"
 #include "usermacro.h"
 #include <QCryptographicHash>
 
 #include "TexStudio.hpp"
+#include "Latex/Document.hpp"
 
 
 //Q_DECLARE_METATYPE(QDocument *)

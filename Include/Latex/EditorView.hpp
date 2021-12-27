@@ -19,10 +19,11 @@
 #include "grammarcheck.h"
 #include "BibTex/Reader.hpp"
 #include "cursorposition.h"
-#include "latexcompleter.h"
 //#include "help.h"
 #include "Help.hpp"
-#include "latexdocument.h"
+
+#include "Latex/Document.hpp"
+#include "Latex/Completer.hpp"
 
 
 class QCodeEdit;

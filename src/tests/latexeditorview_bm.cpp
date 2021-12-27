@@ -2,15 +2,18 @@
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
 #include "LatexEditorViewBenchmark.hpp"
-#include "latexeditorview.h"
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qdocumentline.h"
 #include "qdocumentline_p.h"
-#include "latexdocument.h"
 #include "qeditor.h"
 #include "tests/Util.hpp"
+
 #include <QtTest/QtTest>
+
+#include "Latex/Document.hpp"
+#include "Latex/EditorView.hpp"
+
 LatexEditorViewBenchmark::LatexEditorViewBenchmark(LatexEditorView* view, bool all): edView(view), all(all){}
 
 void LatexEditorViewBenchmark::documentChange_data(){

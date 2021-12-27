@@ -3,10 +3,7 @@
 
 #include "configdialog.h"
 #include "filedialog.h"
-#include "latexeditorview.h"
-#include "latexpackage.h"
 #include "latexcompleter_config.h"
-#include "latexeditorview_config.h"
 #include "webpublishdialog_config.h"
 #include "insertgraphics_config.h"
 #include "grammarcheck_config.h"
@@ -20,6 +17,9 @@
 
 #include <QDomElement>
 
+#include "Latex/EditorView.hpp"
+#include "Latex/Package.hpp"
+#include "Latex/EditorViewConfig.hpp"
 
 #include "qformatconfig.h"
 

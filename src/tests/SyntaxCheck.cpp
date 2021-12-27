@@ -6,12 +6,16 @@
 #include "qdocumentcursor.h"
 #include "qdocument.h"
 #include "qeditor.h"
-#include "latexdocument.h"
-#include "latexeditorview_config.h"
 
 //#include "syntaxcheck.h"
 #include "tests/Util.hpp"
+
+#include "Latex/Document.hpp"
+#include "Latex/EditorViewConfig.hpp"
+
 #include <QtTest/QtTest>
+
+
 SyntaxCheckTest::SyntaxCheckTest(LatexEditorView* ed): edView(ed){}
 
 void SyntaxCheckTest::checktabular_data(){

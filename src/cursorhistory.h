@@ -13,8 +13,9 @@
 
 
 #include "mostQtHeaders.h"
-#include "latexdocument.h"
 #include "cursorposition.h"
+
+#include "Latex/Document.hpp"
 
 
 using CursorPosList = std::list<CursorPosition>;

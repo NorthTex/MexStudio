@@ -13,7 +13,6 @@
 //#include "/usr/include/valgrind/callgrind.h"
 
 #include "Debug/Guardian.hpp"
-#include "latexeditorview.h"
 
 #include "smallUsefulFunctions.h"
 
@@ -47,7 +46,6 @@
 #include "latexcompleter_config.h"
 #include "universalinputdialog.h"
 #include "insertgraphics.h"
-#include "latexeditorview_config.h"
 #include "scriptengine.h"
 #include "grammarcheck.h"
 #include "qmetautils.h"
@@ -57,20 +55,25 @@
 #include "utilsUI.h"
 #include "utilsSystem.h"
 #include "minisplitter.h"
-#include "latexpackage.h"
 #include "latexparser/argumentlist.h"
 #include "latexparser/latextokens.h"
 #include "latexparser/latexparser.h"
 #include "latexparser/latexparsing.h"
-#include "latexstructure.h"
 #include "symbollistmodel.h"
 #include "symbolwidget.h"
 #include "execprogram.h"
 
 #include "Session.hpp"
 #include "TexStudio.hpp"
+
 #include "Dialogs/Thesaurus.hpp"
 #include "Dialogs/Tabbing.hpp"
+
+#include "Latex/EditorView.hpp"
+#include "Latex/Structure.hpp"
+#include "Latex/Package.hpp"
+#include "Latex/EditorViewConfig.hpp"
+
 
 #include <QScreen>
 

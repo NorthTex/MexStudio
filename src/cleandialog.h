@@ -1,9 +1,9 @@
 #ifndef Header_Clean_Dialog
 #define Header_Clean_Dialog
 
-#include "latexdocument.h"
 #include "mostQtHeaders.h"
 
+#include "Latex/Document.hpp"
 
 namespace Ui { class CleanDialog; }
 

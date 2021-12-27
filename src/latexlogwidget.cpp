@@ -1,7 +1,9 @@
-#include "latexlogwidget.h"
 #include "encoding.h"
 #include "configmanager.h"
 #include "minisplitter.h"
+
+#include "Latex/LogWidget.hpp"
+
 
 /*
  * row heights of tables are quite large by default. Experimentally detect the

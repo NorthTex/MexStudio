@@ -4,8 +4,8 @@
 #include "mostQtHeaders.h"
 #include "ui_encodingdialog.h"
 #include "qeditor.h"
-#include "latexdocument.h"
 
+#include "Latex/Document.hpp"
 
 class EncodingDialog : public QDialog, private Ui::EncodingDialog {
 

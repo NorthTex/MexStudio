@@ -21,11 +21,12 @@
 #include "qdocument.h"
 
 #include "spellerutility.h"
-#include "latexeditorview_config.h"
 #include "smallUsefulFunctions.h"
 #include "qformatconfig.h"
 
 #include "filedialog.h"
+
+#include "Latex/EditorViewConfig.hpp"
 
 const QString ShortcutDelegate::addRowButton = "<internal: add row>";
 const QString ShortcutDelegate::deleteRowButton = "<internal: delete row>";

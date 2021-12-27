@@ -1,10 +1,12 @@
 
 
-#include "LatexReference.hpp"
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+
+#include "Latex/Reference.hpp"
+
 #include "smallUsefulFunctions.h"
 
 

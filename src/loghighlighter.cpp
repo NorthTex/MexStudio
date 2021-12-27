@@ -10,7 +10,8 @@
  ***************************************************************************/
 
 #include "loghighlighter.h"
-#include "latexoutputfilter.h"
+
+#include "Latex/OutputFilter.hpp"
 
 LogHighlighter::LogHighlighter(QTextDocument *parent)
 	: QSyntaxHighlighter(parent)

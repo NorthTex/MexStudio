@@ -2,7 +2,8 @@
 #define Test_SyntaxChecker
 #ifndef QT_NO_DEBUG
 #include "mostQtHeaders.h"
-#include "latexeditorview.h"
+
+#include "Latex/EditorView.hpp"
 
 class SyntaxCheckTest: public QObject{
 	Q_OBJECT

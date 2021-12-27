@@ -1,5 +1,6 @@
 
-#include "latexrepository.h"
+#include "Latex/Repository.hpp"
+
 #include <QMutex>
 
 

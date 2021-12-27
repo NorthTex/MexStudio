@@ -1,7 +1,10 @@
 #include "diffoperations.h"
-#include "latexdocument.h"
-#include "latexeditorview.h"
 #include "smallUsefulFunctions.h"
+
+#include "Latex/Document.hpp"
+#include "Latex/EditorView.hpp"
+
+
 DiffOp::DiffOp(): start(0), length(0), type(Insert), lineWasModified(false), dlh(nullptr) {}
 
 void diffDocs(LatexDocument *doc, LatexDocument *doc2, bool dontAddLines)

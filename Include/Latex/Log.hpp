@@ -3,7 +3,8 @@
 
 
 #include "mostQtHeaders.h"
-#include "latexoutputfilter.h"
+
+#include "Latex/OutputFilter.hpp"
 
 
 class LatexLogModel: public QAbstractTableModel {

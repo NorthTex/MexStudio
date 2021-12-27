@@ -3,14 +3,16 @@
 
 
 #include "mostQtHeaders.h"
-#include "latexstructure.h"
 #include "qdocument.h"
 #include "codesnippet.h"
 #include "BibTex/Parser.hpp"
 #include "usermacro.h"
 #include "syntaxcheck.h"
 #include "grammarcheck.h"
-#include "latexpackage.h"
+
+#include "Latex/Structure.hpp"
+#include "Latex/Package.hpp"
+
 
 
 class LatexEditorView;

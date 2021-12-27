@@ -1,6 +1,5 @@
-#include "latexstructure.h"
-#include "latexdocument.h"
-
+#include "Latex/Structure.hpp"
+#include "Latex/Document.hpp"
 
 StructureEntry::StructureEntry(LatexDocument *doc, Type newType): type(newType), level(0), valid(false), expanded(false), parent(nullptr), document(doc), columnNumber(0), parentRow(-1), lineHandle(nullptr), lineNumber(-1), m_contexts(Unknown)
 {
