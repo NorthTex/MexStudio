@@ -16,7 +16,8 @@
 
 #include "mostQtHeaders.h"
 
-#include "bibtexparser.h"
+//#include "bibtexparser.h"
+
 #include "buildmanager.h"
 #include "Bookmarks.hpp"
 #include "codesnippet.h"
@@ -37,8 +38,6 @@
 #include "tablemanipulation.h"
 #include "PDFDocument.h"
 #include <QSplashScreen>
-#include "session.h"
-#include "sessionlist.h"
 #include "qformatfactory.h"
 #include "qlanguagefactory.h"
 #include "qlinemarksinfocenter.h"
@@ -52,6 +51,10 @@
 //#include "help.h"
 
 #include <QProgressDialog>
+
+#include "Session.hpp"
+#include "SessionList.hpp"
+
 
 
 /*!

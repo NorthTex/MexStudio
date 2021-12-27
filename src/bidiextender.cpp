@@ -1,6 +1,8 @@
 #include "QtGlobal"
-#include "bidiextender.h"
 #include "QDebug"
+
+#include "BidiExtender.hpp"
+
 
 //mostly taken from biditexmaker
 

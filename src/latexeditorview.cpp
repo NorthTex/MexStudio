@@ -50,7 +50,7 @@
 
 #include "LatexReference.hpp"
 
-#include "bidiextender.h"
+#include "BidiExtender.hpp"
 
 #include <random>
 

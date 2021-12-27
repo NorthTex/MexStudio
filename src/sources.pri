@@ -8,7 +8,6 @@ HEADERS += \
     $$PWD/BibTex/Reader.hpp \
     $$PWD/BibTex/Parser.hpp \
     $$PWD/TransformCharacters.hpp \
-    $$PWD/bidiextender.h \
 #    $$PWD/bookmarks.h \
     $$PWD/buildmanager.h \
     $$PWD/cleandialog.h \
@@ -70,8 +69,6 @@ HEADERS += \
     $$PWD/searchquery.h \
     $$PWD/searchresultmodel.h \
     $$PWD/searchresultwidget.h \
-    $$PWD/session.h \
-    $$PWD/sessionlist.h \
     $$PWD/smallUsefulFunctions.h \
     $$PWD/spellerdialog.h \
     $$PWD/spellerutility.h \

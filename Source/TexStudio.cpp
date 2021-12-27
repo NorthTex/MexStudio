@@ -55,7 +55,6 @@
 #include "grammarcheck.h"
 #include "qmetautils.h"
 #include "updatechecker.h"
-#include "session.h"
 #include "searchquery.h"
 #include "fileselector.h"
 #include "utilsUI.h"
@@ -70,6 +69,8 @@
 #include "symbollistmodel.h"
 #include "symbolwidget.h"
 #include "execprogram.h"
+
+#include "Session.hpp"
 
 
 #include <QScreen>

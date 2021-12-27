@@ -1,4 +1,5 @@
-#include "session.h"
+#include "Session.hpp"
+
 #include "configmanager.h"
 #include "smallUsefulFunctions.h"
 
