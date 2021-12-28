@@ -10,11 +10,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "webpublishdialog.h"
 #include "webpublishdialog_config.h"
 #include "smallUsefulFunctions.h"
 #include "utilsUI.h"
-#include "filedialog.h"
+
+
+#include "Dialogs/File.hpp"
+#include "Dialogs/WebPublish.hpp"
+
 
 WebPublishDialog::WebPublishDialog(QWidget *parent, WebPublishDialogConfig *aConfig, BuildManager  *aBuildManager, QTextCodec *input_codec)
 	: QDialog(parent), config(aConfig), buildManager(aBuildManager), codec (input_codec)

@@ -8,6 +8,14 @@ HEADERS += \
     $$PWD/Dialogs/Thesaurus.hpp \
     $$PWD/Dialogs/Tabbing.hpp \
     $$PWD/Dialogs/Speller.hpp \
+    $$PWD/Dialogs/WebPublish.hpp \
+    $$PWD/Dialogs/MakeTemplate.hpp \
+    $$PWD/Dialogs/UserMenu.hpp \
+    $$PWD/Dialogs/Letter.hpp \
+    $$PWD/Dialogs/File.hpp \
+    $$PWD/Dialogs/Tab.hpp \
+    $$PWD/Dialogs/QuickDocument.hpp \
+    $$PWD/Dialogs/QuickBeamer.hpp \
     $$PWD/Dialogs/Array.hpp
 
 

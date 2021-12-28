@@ -10,10 +10,11 @@
  ***************************************************************************/
 
 
-#include "tabdialog.h"
 #include "utilsUI.h"
 #include "smallUsefulFunctions.h"
+
 #include "Wrapper/Connect.hpp"
+#include "Dialogs/Tab.hpp"
 
 
 TabDialog::TabDialog(QWidget * parent, const char * name)

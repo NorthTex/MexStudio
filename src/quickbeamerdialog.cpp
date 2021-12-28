@@ -9,10 +9,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "quickbeamerdialog.h"
-#include "universalinputdialog.h"
 #include "configmanagerinterface.h"
 #include "utilsUI.h"
+
+#include "universalinputdialog.h"
+#include "Dialogs/QuickBeamer.hpp"
+
 
 QString QuickBeamerDialog::document_encoding;
 

@@ -12,11 +12,13 @@
 #include "mostQtHeaders.h"
 #include "insertgraphics.h"
 #include "insertgraphics_config.h"
-#include "filedialog.h"
+
 
 #include "smallUsefulFunctions.h"
 #include "latexparser/latexparser.h"
 #include "latexparser/latexreader.h"
+
+#include "Dialogs/File.hpp"
 
 
 PlacementValidator::PlacementValidator(QObject *parent)

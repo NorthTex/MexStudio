@@ -8,8 +8,8 @@
 #include "qeditor.h"
 #include "qdocument.h"
 #include "qdocumentline.h"
-#include "filedialog.h"
 
+#include "Dialogs/File.hpp"
 #include "Latex/Document.hpp"
 
 #include <algorithm>

@@ -3,7 +3,9 @@
 #include "pdfsplittool.h"
 #include "ui_pdfsplittool.h"
 #include "utilsUI.h"
-#include "filedialog.h"
+
+#include "Dialogs/File.hpp"
+
 
 #include <QFileDialog>
 #include <QFileInfo>

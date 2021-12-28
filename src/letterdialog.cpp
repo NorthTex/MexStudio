@@ -9,7 +9,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "letterdialog.h"
+#include "Dialogs/Letter.hpp"
+
 #include "utilsUI.h"
 
 LetterDialog::LetterDialog(QWidget *parent, const char *name)

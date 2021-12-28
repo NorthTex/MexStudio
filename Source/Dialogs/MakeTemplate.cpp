@@ -1,4 +1,3 @@
-#include "maketemplatedialog.h"
 #include "ui_maketemplatedialog.h"
 #include "smallUsefulFunctions.h"
 #include "utilsUI.h"
@@ -6,6 +5,7 @@
 #include <QJsonDocument>
 
 #include "Wrapper/Connect.hpp"
+#include "Dialogs/MakeTemplate.hpp"
 
 
 inline QString today(){

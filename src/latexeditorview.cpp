@@ -9,7 +9,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filedialog.h"
 #include "smallUsefulFunctions.h"
 #include "spellerutility.h"
 #include "tablemanipulation.h"
@@ -51,6 +50,8 @@
 #include "Latex/Document.hpp"
 #include "Latex/Repository.hpp"
 #include "Latex/EditorViewConfig.hpp"
+
+#include "Dialogs/File.hpp"
 
 
 #include <random>

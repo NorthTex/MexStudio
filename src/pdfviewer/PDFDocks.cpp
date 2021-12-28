@@ -36,7 +36,9 @@
 
 #include "PDFDocks.h"
 #include "PDFDocument.h"
+
 #include "universalinputdialog.h"
+
 
 /*!
  * \brief constructor

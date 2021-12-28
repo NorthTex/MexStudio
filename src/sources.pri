@@ -38,11 +38,9 @@ HEADERS += \
     $$PWD/kpathseaParser.h \
     $$PWD/latexcompleter_config.h \
     $$PWD/latexcompleter_p.h \
-    $$PWD/letterdialog.h \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \
     $$PWD/logeditor.h \
     $$PWD/loghighlighter.h \
-    $$PWD/maketemplatedialog.h \
     $$PWD/manhattanstyle.h \
     $$PWD/mathassistant.h \
     $$PWD/minisplitter.h \
@@ -50,8 +48,6 @@ HEADERS += \
     $$PWD/mostQtHeaders.h \
     $$PWD/pdfsplittool.h \
     $$PWD/qmetautils.h \
-    $$PWD/quickbeamerdialog.h \
-    $$PWD/quickdocumentdialog.h \
     $$PWD/randomtextgenerator.h \
     $$PWD/scriptengine.h \
     $$PWD/searchquery.h \
@@ -63,7 +59,6 @@ HEADERS += \
     $$PWD/stylehelper.h \
     $$PWD/svn.h \
     $$PWD/syntaxcheck.h \
-    $$PWD/tabdialog.h \
     $$PWD/tablemanipulation.h \
     $$PWD/templatemanager.h \
     $$PWD/templatemanager_p.h \
@@ -73,18 +68,15 @@ HEADERS += \
     $$PWD/toolwidgets.h \
     $$PWD/txstabwidget.h \
     $$PWD/unicodeinsertion.h \
-    $$PWD/universalinputdialog.h \
     $$PWD/unixutils.h \
     $$PWD/updatechecker.h \
     $$PWD/usermacro.h \
-    $$PWD/usermenudialog.h \
     $$PWD/utilsSystem.h \
     $$PWD/utilsUI.h \
     $$PWD/utilsVersion.h \
-    $$PWD/webpublishdialog.h \
+    $$PWD/universalinputdialog.h \
     $$PWD/webpublishdialog_config.h \
     $$PWD/xmltagslistwidget.h \
-    $$PWD/filedialog.h \
     $$PWD/macrobrowserui.h \
     $$PWD/terminal_config.h
 

@@ -2,7 +2,6 @@
 #include "configmanager.h"
 
 #include "configdialog.h"
-#include "filedialog.h"
 #include "latexcompleter_config.h"
 #include "webpublishdialog_config.h"
 #include "insertgraphics_config.h"
@@ -20,6 +19,8 @@
 #include "Latex/EditorView.hpp"
 #include "Latex/Package.hpp"
 #include "Latex/EditorViewConfig.hpp"
+
+#include "Dialogs/File.hpp"
 
 #include "qformatconfig.h"
 

@@ -9,10 +9,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "quickdocumentdialog.h"
-#include "universalinputdialog.h"
 #include "configmanagerinterface.h"
 #include "utilsUI.h"
+
+
+#include "Dialogs/QuickDocument.hpp"
+#include "universalinputdialog.h"
+
 
 qreal convertLatexLengthToMetre(const qreal &length, const QString &unit)
 {

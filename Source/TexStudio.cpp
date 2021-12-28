@@ -24,27 +24,18 @@
 
 #include "DblClickMenubar.hpp"
 #include "filechooser.h"
-#include "filedialog.h"
 #include "findindirs.h"
-#include "tabdialog.h"
 #include "Dialogs/Array.hpp"
 #include "BibTex/Dialog.hpp"
-#include "letterdialog.h"
-#include "quickdocumentdialog.h"
-#include "quickbeamerdialog.h"
 #include "mathassistant.h"
-#include "maketemplatedialog.h"
 #include "templateselector.h"
 #include "templatemanager.h"
-#include "usermenudialog.h"
 #include "Dialogs/About.hpp"
 #include "encodingdialog.h"
 #include "encoding.h"
 #include "randomtextgenerator.h"
-#include "webpublishdialog.h"
 #include "qsearchreplacepanel.h"
 #include "latexcompleter_config.h"
-#include "universalinputdialog.h"
 #include "insertgraphics.h"
 #include "scriptengine.h"
 #include "grammarcheck.h"
@@ -68,6 +59,22 @@
 
 #include "Dialogs/Thesaurus.hpp"
 #include "Dialogs/Tabbing.hpp"
+#include "Dialogs/WebPublish.hpp"
+#include "Dialogs/UserMenu.hpp"
+#include "universalinputdialog.h"
+#include "Dialogs/Tab.hpp"
+#include "Dialogs/QuickDocument.hpp"
+#include "Dialogs/QuickBeamer.hpp"
+#include "Dialogs/MakeTemplate.hpp"
+#include "Dialogs/Letter.hpp"
+#include "Dialogs/File.hpp"
+
+
+
+
+
+
+
 
 #include "Latex/EditorView.hpp"
 #include "Latex/Structure.hpp"

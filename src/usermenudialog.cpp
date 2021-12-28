@@ -9,7 +9,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "usermenudialog.h"
 
 #include "qcodeedit.h"
 #include "qeditor.h"
@@ -24,6 +23,9 @@
 
 #include "smallUsefulFunctions.h"
 #include "utilsUI.h"
+
+#include "Dialogs/UserMenu.hpp"
+
 
 UserMenuDialog::UserMenuDialog(QWidget *parent,  QString name, QLanguageFactory *languageFactory)
     : QDialog(parent), languages(languageFactory)

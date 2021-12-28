@@ -1,7 +1,7 @@
 
 #include "smallUsefulFunctions.h"
-#include "universalinputdialog.h"
 
+#include "universalinputdialog.h"
 #include "Dialogs/Thesaurus.hpp"
 
 #include <QMutex>

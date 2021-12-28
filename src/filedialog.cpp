@@ -1,5 +1,7 @@
-#include "filedialog.h"
+
 #include "configmanager.h"
+
+#include "Dialogs/File.hpp"
 
 #include <QFileDialog>
 

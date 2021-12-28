@@ -24,8 +24,7 @@
 #include "smallUsefulFunctions.h"
 #include "qformatconfig.h"
 
-#include "filedialog.h"
-
+#include "Dialogs/File.hpp"
 #include "Latex/EditorViewConfig.hpp"
 
 const QString ShortcutDelegate::addRowButton = "<internal: add row>";

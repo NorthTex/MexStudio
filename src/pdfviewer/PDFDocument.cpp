@@ -44,7 +44,9 @@
 #include "titledpanel.h"
 
 #include "pdfsplittool.h"
-#include "filedialog.h"
+
+#include "Dialogs/File.hpp"
+
 
 //#include "GlobalParams.h"
 
