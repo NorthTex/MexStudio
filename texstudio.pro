@@ -186,16 +186,19 @@ unix:!macx {
     target.path = $${PREFIX}/bin
     utilities.path = $${DATADIR}/texstudio
     manual.path = $${DATADIR}/texstudio
-    utilities.files = utilities/texstudio16x16.png \
-        utilities/texstudio22x22.png \
-        utilities/texstudio32x32.png \
-        utilities/texstudio48x48.png \
-        utilities/texstudio64x64.png \
-        utilities/texstudio128x128.png
+    
+    utilities.files =               \
+        Resources/Icons/App/16.png  \
+        Resources/Icons/App/22.png  \
+        Resources/Icons/App/32.png  \
+        Resources/Icons/App/48.png  \
+        Resources/Icons/App/64.png  \
+        Resources/Icons/App/128.png
+
     applicationmenu.path = $${DATADIR}/applications
     applicationmenu.files = utilities/texstudio.desktop
     icon.path = $${DATADIR}/icons/hicolor/scalable/apps
-    icon.files = utilities/texstudio.svg
+    icon.files = Resources/Icons/App/texstudio.svg
     isEmpty(NO_APPDATA) {
         appdata.path = $${DATADIR}/metainfo
         appdata.files = utilities/texstudio.metainfo.xml 
