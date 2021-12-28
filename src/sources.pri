@@ -154,26 +154,26 @@ SOURCES += \
     $$PWD/macrobrowserui.cpp
 
 FORMS += \
-    $$PWD/aboutdialog.ui \
-    $$PWD/arraydialog.ui \
+    $$PWD/UI/aboutdialog.ui \
+    $$PWD/UI/arraydialog.ui \
 #    $$PWD/bibtexdialog.ui \
-    $$PWD/cleandialog.ui \
-    $$PWD/configdialog.ui \
-    $$PWD/encodingdialog.ui \
-    $$PWD/filechooser.ui \
-    $$PWD/insertgraphics.ui \
-    $$PWD/letterdialog.ui \
-    $$PWD/maketemplatedialog.ui \
-    $$PWD/pdfsplittool.ui \
-    $$PWD/quickbeamerdialog.ui \
-    $$PWD/quickdocumentdialog.ui \
-    $$PWD/randomtextgenerator.ui \
-    $$PWD/spellerdialog.ui \
-    $$PWD/tabbingdialog.ui \
-    $$PWD/tabdialog.ui \
-    $$PWD/templateselector.ui \
-    $$PWD/texdocdialog.ui \
-    $$PWD/textanalysis.ui \
-    $$PWD/usermenudialog.ui \
-    $$PWD/userquickdialog.ui \
-    $$PWD/webpublishdialog.ui
+    $$PWD/UI/cleandialog.ui \
+    $$PWD/UI/configdialog.ui \
+    $$PWD/UI/encodingdialog.ui \
+    $$PWD/UI/filechooser.ui \
+    $$PWD/UI/insertgraphics.ui \
+    $$PWD/UI/letterdialog.ui \
+    $$PWD/UI/maketemplatedialog.ui \
+    $$PWD/UI/pdfsplittool.ui \
+    $$PWD/UI/quickbeamerdialog.ui \
+    $$PWD/UI/quickdocumentdialog.ui \
+    $$PWD/UI/randomtextgenerator.ui \
+    $$PWD/UI/spellerdialog.ui \
+    $$PWD/UI/tabbingdialog.ui \
+    $$PWD/UI/tabdialog.ui \
+    $$PWD/UI/templateselector.ui \
+    $$PWD/UI/texdocdialog.ui \
+    $$PWD/UI/textanalysis.ui \
+    $$PWD/UI/usermenudialog.ui \
+    $$PWD/UI/userquickdialog.ui \
+    $$PWD/UI/webpublishdialog.ui
