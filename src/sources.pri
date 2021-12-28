@@ -131,7 +131,6 @@ SOURCES += \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
     $$PWD/syntaxcheck.cpp \
-    $$PWD/tabbingdialog.cpp \
     $$PWD/templatemanager_p.cpp \
     $$PWD/templateselector.cpp \
     $$PWD/texdocdialog.cpp \

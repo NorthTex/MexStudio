@@ -14,22 +14,25 @@
 
 #include "Dialogs/Tabbing.hpp"
 
-TabbingDialog::TabbingDialog(QWidget *parent, const char *name)
-	: QDialog(parent)
-{
+
+TabbingDialog::TabbingDialog(QWidget * parent,const char * name)
+	: QDialog(parent) {
+
 	setWindowTitle(name);
 	setModal(true);
 	ui.setupUi(this);
-	UtilsUi::resizeInFontHeight(this, 23, 12);
+	
+	UtilsUi::resizeInFontHeight(this,23,12);
 
-	ui.spinBoxColumns->setValue(2);
-	ui.spinBoxColumns->setRange(2, 99);
+	ui.spinBoxColumns -> setValue(2);
+	ui.spinBoxColumns -> setRange(2,99);
 
-	ui.spinBoxRows->setValue(1);
-	ui.spinBoxRows->setRange(1, 99);
+	ui.spinBoxRows -> setValue(1);
+	ui.spinBoxRows -> setRange(1,99);
+
+
 	setWindowTitle(tr("Quick Tabbing"));
 }
 
-TabbingDialog::~TabbingDialog()
-{
-}
+
+TabbingDialog::~TabbingDialog(){}
