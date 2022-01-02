@@ -54,6 +54,7 @@ SOURCES += \
 
 SOURCES += \
     $$PWD/Latex/Document.cpp \
+    $$PWD/Latex/Completer.cpp \
     $$PWD/Latex/Log.cpp
 
 SOURCES += \
