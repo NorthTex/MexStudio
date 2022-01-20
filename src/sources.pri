@@ -129,7 +129,6 @@ SOURCES += \
     $$PWD/smallUsefulFunctions.cpp \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
-    $$PWD/syntaxcheck.cpp \
     $$PWD/templatemanager_p.cpp \
     $$PWD/templateselector.cpp \
     $$PWD/texdocdialog.cpp \
