@@ -50,6 +50,7 @@ SOURCES += \
     $$PWD/TemplateManager.cpp \
     $$PWD/TextAnalysis.cpp \
     $$PWD/TabWidget.cpp \
+    $$PWD/ExecuteProgram.cpp \
     $$PWD/SyntaxCheck.cpp \
     $$PWD/TexStudio.cpp
 

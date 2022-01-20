@@ -94,7 +94,6 @@ SOURCES += \
     $$PWD/cursorposition.cpp \
     $$PWD/diff/diff_match_patch.cpp \
     $$PWD/diffoperations.cpp \
-    $$PWD/execprogram.cpp \
     $$PWD/flowlayout.cpp \
 #    $$PWD/help.cpp \
     $$PWD/LatexReference.cpp \
