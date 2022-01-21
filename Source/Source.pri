@@ -55,6 +55,7 @@ SOURCES += \
     $$PWD/SyntaxCheck.cpp \
     $$PWD/Help.cpp \
     $$PWD/MiniSplitter.cpp \
+    $$PWD/macrobrowserui.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \

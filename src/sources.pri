@@ -143,8 +143,7 @@ SOURCES += \
     $$PWD/utilsUI.cpp \
     $$PWD/utilsVersion.cpp \
     $$PWD/webpublishdialog.cpp \
-    $$PWD/xmltagslistwidget.cpp \
-    $$PWD/macrobrowserui.cpp
+    $$PWD/xmltagslistwidget.cpp
 
 FORMS += \
     $$PWD/UI/aboutdialog.ui \
