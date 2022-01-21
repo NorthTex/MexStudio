@@ -146,7 +146,6 @@ SOURCES += \
     $$PWD/utilsVersion.cpp \
     $$PWD/webpublishdialog.cpp \
     $$PWD/xmltagslistwidget.cpp \
-    $$PWD/filedialog.cpp \
     $$PWD/macrobrowserui.cpp
 
 FORMS += \

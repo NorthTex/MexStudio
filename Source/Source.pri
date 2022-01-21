@@ -47,6 +47,7 @@ SOURCES += \
     $$PWD/Speller.cpp \
     $$PWD/LogEditor.cpp \
     $$PWD/FileSelector.cpp \
+    $$PWD/FileDialog.cpp \
     $$PWD/TemplateManager.cpp \
     $$PWD/TextAnalysis.cpp \
     $$PWD/TabWidget.cpp \
