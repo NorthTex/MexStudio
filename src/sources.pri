@@ -81,7 +81,6 @@ HEADERS += \
     $$PWD/terminal_config.h
 
 SOURCES += \
-    $$PWD/Help.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/additionaltranslations.cpp \
     $$PWD/bidiextender.cpp \

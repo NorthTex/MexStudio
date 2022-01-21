@@ -1,0 +1,10 @@
+# EditorConfig: https://editorconfig.org
+
+root = true
+
+[{*.cpp,*.hpp}]
+charset = utf-8
+tab_width = 4
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true

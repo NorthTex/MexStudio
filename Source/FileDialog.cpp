@@ -7,7 +7,7 @@
 
 int defaultOptions(){
     
-    const useNative = dynamic_cast<ConfigManager*>(ConfigManager::getInstance()) -> useNativeFileDialog;
+    const bool useNative = dynamic_cast<ConfigManager*>(ConfigManager::getInstance()) -> useNativeFileDialog;
     
     return (useNative) 
         ? 0 

@@ -53,6 +53,7 @@ SOURCES += \
     $$PWD/TabWidget.cpp \
     $$PWD/ExecuteProgram.cpp \
     $$PWD/SyntaxCheck.cpp \
+    $$PWD/Help.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \
