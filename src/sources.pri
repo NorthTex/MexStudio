@@ -89,12 +89,10 @@ SOURCES += \
     $$PWD/codesnippet.cpp \
     $$PWD/configdialog.cpp \
     $$PWD/configmanager.cpp \
-    $$PWD/cursorhistory.cpp \
     $$PWD/cursorposition.cpp \
     $$PWD/diff/diff_match_patch.cpp \
     $$PWD/diffoperations.cpp \
     $$PWD/flowlayout.cpp \
-#    $$PWD/help.cpp \
     $$PWD/LatexReference.cpp \
     #$$PWD/icondelegate.cpp \
     $$PWD/insertgraphics.cpp \

@@ -32,6 +32,9 @@ SOURCES += \
     $$PWD/SymbolPanel/Widget.cpp \
     $$PWD/SymbolPanel/ListModel.cpp
 
+SOURCES += \
+    $$PWD/Cursor/History.cpp
+
 
 SOURCES += \
     $$PWD/Bookmark.cpp \
