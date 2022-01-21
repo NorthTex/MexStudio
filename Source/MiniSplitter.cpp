@@ -38,66 +38,81 @@
 
 namespace Internal {
 
-class MiniSplitterHandle : public QSplitterHandle
-{
-public:
-    MiniSplitterHandle(Qt::Orientation orientation, QSplitter *parent)
-            : QSplitterHandle(orientation, parent)
-    {
-        setMask(QRegion(contentsRect()));
-        setAttribute(Qt::WA_MouseNoMask, true);
-    }
-    QSize sizeHint() const;
-protected:
-    void resizeEvent(QResizeEvent *event);
-    void paintEvent(QPaintEvent *event);
-};
+    class MiniSplitterHandle : public QSplitterHandle {
 
-} // namespace Internal
+        public:
+        
+            MiniSplitterHandle(
+                Qt::Orientation orientation,
+                QSplitter * parent
+            ) : QSplitterHandle(orientation,parent) {
+              
+                setMask(QRegion(contentsRect()));
+                setAttribute(Qt::WA_MouseNoMask,true);
+            }
+
+            QSize sizeHint() const;
+        
+        protected:
+        
+            void resizeEvent(QResizeEvent * event);
+            void paintEvent(QPaintEvent * event);
+    };
+
+}
 
 using namespace Internal;
 
+
+/*
+ *  WORKAROUND
+ *
+ *  This is a workaround to force 1px wide splitter handles.
+ *  Strictly, this is not needed with manhattanstyle and
+ *  vertical splitters on any style, but horizontal splitters
+ *  on non-manhattanstyle yield large ~5px size hints resulting
+ *  in unwanted large splitters.
+ */
+
 QSize MiniSplitterHandle::sizeHint() const {
-    // This is a workaround to force 1px wide splitter handles
-    // Strictly, this is not needed with manhattanstyle and vertical splitters on any style,
-    // but horizontal splitters on non-manhattanstyle yield large ~5px size hints resulting
-    // in unwanted large splitters.
-    return QSize(1, 1);
+    return QSize(1,1);
 }
 
-void MiniSplitterHandle::resizeEvent(QResizeEvent *event)
-{
-    if (orientation() == Qt::Horizontal)
-        setContentsMargins(2, 0, 2, 0);
+void MiniSplitterHandle::resizeEvent(QResizeEvent * event){
+
+    if(orientation() == Qt::Horizontal)
+        setContentsMargins(2,0,2,0);
     else
-        setContentsMargins(0, 2, 0, 2);
+        setContentsMargins(0,2,0,2);
+    
     setMask(QRegion(contentsRect()));
+    
     QSplitterHandle::resizeEvent(event);
 }
 
-void MiniSplitterHandle::paintEvent(QPaintEvent *event)
-{
+void MiniSplitterHandle::paintEvent(QPaintEvent * event){
     QPainter painter(this);
-    painter.fillRect(event->rect(), StyleHelper::borderColor());
+    painter.fillRect(event -> rect(),StyleHelper::borderColor());
 }
 
-QSplitterHandle *MiniSplitter::createHandle()
-{
-    return new MiniSplitterHandle(orientation(), this);
+QSplitterHandle * MiniSplitter::createHandle(){
+    return new MiniSplitterHandle(orientation(),this);
 }
 
-MiniSplitter::MiniSplitter(QWidget *parent)
-    : QSplitter(parent)
-{
+MiniSplitter::MiniSplitter(QWidget * parent)
+    : QSplitter(parent) {
+
     setHandleWidth(1);
     setChildrenCollapsible(false);
-    setProperty("minisplitter", true);
+    setProperty("minisplitter",true);
 }
 
-MiniSplitter::MiniSplitter(Qt::Orientation orientation, QWidget *parent)
-    : QSplitter(orientation, parent)
-{
+MiniSplitter::MiniSplitter(
+    Qt::Orientation orientation,
+    QWidget * parent
+) : QSplitter(orientation, parent) {
+
     setHandleWidth(1);
     setChildrenCollapsible(false);
-    setProperty("minisplitter", true);
+    setProperty("minisplitter",true);
 }

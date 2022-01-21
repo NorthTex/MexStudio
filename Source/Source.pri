@@ -54,6 +54,7 @@ SOURCES += \
     $$PWD/ExecuteProgram.cpp \
     $$PWD/SyntaxCheck.cpp \
     $$PWD/Help.cpp \
+    $$PWD/MiniSplitter.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \

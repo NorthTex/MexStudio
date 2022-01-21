@@ -112,7 +112,6 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/manhattanstyle.cpp \
     $$PWD/mathassistant.cpp \
-    $$PWD/minisplitter.cpp \
     $$PWD/pdfsplittool.cpp \
     $$PWD/qmetautils.cpp \
     $$PWD/quickbeamerdialog.cpp \
