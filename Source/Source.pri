@@ -59,6 +59,7 @@ SOURCES += \
     $$PWD/Help.cpp \
     $$PWD/MiniSplitter.cpp \
     $$PWD/macrobrowserui.cpp \
+    $$PWD/UserMacro.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \

@@ -134,7 +134,6 @@ SOURCES += \
     $$PWD/universalinputdialog.cpp \
     $$PWD/unixutils.cpp \
     $$PWD/updatechecker.cpp \
-    $$PWD/usermacro.cpp \
     $$PWD/usermenudialog.cpp \
     $$PWD/userquickdialog.cpp \
     $$PWD/utilsSystem.cpp \

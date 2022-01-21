@@ -1,3 +1,4 @@
+
 #include "mostQtHeaders.h"
 #include "usermacro.h"
 #include "smallUsefulFunctions.h"
@@ -5,41 +6,52 @@
 #include "qlanguagefactory.h"
 #include "qdocument.h"
 
+
 Macro::Macro()
 	: type(Snippet)
 	, triggerLookBehind(false)
 	, document(nullptr) {}
 
 
-Macro::Macro(const QString & nname,const QString & typedTag,const QString & nabbrev,const QString & ntrigger)
-	: triggerLookBehind(false)
-	, document(nullptr){
+Macro::Macro(
+	const QString & name,
+	const QString & typedTag,
+	const QString & abbreviation,
+	const QString & trigger
+) : triggerLookBehind(false)
+  , document(nullptr) {
 
-	Macro::Type typ;
-	QString tag = parseTypedTag(typedTag, typ);
+	Macro::Type type;
+	auto tag = parseTypedTag(typedTag,type);
 
-	init(nname, typ, tag, nabbrev, ntrigger);
+	init(name,type,tag,abbreviation,trigger);
 }
 
 
-Macro::Macro(const QString & nname,Macro::Type ntype,const QString & ntag,const QString & nabbrev,const QString & ntrigger)
-	: triggerLookBehind(false)
-	, document(nullptr){
+Macro::Macro(
+	const QString & name,
+	Macro::Type type,
+	const QString & tag,
+	const QString & abbreviation,
+	const QString & trigger
+) : triggerLookBehind(false)
+  , document(nullptr) {
 
-	init(nname, ntype, ntag, nabbrev, ntrigger);
+	init(name,type,tag,abbreviation,trigger);
 }
 
 
-Macro::Macro(const QStringList & fieldList)
+Macro::Macro(const QStringList & fields)
 	: type(Snippet)
 	, triggerLookBehind(false)
-	, document(nullptr){
+	, document(nullptr) {
 
-	if (fieldList.count() >= 4) {
+	if(fields.count() >= 4){
+
 		Macro::Type type;
-		QString tag = parseTypedTag(fieldList[1],type);
+		QString tag = parseTypedTag(fields[1],type);
 
-		init(fieldList[0],type,tag,fieldList[2],fieldList[3]);
+		init(fields[0],type,tag,fields[2],fields[3]);
 	}
 }
 
@@ -48,7 +60,13 @@ Macro Macro::fromTypedTag(const QString & typedTag){
 	return Macro("unnamed",typedTag);
 }
 
-void Macro::init(const QString & nname,Macro::Type ntype,const QString & ntag,const QString & nabbrev,const QString & ntrigger){
+void Macro::init(
+	const QString & nname,
+	Macro::Type ntype,
+	const QString & ntag,
+	const QString & nabbrev,
+	const QString & ntrigger
+){
 
 	name = nname;
 	type = ntype;
@@ -95,16 +113,20 @@ void Macro::init(const QString & nname,Macro::Type ntype,const QString & ntag,co
 	do {
 		lastLen = realtrigger.length();
 
-		if (realtrigger.startsWith("(?language:")) {
+		if(realtrigger.startsWith("(?language:")){
+
 			const int langlen = strlen("(?language:");
 			int paren = 1, bracket = 0, i = langlen;
-			for (; i < realtrigger.length() && paren; i++) {
-				switch (realtrigger[i].unicode()) {
+			
+			for(;i < realtrigger.length() && paren;i++)
+				switch(realtrigger[i].unicode()){
 				case '(':
-					if (!bracket) paren++;
+					if(!bracket)
+						paren++;
 					break;
 				case ')':
-					if (!bracket) paren--;
+					if(!bracket)
+						paren--;
 					break;
 				case '[':
 					bracket = 1;
@@ -116,75 +138,105 @@ void Macro::init(const QString & nname,Macro::Type ntype,const QString & ntag,co
 					i++;
 					break;
 				}
-			}
-			triggerLanguage = realtrigger.mid(langlen, i - langlen - 1);
-			triggerLanguage.replace("latex", "\\(La\\)TeX");
-			realtrigger.remove(0, i);
+
+			triggerLanguage = realtrigger.mid(langlen,i - langlen - 1);
+			triggerLanguage.replace("latex","\\(La\\)TeX");
+			realtrigger.remove(0,i);
 		}
 
-		if (realtrigger.startsWith("(?highlighted-as:")) {
-			int start = realtrigger.indexOf(':') + 1;
-			int closing = realtrigger.indexOf(")");
-			triggerFormatsUnprocessed = realtrigger.mid(start, closing - start).replace(',', '|').replace(" ", ""); //handle later, when the formats are loaded
-			realtrigger.remove(0, closing + 1);
+		if(realtrigger.startsWith("(?highlighted-as:")){
+
+			int 
+				start = realtrigger.indexOf(':') + 1,
+				closing = realtrigger.indexOf(")");
+
+			//handle later, when the formats are loaded
+
+			triggerFormatsUnprocessed = realtrigger
+				.mid(start,closing - start)
+				.replace(',','|')
+				.replace(" ","");
+
+			realtrigger.remove(0,closing + 1);
 		}
-		if (realtrigger.startsWith("(?not-highlighted-as:")) {
-			int start = realtrigger.indexOf(':') + 1;
-			int closing = realtrigger.indexOf(")");
-			triggerFormatExcludesUnprocessed = realtrigger.mid(start, closing - start).replace(',', '|').replace(" ", ""); //handle later, when the formats are loaded
-			realtrigger.remove(0, closing + 1);
+
+		if(realtrigger.startsWith("(?not-highlighted-as:")){
+
+			int 
+				start = realtrigger.indexOf(':') + 1,
+				closing = realtrigger.indexOf(")");
+
+			//handle later, when the formats are loaded
+
+			triggerFormatExcludesUnprocessed = realtrigger
+				.mid(start,closing - start)
+				.replace(',','|')
+				.replace(" ","");
+
+			realtrigger.remove(0,closing + 1);
 		}
 
 	} while (lastLen != realtrigger.length());
 
-	if (realtrigger.startsWith("(?<=")) {
+	if(realtrigger.startsWith("(?<=")){
 		triggerLookBehind = true;
-		realtrigger.remove(1, 3); //qregexp doesn't support look behind, but we can emulate it by removing the first capture
+
+		//qregexp doesn't support look behind, but we can emulate it by removing the first capture
+
+		realtrigger.remove(1,3);
 	}
-	triggerRegex = QRegExp("(?:" + realtrigger + ")$"); // (?: non capturing)
+
+	// (?: non capturing)
+
+	triggerRegex = QRegExp("(?:" + realtrigger + ")$"); 
 }
 
 
 void Macro::initTriggerFormats(){
 
-	QFormatScheme *fs = QDocument::defaultFormatScheme();
+	auto scheme = QDocument::defaultFormatScheme();
 
-	REQUIRE(fs);
+	REQUIRE(scheme);
 
-	foreach (const QString &formatName,	triggerFormatsUnprocessed.split('|')) {
-		if (fs->exists(formatName)) {
-			triggerFormats << fs->id(formatName);
-		}
-	}
+	for(const auto & name : triggerFormatsUnprocessed.split('|'))
+		if(scheme -> exists(name))
+			triggerFormats << scheme -> id(name);
 
 	triggerFormatsUnprocessed.clear();
 
-	foreach (const QString &formatName,	triggerFormatExcludesUnprocessed.split('|')) {
-		if (fs->exists(formatName)) {
-			triggerFormatExcludes << fs->id(formatName);
-		}
-	}
+	for(const auto & name :	triggerFormatExcludesUnprocessed.split('|'))
+		if(scheme -> exists(name))
+			triggerFormatExcludes << scheme -> id(name);
 
 	triggerFormatExcludesUnprocessed.clear();
 }
 
 
 QStringList Macro::toStringList() const {
-	return QStringList() << name << typedTag() << abbrev << trigger;
+	return QStringList() 
+		<< name 
+		<< typedTag() 
+		<< abbrev 
+		<< trigger;
 }
 
 
 QString Macro::snippet() const {
 	switch(type){
-	case Snippet: return tag;
-	case Environment: return "\\begin{" + tag + "}";
-	default: return "";
+	case Snippet: 
+		return tag;
+	case Environment: 
+		return "\\begin{" + tag + "}";
+	default: 
+		return "";
 	}
 }
 
 
 QString Macro::script() const {
-	return (type == Script) ? tag : "";
+	return (type == Script) 
+		? tag 
+		: "";
 }
 
 
@@ -194,12 +246,12 @@ QString Macro::shortcut() const {
 
 
 bool Macro::isEmpty() const {
-    return name.isEmpty()
-        && tag.isEmpty()
-        && trigger.isEmpty();
+    return name.isEmpty() && 
+		tag.isEmpty() && 
+		trigger.isEmpty();
 }
 
-void Macro::setShortcut(const QString &shortcut){
+void Macro::setShortcut(const QString & shortcut){
     m_shortcut = shortcut;
 }
 
@@ -211,9 +263,12 @@ void Macro::setTrigger(const QString & trigger){
 
 QString Macro::typedTag() const {
     switch(type){
-    case Snippet: return tag;
-    case Environment: return "%" + tag;
-    case Script: return "%SCRIPT\n" + tag;
+    case Snippet:
+		return tag;
+    case Environment:
+		return "%" + tag;
+    case Script:
+		return "%SCRIPT\n" + tag;
 	default:
 		qDebug() << "unknown macro type" << type;
 		return "";
@@ -228,16 +283,20 @@ void Macro::setTypedTag(const QString & typedTag){
 
 QString Macro::parseTypedTag(QString typedTag,Macro::Type & retType){
 
-	if (typedTag.startsWith("%SCRIPT\n")) {
+	if(typedTag.startsWith("%SCRIPT\n")){
 		retType = Script;
 		return typedTag.mid(8);
-	} else if (typedTag.startsWith('%') && (typedTag.length() == 1 || typedTag.at(1).isLetter())) {
-		// Note: while % is an empty environemnt, reserved sequences like %%, %<, %| are snippets.
+	}
+	
+	// Note: while % is an empty environemnt, reserved sequences like %%, %<, %| are snippets.
+
+	if(typedTag.startsWith('%') && (typedTag.length() == 1 || typedTag.at(1).isLetter())){
 		retType = Environment;
 		return typedTag.mid(1);
 	}
 
 	retType = Snippet;
+	
 	return typedTag;
 }
 
@@ -252,12 +311,11 @@ void Macro::parseTriggerLanguage(QLanguageFactory * langFactory){
 
     triggerLanguages.clear();
 
-    QRegExp tempRE(triggerLanguage, Qt::CaseInsensitive);
+    QRegExp matchLanguage(triggerLanguage,Qt::CaseInsensitive);
 
-	foreach (const QString &lang, langFactory -> languages()){
-		if (tempRE.exactMatch(lang))
+	for(const auto & lang : langFactory -> languages())
+		if(matchLanguage.exactMatch(lang))
 			triggerLanguages << langFactory -> languageData(lang).d;
-	}
 }
 
 
@@ -266,18 +324,23 @@ bool Macro::isActiveForTrigger(Macro::SpecialTrigger trigger) const {
 }
 
 
-bool Macro::isActiveForLanguage(QLanguageDefinition * lang) const {
-	// if no trigger language is specified, the macro is active for all languages.
-	return triggerLanguage.isEmpty() || triggerLanguages.contains(lang);
+// If no trigger language is specified, the macro is active for all languages.
+
+bool Macro::isActiveForLanguage(QLanguageDefinition * language) const {
+	return triggerLanguage.isEmpty() || 
+		triggerLanguages.contains(language);
 }
 
 
 bool Macro::isActiveForFormat(int format) const {
 
-	if(!triggerFormatsUnprocessed.isEmpty() || !triggerFormatExcludesUnprocessed.isEmpty())
-		(const_cast<Macro *>(this)) -> initTriggerFormats();
+	if(
+		!triggerFormatsUnprocessed.isEmpty() || 
+		!triggerFormatExcludesUnprocessed.isEmpty()
+	)	(const_cast<Macro *>(this)) -> initTriggerFormats();
 
-	// if no trigger format is specified, the macro is active for all formats.
+	// If no trigger format is specified, the macro is active for all formats.
+	
 	if(triggerFormatExcludes.contains(format))
 		return false;
 
@@ -319,10 +382,10 @@ bool Macro::load(const QString & fileName){
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
 
-    QTextStream in(&file);
+    QTextStream in(& file);
 
 
-    QString text=in.readAll();
+    QString text = in.readAll();
 
     return loadFromText(text);
 }
@@ -332,31 +395,32 @@ bool Macro::loadFromText(const QString & text){
 
     QHash<QString,QString>rawData;
     QJsonParseError parseError;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(text.toUtf8(),& parseError);
+
+    auto document = QJsonDocument::fromJson(text.toUtf8(),& parseError);
+
+    // parser could not read input
 
     if(parseError.error != QJsonParseError::NoError){
-        // parser could not read input
         QMessageBox msgBox;
         msgBox.setText(QObject::tr("Macro read-in failed\nError: ") + parseError.errorString());
         msgBox.exec();
         return false;
     }
 
-    QJsonObject json = jsonDoc.object();
+    auto json = document.object();
 
     if(json.contains("formatVersion")){
-        for(const QString & key : json.keys()){
+        for(const auto & key : json.keys()){
 
-            if(json[key].isString()){
+            if(json[key].isString())
                 rawData.insert(key,json[key].toString());
-            }
 
             if(json[key].isArray()){
 
-                QJsonArray array = json[key].toArray();
+                auto items = json[key].toArray();
                 QString text;
 
-                foreach(const auto item,array){
+                for(const auto & item : items){
 
                     if(!item.isString())
                         continue;
@@ -372,7 +436,7 @@ bool Macro::loadFromText(const QString & text){
         }
     } else {
         //old format
-        qDebug()<<"support for old macro format was removed!";
+        qDebug() << "support for old macro format was removed!";
         return false;
     }
 
