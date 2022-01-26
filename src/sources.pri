@@ -119,7 +119,6 @@ SOURCES += \
     $$PWD/searchquery.cpp \
     $$PWD/searchresultmodel.cpp \
     $$PWD/searchresultwidget.cpp \
-    $$PWD/session.cpp \
     $$PWD/sessionlist.cpp \
     $$PWD/smallUsefulFunctions.cpp \
     $$PWD/styleanimator.cpp \

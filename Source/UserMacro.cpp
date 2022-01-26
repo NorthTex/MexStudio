@@ -440,7 +440,8 @@ bool Macro::loadFromText(const QString & text){
         return false;
     }
 
-    // distrbute data on internal structure
+    // Distrbute data on internal structure
+
     Macro::Type typ;
     QString typedTag = parseTypedTag(rawData.value("tag"),typ);
 
