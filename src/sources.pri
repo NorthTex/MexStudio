@@ -135,7 +135,6 @@ SOURCES += \
     $$PWD/updatechecker.cpp \
     $$PWD/usermenudialog.cpp \
     $$PWD/userquickdialog.cpp \
-    $$PWD/utilsSystem.cpp \
     $$PWD/utilsUI.cpp \
     $$PWD/webpublishdialog.cpp \
     $$PWD/xmltagslistwidget.cpp

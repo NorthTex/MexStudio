@@ -59,6 +59,7 @@ SOURCES += \
     $$PWD/Help.cpp \
     $$PWD/Session.cpp \
     $$PWD/UtilsVersion.cpp \
+    $$PWD/UtilsSystem.cpp \
     $$PWD/MiniSplitter.cpp \
     $$PWD/macrobrowserui.cpp \
     $$PWD/UserMacro.cpp \
