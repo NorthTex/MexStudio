@@ -137,7 +137,6 @@ SOURCES += \
     $$PWD/userquickdialog.cpp \
     $$PWD/utilsSystem.cpp \
     $$PWD/utilsUI.cpp \
-    $$PWD/utilsVersion.cpp \
     $$PWD/webpublishdialog.cpp \
     $$PWD/xmltagslistwidget.cpp
 

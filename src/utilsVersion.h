@@ -63,6 +63,9 @@ class Version {
 
 		bool isEmpty() const;
 		bool isValid() const;
+		bool inDevelopment() const;
+
+		int level() const;
 
 };
 
