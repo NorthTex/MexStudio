@@ -1,7 +1,7 @@
 #ifndef QT_NO_DEBUG
 
 #include "Encoding.hpp"
-#include "encoding.h"
+#include "Include/Encoding.hpp"
 
 
 using QTest::addColumn;

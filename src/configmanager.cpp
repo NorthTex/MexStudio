@@ -8,7 +8,7 @@
 #include "grammarcheck_config.h"
 #include "PDFDocument_config.h"
 #include "terminal_config.h"
-#include "encoding.h"
+#include "Include/Encoding.hpp"
 #include "codesnippet.h"
 #include "updatechecker.h"
 #include "utilsVersion.h"

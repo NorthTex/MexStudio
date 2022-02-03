@@ -21,7 +21,6 @@ HEADERS += \
     $$PWD/diffoperations.h \
     $$PWD/directoryreader.h \
     $$PWD/editors.h \
-    $$PWD/encoding.h \
     $$PWD/encodingdialog.h \
     $$PWD/execprogram.h \
     $$PWD/filechooser.h \

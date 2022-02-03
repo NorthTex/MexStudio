@@ -1,4 +1,4 @@
-#include "encoding.h"
+#include "Include/Encoding.hpp"
 #include "configmanager.h"
 #include "minisplitter.h"
 

@@ -22,7 +22,7 @@
  */
 
 #include "smallUsefulFunctions.h"
-#include "encoding.h"
+#include "Include/Encoding.hpp"
 #include "latexparser/latexparser.h"
 #include <QtMath>
 

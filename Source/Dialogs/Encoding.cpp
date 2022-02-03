@@ -1,6 +1,6 @@
 
 #include "encodingdialog.h"
-#include "encoding.h"
+#include "Include/Encoding.hpp"
 
 
 EncodingDialog::EncodingDialog(QWidget * parent,QEditor * editor) 
