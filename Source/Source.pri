@@ -63,6 +63,7 @@ SOURCES += \
     $$PWD/MiniSplitter.cpp \
     $$PWD/macrobrowserui.cpp \
     $$PWD/UserMacro.cpp \
+    $$PWD/KPathSeaParser.cpp \
     $$PWD/TexStudio.cpp
 
 SOURCES += \

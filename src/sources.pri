@@ -96,7 +96,6 @@ SOURCES += \
     $$PWD/LatexReference.cpp \
     #$$PWD/icondelegate.cpp \
     $$PWD/insertgraphics.cpp \
-    $$PWD/kpathseaParser.cpp \
     $$PWD/latexeditorview.cpp \
     $$PWD/latexlogwidget.cpp \
     $$PWD/latexoutputfilter.cpp \
