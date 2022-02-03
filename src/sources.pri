@@ -19,7 +19,6 @@ HEADERS += \
     $$PWD/cursorposition.h \
     $$PWD/diff/diff_match_patch.h \
     $$PWD/diffoperations.h \
-    $$PWD/directoryreader.h \
     $$PWD/editors.h \
     $$PWD/encodingdialog.h \
     $$PWD/execprogram.h \

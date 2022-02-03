@@ -17,7 +17,7 @@
 #include "codesnippet.h"
 #include "qcodeedit.h"
 #include "qeditor.h"
-#include "directoryreader.h"
+#include "DirectoryReader.hpp"
 #include "BibTex/Reader.hpp"
 
 #include <set>

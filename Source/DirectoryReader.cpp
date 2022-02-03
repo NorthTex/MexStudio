@@ -1,4 +1,4 @@
-#include "directoryreader.h"
+#include "DirectoryReader.hpp"
 
 
 directoryReader::directoryReader(QObject * parent) 

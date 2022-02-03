@@ -2,7 +2,6 @@
 #define Header_Directory_Reader
 
 
-#include "mostQtHeaders.h"
 #include "smallUsefulFunctions.h"
 #include <QThread>
 
