@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 #include "smallUsefulFunctions.h"
-#include "spellerutility.h"
+#include "SpellerUtility.hpp"
 #include "tablemanipulation.h"
 
 #include "qdocumentline.h"

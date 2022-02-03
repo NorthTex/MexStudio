@@ -52,7 +52,6 @@ HEADERS += \
     $$PWD/searchresultmodel.h \
     $$PWD/searchresultwidget.h \
     $$PWD/smallUsefulFunctions.h \
-    $$PWD/spellerutility.h \
     $$PWD/styleanimator.h \
     $$PWD/stylehelper.h \
     $$PWD/svn.h \

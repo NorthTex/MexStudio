@@ -28,6 +28,7 @@ HEADERS +=                              \
     $$PWD/BidiExtender.hpp              \
     $$PWD/SessionList.hpp               \
     $$PWD/TexStudio.hpp                 \
+    $$PWD/SpellerUtility.hpp            \
     $$PWD/Bookmarks.hpp                 \
     $$PWD/LogEditor.hpp                 \
     $$PWD/Encoding.hpp                  \

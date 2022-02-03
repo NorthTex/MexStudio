@@ -20,7 +20,7 @@
 
 #include "qdocument.h"
 
-#include "spellerutility.h"
+#include "SpellerUtility.hpp"
 #include "smallUsefulFunctions.h"
 #include "qformatconfig.h"
 

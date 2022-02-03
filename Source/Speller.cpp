@@ -9,7 +9,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "spellerutility.h"
+#include "SpellerUtility.hpp"
 #include "smallUsefulFunctions.h"
 #include "JlCompress.h"
 

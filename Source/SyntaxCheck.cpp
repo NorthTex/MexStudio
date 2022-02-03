@@ -1,5 +1,5 @@
 #include "syntaxcheck.h"
-#include "spellerutility.h"
+#include "SpellerUtility.hpp"
 #include "tablemanipulation.h"
 #include "latexparser/latexparsing.h"
 

@@ -13,7 +13,7 @@
 
 
 #include "mostQtHeaders.h"
-#include "spellerutility.h"
+#include "SpellerUtility.hpp"
 #include "ui_spellerdialog.h"
 #include "qeditor.h"
 

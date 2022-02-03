@@ -12,8 +12,11 @@
 #define Header_Speller_Utility
 
 
-#include "mostQtHeaders.h"
 #include <QMutex>
+#include <QString>
+#include <QTextCodec>
+#include <QObject>
+#include <QStringListModel>
 
 
 #ifdef HUNSPELL_STATIC
