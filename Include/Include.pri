@@ -30,6 +30,7 @@ HEADERS +=                              \
     $$PWD/TexStudio.hpp                 \
     $$PWD/SpellerUtility.hpp            \
     $$PWD/Bookmarks.hpp                 \
+    $$PWD/FileChooser.hpp               \
     $$PWD/LogEditor.hpp                 \
     $$PWD/Encoding.hpp                  \
     $$PWD/Bookmark.hpp                  \

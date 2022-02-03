@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 #include "mostQtHeaders.h"
-#include "filechooser.h"
+#include "FileChooser.hpp"
 #include "smallUsefulFunctions.h"
 
 #include "Dialogs/File.hpp"

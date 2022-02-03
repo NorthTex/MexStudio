@@ -3,7 +3,7 @@
 #include "qeditor.h"
 #include "qdocumentcursor.h"
 #include "qdocumentline.h"
-#include "filechooser.h"
+#include "FileChooser.hpp"
 #include "smallUsefulFunctions.h"
 
 #include "Latex/Document.hpp"

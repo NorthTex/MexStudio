@@ -1,5 +1,5 @@
 #include "scriptengine.h"
-#include "filechooser.h"
+#include "FileChooser.hpp"
 #include "smallUsefulFunctions.h"
 #include "qdocumentsearch.h"
 #include "scriptobject.h"

@@ -23,7 +23,6 @@ HEADERS += \
     $$PWD/editors.h \
     $$PWD/encodingdialog.h \
     $$PWD/execprogram.h \
-    $$PWD/filechooser.h \
     $$PWD/fileselector.h \
     $$PWD/findindirs.h \
     $$PWD/flowlayout.h \

@@ -23,7 +23,7 @@
 #include "Debug/Logger.hpp"
 
 #include "DblClickMenubar.hpp"
-#include "filechooser.h"
+#include "FileChooser.hpp"
 #include "findindirs.h"
 #include "Dialogs/Array.hpp"
 #include "BibTex/Dialog.hpp"
