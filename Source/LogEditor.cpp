@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 
-#include "logeditor.h"
+#include "LogEditor.hpp"
 #include "configmanager.h"
 
 

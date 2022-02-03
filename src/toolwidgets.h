@@ -12,7 +12,7 @@
 
 
 #include "titledpanel.h"
-#include "logeditor.h"
+#include "LogEditor.hpp"
 #include "searchresultwidget.h"
 
 

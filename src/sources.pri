@@ -38,7 +38,6 @@ HEADERS += \
     $$PWD/latexcompleter_config.h \
     $$PWD/latexcompleter_p.h \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \
-    $$PWD/logeditor.h \
     $$PWD/loghighlighter.h \
     $$PWD/manhattanstyle.h \
     $$PWD/mathassistant.h \

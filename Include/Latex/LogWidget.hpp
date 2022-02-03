@@ -2,7 +2,7 @@
 #define Header_Latex_Log_Widget
 
 
-#include "logeditor.h"
+#include "LogEditor.hpp"
 #include <QSortFilterProxyModel>
 #include "mostQtHeaders.h"
 

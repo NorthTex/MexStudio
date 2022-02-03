@@ -13,7 +13,6 @@
 #define Header_LogEditor
 
 
-#include "mostQtHeaders.h"
 #include "loghighlighter.h"
 
 

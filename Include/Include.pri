@@ -29,6 +29,7 @@ HEADERS +=                              \
     $$PWD/SessionList.hpp               \
     $$PWD/TexStudio.hpp                 \
     $$PWD/Bookmarks.hpp                 \
+    $$PWD/LogEditor.hpp                 \
     $$PWD/Encoding.hpp                  \
     $$PWD/Bookmark.hpp                  \
     $$PWD/Session.hpp
