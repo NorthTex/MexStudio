@@ -126,7 +126,6 @@ SOURCES += \
     $$PWD/unicodeinsertion.cpp \
     $$PWD/universalinputdialog.cpp \
     $$PWD/unixutils.cpp \
-    $$PWD/updatechecker.cpp \
     $$PWD/usermenudialog.cpp \
     $$PWD/userquickdialog.cpp \
     $$PWD/utilsUI.cpp \
