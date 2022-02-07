@@ -51,7 +51,6 @@ SOURCES += \
     $$PWD/LogEditor.cpp \
     $$PWD/FileSelector.cpp \
     $$PWD/FileDialog.cpp \
-    $$PWD/TemplateManager.cpp \
     $$PWD/TextAnalysis.cpp \
     $$PWD/TabWidget.cpp \
     $$PWD/ExecuteProgram.cpp \
@@ -66,6 +65,15 @@ SOURCES += \
     $$PWD/UserMacro.cpp \
     $$PWD/KPathSeaParser.cpp \
     $$PWD/TexStudio.cpp
+
+SOURCES += \
+    $$PWD/Template/Manager.cpp \
+    $$PWD/Template/Latex.cpp \
+    $$PWD/Template/Template.cpp \
+    $$PWD/Template/Table.cpp \
+    $$PWD/Template/File.cpp \
+    $$PWD/Template/Handle.cpp \
+    $$PWD/Template/FileResource.cpp
 
 SOURCES += \
     $$PWD/Latex/Document.cpp \
