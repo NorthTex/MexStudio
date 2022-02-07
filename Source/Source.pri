@@ -57,7 +57,6 @@ SOURCES += \
     $$PWD/ExecuteProgram.cpp \
     $$PWD/SyntaxCheck.cpp \
     $$PWD/Help.cpp \
-    $$PWD/Session.cpp \
     $$PWD/UtilsVersion.cpp \
     $$PWD/UpdateChecker.cpp \
     $$PWD/UtilsSystem.cpp \
@@ -66,6 +65,10 @@ SOURCES += \
     $$PWD/UserMacro.cpp \
     $$PWD/KPathSeaParser.cpp \
     $$PWD/TexStudio.cpp
+
+SOURCES += \
+    $$PWD/Session/Session.cpp \
+    $$PWD/Session/List.cpp
 
 SOURCES += \
     $$PWD/Template/Manager.cpp \
