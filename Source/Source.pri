@@ -78,6 +78,8 @@ SOURCES += \
 SOURCES += \
     $$PWD/Latex/Document.cpp \
     $$PWD/Latex/Completer.cpp \
+    $$PWD/Latex/StructureEntry.cpp \
+    $$PWD/Latex/StructureEntryIterator.cpp \
     $$PWD/Latex/Log.cpp
 
 SOURCES += \
