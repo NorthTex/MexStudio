@@ -95,7 +95,6 @@ SOURCES += \
     $$PWD/latexlogwidget.cpp \
     $$PWD/latexoutputfilter.cpp \
     $$PWD/latexpackage.cpp \
-    $$PWD/latexrepository.cpp \
     $$PWD/latexstyleparser.cpp \
     $$PWD/letterdialog.cpp \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.cpp \

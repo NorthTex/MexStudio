@@ -12,7 +12,7 @@ LatexRepository * LatexRepository::m_Instance = nullptr;
 
 LatexRepository::LatexRepository()
     : QObject(nullptr)
-    , m_dataSource(None){
+    , m_dataSource(None) {
 
 	loadStaticPackageList(":/utilities/packageList");
 }
