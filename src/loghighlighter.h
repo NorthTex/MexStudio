@@ -33,6 +33,10 @@ class LogHighlighter : public QSyntaxHighlighter {
 
 		void highlightBlock(const QString & text);
 
+	private:
+
+		QColor colorFor(const QString &) const;
+
 };
 
 
