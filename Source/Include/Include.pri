@@ -31,6 +31,8 @@ HEADERS +=                              \
     $$PWD/SpellerUtility.hpp            \
     $$PWD/Bookmarks.hpp                 \
     $$PWD/DirectoryReader.hpp           \
+    $$PWD/App.hpp               \
+    $$PWD/CommandLine.hpp               \
     $$PWD/FileChooser.hpp               \
     $$PWD/LogEditor.hpp                 \
     $$PWD/Encoding.hpp                  \

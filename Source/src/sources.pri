@@ -97,7 +97,6 @@ SOURCES += \
     $$PWD/latexstyleparser.cpp \
     $$PWD/letterdialog.cpp \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.cpp \
-    $$PWD/main.cpp \
     $$PWD/manhattanstyle.cpp \
     $$PWD/pdfsplittool.cpp \
     $$PWD/qmetautils.cpp \
