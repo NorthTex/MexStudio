@@ -45,6 +45,7 @@ SOURCES += \
     $$PWD/Editors.cpp \
     $$PWD/Git.cpp \
     $$PWD/Encoding.cpp \
+    $$PWD/MathAssistant.cpp \
     $$PWD/FindInDirs.cpp \
     $$PWD/SVN.cpp \
     $$PWD/Speller.cpp \

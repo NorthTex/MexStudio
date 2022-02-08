@@ -99,7 +99,6 @@ SOURCES += \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.cpp \
     $$PWD/main.cpp \
     $$PWD/manhattanstyle.cpp \
-    $$PWD/mathassistant.cpp \
     $$PWD/pdfsplittool.cpp \
     $$PWD/qmetautils.cpp \
     $$PWD/quickbeamerdialog.cpp \
