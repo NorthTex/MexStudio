@@ -7,317 +7,453 @@ CommandDescription extractCommandDef(QString line, QString definition);
 CommandDescription extractCommandDefKeyVal(QString line, QString &key);
 
 
-LatexPackage::LatexPackage() : notFound(false)
-{
+LatexPackage::LatexPackage() 
+	: notFound(false) {
+	
 	completionWords.clear();
 	packageName.clear();
 }
 
-QString LatexPackage::makeKey(const QString &cwlFilename, const QString &options)
-{
-	return QString("%1#%2").arg(options).arg(cwlFilename);
+
+QString LatexPackage::makeKey(const QString & cwlFilename,const QString & options){
+	return QString("%1#%2")
+		.arg(options)
+		.arg(cwlFilename);
 }
 
-QString LatexPackage::keyToCwlFilename(const QString &key)
-{
-	int i = key.indexOf('#');
-	if (i < 0) return key;
-	else return key.mid(i + 1);
+
+QString LatexPackage::keyToCwlFilename(const QString & key){
+
+	const int i = key.indexOf('#');
+
+	return (i >= 0)
+		? key.mid(i + 1)
+		: key;
 }
 
-QString LatexPackage::keyToPackageName(const QString &key)
-{
-	// Workaround since there is currently no reliable way to determine the packageName from LatexPackage directly (the attribute with the same name contains the key and sometimes nothing).
-	QString name = LatexPackage::keyToCwlFilename(key);
-	if (name.endsWith(".cwl"))
-		name.remove(name.length() - 4, 4);
-	if (name.startsWith("class-"))
-		name.remove(0, 6);
+
+// Workaround since there is currently no reliable way 
+// to determine the packageName from LatexPackage directly 
+// (the attribute with the same name contains the key and sometimes nothing).
+
+QString LatexPackage::keyToPackageName(const QString & key){
+
+	auto name = LatexPackage::keyToCwlFilename(key);
+
+	if(name.endsWith(".cwl"))
+		name.remove(name.length() - 4,4);
+
+	if(name.startsWith("class-"))
+		name.remove(0,6);
+	
 	return name;
 }
 
-QStringList LatexPackage::keyToOptions(const QString &key)
-{
-	int i = key.indexOf('#');
-	if (i < 0) return QStringList();
-	QString zw = key.left(i);
-	QStringList result = zw.split(',');
-	for (int k = 0; k < result.size(); k++) {
+
+QStringList LatexPackage::keyToOptions(const QString & key){
+
+	const int i = key.indexOf('#');
+	
+	if(i < 0)
+		return QStringList();
+	
+	auto result = key
+		.left(i)
+		.split(',');
+	
+	for(int k = 0;k < result.size();k++){
+
 		QString elem = result.value(k);
-		if (elem.contains('%')) {
-			i = elem.indexOf('%');
+		
+		if(elem.contains('%')) {
+			const int i = elem.indexOf('%');
 			elem = elem.left(i);
 		}
+		
 		elem = elem.simplified();
+		
 		result[k] = elem;
 	}
+	
 	return result;
 }
 
-void LatexPackage::unite(LatexPackage &add, bool forCompletion)
-{
-	if (forCompletion) {
-		completionWords.unite(add.completionWords); //expensive
+
+void LatexPackage::unite(LatexPackage &add, bool forCompletion){
+
+	// expensive
+
+	if(forCompletion){
+		completionWords.unite(add.completionWords);
 		return;
 	}
+	
 	optionCommands.unite(add.optionCommands);
 	environmentAliases.unite(add.environmentAliases);
     specialTreatmentCommands.insert(add.specialTreatmentCommands);
     specialDefCommands.insert(add.specialDefCommands);
-	commandDescriptions.unite(add.commandDescriptions); // overloaded unit, which does not overwrite well defined CDs with poorly defined ones
 
-	//possibleCommands.unite(add.possibleCommands);
-	foreach (const QString &elem, add.possibleCommands.keys()) { //expensive
-		QSet<QString> set2 = add.possibleCommands[elem];
-		QSet<QString> set = possibleCommands[elem];
-		set.unite(set2);
-		possibleCommands[elem] = set;
+	// overloaded unit, which does not overwrite well defined CDs with poorly defined ones
+
+	commandDescriptions.unite(add.commandDescriptions);
+
+	// possibleCommands.unite(add.possibleCommands);
+
+	// expensive
+
+	for(const auto & command : add.possibleCommands.keys()){
+		
+		auto 
+			setB = add.possibleCommands[command],
+			setA = possibleCommands[command];
+
+		setA.unite(setB);
+		possibleCommands[command] = setA;
 	}
 }
 
 
-typedef QPair<int, int> PairIntInt;
+LatexPackage loadCwlFile(
+	const QString fileName,
+	LatexCompleterConfig * config,
+	QStringList conditions
+){
 
-
-LatexPackage loadCwlFile(const QString fileName, LatexCompleterConfig *config, QStringList conditions)
-{
-	CodeSnippetList words;
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+	CodeSnippetList words;
 	LatexPackage package;
 
+
 	QFile tagsfile("cwl:" + fileName);
+
 	bool skipSection = false;
-	if (tagsfile.exists() && tagsfile.open(QFile::ReadOnly)) {
+	
+	if(tagsfile.exists() && tagsfile.open(QFile::ReadOnly)){
+
 		QString line;
 		QTextStream stream(&tagsfile);
+		
 		QRegExp rxCom("^(\\\\\\w+\\*?)(\\[.+\\])*\\{(.*)\\}");  // expression for \cmd[opt]{arg} (cmd may be starred, [opt] can appear arbitrary often)
 		QRegExp rxCom2("^(\\\\\\w+\\*?)\\[(.+)\\]");            // expression for \cmd[opt]      (cmd may be starred)
 		QRegExp rxCom3("^(\\\\\\w+\\*?)");                      // expression for \cmd           (cmd may be starred)
+		
 		rxCom.setMinimal(true);
+		
 		QStringList keywords;
 		keywords << "text" << "title" << "%<text%>" << "%<title%>";
+		
 		QStringList specialTreatment;
 		specialTreatment << "color";
+		
 		QString keyvals;
-        package.containsOptionalSections=false;
-		while (!stream.atEnd()) {
+        
+		package.containsOptionalSections=false;
+		
+		while(!stream.atEnd()){
+
 			line = stream.readLine().trimmed();
-			if (line.startsWith("#endif")) {
-				// end of conditional section
+			
+			// end of conditional section
+
+			if(line.startsWith("#endif")){
 				skipSection = false;
 				continue;
 			}
-			if (line.startsWith("#ifOption:")) {
-                package.containsOptionalSections=true;
+
+			if(line.startsWith("#ifOption:")){
+                package.containsOptionalSections = true;
 				QString condition = line.mid(10);
 				skipSection = !(conditions.contains(condition) || conditions.contains(condition + "=true"));
 				continue;
 			}
-			if (skipSection) // skip conditional sections (if condition is not met)
+
+			// skip conditional sections (if condition is not met)
+
+			if(skipSection)
 				continue;
 
-			if (line.startsWith("#include:")) {
-				//include additional cwl file
+			//include additional cwl file
+
+			if(line.startsWith("#include:")){
+	
 				QString fn = line.mid(9);
-				if (!fn.isEmpty()) {
-					if (fileName != fn + ".cwl" && !package.requiredPackages.contains(fn + ".cwl"))
-						package.requiredPackages << fn + ".cwl";
-				}
+	
+				if(
+					!fn.isEmpty() &&
+					fileName != fn + ".cwl" && !package.requiredPackages.contains(fn + ".cwl")
+				)	package.requiredPackages << fn + ".cwl";
 			}
-			if (line.startsWith("#keyvals:")) {
-				// start reading keyvals
+
+			// start reading keyvals
+
+			if(line.startsWith("#keyvals:")){
 				keyvals = line.mid(9);
 				continue;
 			}
-			if (line.startsWith("#endkeyvals")) {
-				// end of reading keyvals
+
+			// end of reading keyvals
+
+			if(line.startsWith("#endkeyvals")){
 				keyvals.clear();
 				continue;
 			}
 
-			if (!keyvals.isEmpty() && !line.startsWith("#")) {
-				// read keyval (name stored in "keyvals")
+			// read keyval (name stored in "keyvals")
+
+			if(!keyvals.isEmpty() && !line.startsWith("#")){
+
 				QStringList l_cmds=keyvals.split(',');
+
 				QString key;
 				CommandDescription cd = extractCommandDefKeyVal(line, key);
-				for(const QString &elem:l_cmds){
-					package.possibleCommands["key%" + elem] << line;
-					if (cd.args > 0) {
-						if (key.endsWith("="))
+
+				for(const auto & command : l_cmds){
+
+					package.possibleCommands["key%" + command] << line;
+					
+					if(cd.args > 0){
+
+						if(key.endsWith("="))
 							key.chop(1);
-						package.commandDescriptions.insert(elem + "/" + key, cd);
+					
+						package.commandDescriptions.insert(command + "/" + key, cd);
 					}
 				}
+
 				continue;
 			}
-			if (line.startsWith("#repl:")) {
-				// start reading keyvals
+
+			// start reading keyvals
+
+			if(line.startsWith("#repl:")){
 				package.possibleCommands["%replace"] << line.mid(6);
 				continue;
 			}
 
-			if (!line.isEmpty() && !line.startsWith("#") && !line.startsWith(" ")) {
-				//hints for commands usage (e.g. in mathmode only) are separated by #
+			// hints for commands usage (e.g. in mathmode only) are separated by #
+
+			if(!line.isEmpty() && !line.startsWith("#") && !line.startsWith(" ")){
+
 				int sep = line.indexOf('#');
+				
 				QString valid;
 				QStringList env;
 				QString definition;
+				
 				bool uncommon = false;
 				bool hideFromCompletion = false;
-				CodeSnippet::Type type = CodeSnippet::none;
-				if (sep > -1) {
+				
+				auto type = CodeSnippet::none;
+				
+				if(sep > -1){
+					
 					valid = line.mid(sep + 1);
 					line = line.left(sep);
-					if (valid.startsWith("*")) {
+
+					if(valid.startsWith("*")){
 						valid = valid.mid(1);
 						uncommon = true;
 					}
+					
 					// second time split for specialDef
+					
 					int sep = valid.indexOf('#');
-					if (sep > -1) {
+					
+					if(sep > -1){
 						definition = valid.mid(sep + 1);
 						valid = valid.left(sep);
 					}
+					
 					// normal valid
-					if (valid.startsWith("/")) {
+					
+					if(valid.startsWith("/")){
 						env = valid.mid(1).split(',');
 						valid = "e";
 					}
-					if (valid.contains("\\")) {
+					
+					if(valid.contains("\\")){
 						int i = valid.indexOf("\\");
 						QString zw = valid.mid(i + 1);
 						env = zw.split(',');
 						valid = valid.left(i);
 					}
-					if (valid.contains('S')) {
+					
+					if(valid.contains('S')){
 						hideFromCompletion = true;
 						valid.remove('S');
 					}
 				}
 
 				// parse for spell checkable commands
-				int res = rxCom.indexIn(line);
-				if (keywords.contains(rxCom.cap(3))) {
-					package.optionCommands << rxCom.cap(1);
-				}
 
-				if (specialTreatment.contains(rxCom.cap(3))) {
+				int res = rxCom.indexIn(line);
+				
+				if(keywords.contains(rxCom.cap(3)))
+					package.optionCommands << rxCom.cap(1);
+
+				if(specialTreatment.contains(rxCom.cap(3)))
 					package.specialTreatmentCommands[rxCom.cap(1)].insert(qMakePair(rxCom.cap(3), 1));
-				}
-				rxCom2.indexIn(line); // for commands which don't have a braces part e.g. \item[text]
-				int res3 = rxCom3.indexIn(line); // for commands which don't have a options either e.g. \node (asas)
+
+				// for commands which don't have a braces part e.g. \item[text]
+
+				rxCom2.indexIn(line);
+				
+				// for commands which don't have a options either e.g. \node (asas)
+
+				int res3 = rxCom3.indexIn(line);
 
 				// get commandDefinition
-				CommandDescription cd = extractCommandDef(line, valid);
+
+				CommandDescription cd = extractCommandDef(line,valid);
+
+				// bracket command like \left etc
+
 				if(valid.contains('K')){
-					// bracket command like \left etc
 					cd.bracketCommand=true;
 					valid.remove("K");
 				}
+
 				QString cmd = rxCom3.cap(1);
-				if (cmd == "\\begin") {
-					if (!package.commandDescriptions.contains(cmd)) {
-						// one insertion of a general \begin-command
+
+				if(cmd == "\\begin"){
+
+					// one insertion of a general \begin-command
+
+					if(!package.commandDescriptions.contains(cmd)){
 						CommandDescription cd;
 						cd.args = 1;
 						cd.argTypes << Token::beginEnv;
 						package.commandDescriptions.insert(cmd, cd);
 					}
+
 					cmd = rxCom.cap();
 				}
-				if (package.commandDescriptions.contains(cmd)) {
-					CommandDescription cd_old = package.commandDescriptions.value(cmd);
-					if (cd_old.args == cd.args && cd_old.optionalArgs > cd.optionalArgs ) {
-						cd = cd_old;
-					}
-					if (cd_old.args == cd.args && cd_old.optionalArgs == cd.optionalArgs && cd_old.overlayArgs > cd.overlayArgs ) {
-						cd = cd_old;
-					}
-					if (cd_old.args < cd.args && cd_old.args > 0) {
-						cd = cd_old;
-#ifndef QT_NO_DEBUG
-						qDebug() << "inconsistent command arguments:" << cmd << fileName;
-						// commands with different numbers of mandatory arguments are not distinguished by the parser and lead to unreliable results.
-						// the lower numer of mandatory arguments is handled only (however not an command with zero arguments)
-						// this leads to incomplete handling e.g. for hyperref (which disregards any standards and distinguishes command based on the presence of an optional argument)
-#endif
-					}
 
-					if (cd_old.args > cd.args) {
-#ifndef QT_NO_DEBUG
-						if (cd.args > 0) {
+				if(package.commandDescriptions.contains(cmd)){
+
+					CommandDescription cd_old = package.commandDescriptions.value(cmd);
+					
+					if(cd_old.args == cd.args && cd_old.optionalArgs > cd.optionalArgs)
+						cd = cd_old;
+
+					if(cd_old.args == cd.args && cd_old.optionalArgs == cd.optionalArgs && cd_old.overlayArgs > cd.overlayArgs)
+						cd = cd_old;
+
+					if(cd_old.args < cd.args && cd_old.args > 0){
+						cd = cd_old;
+						
+						#ifndef QT_NO_DEBUG
 							qDebug() << "inconsistent command arguments:" << cmd << fileName;
 							// commands with different numbers of mandatory arguments are not distinguished by the parser and lead to unreliable results.
 							// the lower numer of mandatory arguments is handled only (however not an command with zero arguments)
 							// this leads to incomplete handling e.g. for hyperref (which disregards any standards and distinguishes command based on the presence of an optional argument)
-						}
-#endif
+						#endif
+					}
+
+					if(cd_old.args > cd.args){
+
+						#ifndef QT_NO_DEBUG
+							if (cd.args > 0) {
+								qDebug() << "inconsistent command arguments:" << cmd << fileName;
+								// commands with different numbers of mandatory arguments are not distinguished by the parser and lead to unreliable results.
+								// the lower numer of mandatory arguments is handled only (however not an command with zero arguments)
+								// this leads to incomplete handling e.g. for hyperref (which disregards any standards and distinguishes command based on the presence of an optional argument)
+							}
+						#endif
+						
 						cd = cd_old;
 					}
 
 				}
+
 				if(!valid.contains('M')){
 					package.commandDescriptions.insert(cmd, cd);
-				}else{
+				} else {
 					// don't use line for command description
 					valid.remove('M');
 				}
 
 
-				valid.remove('N'); // remove newtheorem declaration
+				// remove newtheorem declaration
+
+				valid.remove('N'); 
 
 
-				if (keywords.contains(rxCom2.cap(2))) {
+				if(keywords.contains(rxCom2.cap(2)))
 					package.optionCommands << rxCom2.cap(1);
-				}
-				if (valid.contains('d')) { // definition command
-					if (res > -1) {
+
+				// definition command
+
+				if(valid.contains('d')){ 
+	
+					if(res > -1)
 						package.possibleCommands["%definition"] << rxCom.cap(1);
-					}
+	
 					valid.remove('d');
 				}
-				if (valid.contains('i')) { // include like command
-					if (res > -1) {
+
+				// include like command
+
+				if(valid.contains('i')){
+					
+					if(res > -1)
 						package.possibleCommands["%include"] << rxCom.cap(1);
-					}
+
 					valid.remove('i');
 				}
-				if (valid.contains('l')) { // label command
-					if (res > -1) {
+
+				// label command
+
+				if(valid.contains('l')){
+					
+					if(res > -1)
 						package.possibleCommands["%label"] << rxCom.cap(1);
-					}
+					
 					valid.remove('l');
 				}
-				if (valid.contains('r')) { // ref command
-					if (res > -1) {
+
+				// ref command
+
+				if(valid.contains('r')){
+					if(res > -1){
 						package.possibleCommands["%ref"] << rxCom.cap(1);
 
                         QRegularExpression re{"{.*?}"};
                         QRegularExpressionMatchIterator it = re.globalMatch(line);
                         QRegularExpressionMatch match;
-                        for(int i=0;i<cd.argTypes.size();++i){
+
+                        for(int i = 0;i < cd.argTypes.size();++i){
+
                             match = it.next();
-                            if(cd.argTypes[i]==Token::labelRef)
+
+                            if(cd.argTypes[i] == Token::labelRef)
                                 break;
                         }
-                        if(match.hasMatch()){
+
+                        if(match.hasMatch())
                             line.replace(match.capturedStart(),match.capturedLength(),"{@l}");
-                        }
 					}
+
 					valid.remove('r');
 				}
-				if (valid.contains('L')) {
-					if (valid.contains("L0")) {
+
+				if(valid.contains('L')){
+					if(valid.contains("L0")){
+
 						valid.remove("L0");
-						if (res > -1) {
+						
+						if(res > -1)
 							package.possibleCommands["%structure0"] << cmd;
-						}
-					} else if (valid.contains("L1")) {
+					} else
+					if(valid.contains("L1")){
+
 						valid.remove("L1");
-						if (res > -1) {
+						
+						if(res > -1)
 							package.possibleCommands["%structure1"] << cmd;
-						}
-					} else if (valid.contains("L2")) {
+					} else
+					if (valid.contains("L2")) {
 						valid.remove("L2");
 						if (res > -1) {
 							package.possibleCommands["%structure2"] << cmd;
@@ -524,31 +660,54 @@ LatexPackage loadCwlFile(const QString fileName, LatexCompleterConfig *config, Q
 						}
 					}
 				}
+
 				// normal parsing for completer
-				if (hideFromCompletion)
-					continue; // command for spell checking only (auto parser)
+				// command for spell checking only (auto parser)
+
+				if(hideFromCompletion)
+					continue;
+
 				// remove special option classification e.g. %l
-                line.remove(QRegularExpression("%[a-zA-Z]+")); // not n
-				if (!line.contains("%")) {
-					//add placeholders to brackets like () to (%<..%>)
+				// not n
+
+                line.remove(QRegularExpression("%[a-zA-Z]+"));
+
+				//add placeholders to brackets like () to (%<..%>)
+
+				if(!line.contains("%")){
+
 					const QString brackets = "{}[]()<>";
 					int lastOpen = -1, openType = -1;
-					for (int i = 0; i < line.size(); i++) {
+					
+					for(int i = 0;i < line.size();i++){
+
 						int index = brackets.indexOf(line[i]);
-						if (index >= 0) {
-							if (index % 2 == 0) {
+						
+						if(index >= 0){
+							if(index % 2 == 0){
 								lastOpen = i;
 								openType = index / 2;
 							} else {
-								if (lastOpen == -1 || openType != index / 2)
+
+								if(lastOpen == -1 || openType != index / 2)
 									continue;
-								if (i - lastOpen < 2) // ignore empty arguments, feature request 888
+								
+								// ignore empty arguments, feature request 888
+
+								if(i - lastOpen < 2)
 									continue;
-                                if (line.mid(lastOpen + 1, 1) == "@" && line.mid(lastOpen + 2, 1) != "@") //ignore single @ (to be replaced with bibid in completer)
+
+								//ignore single @ (to be replaced with bibid in completer)
+
+                                if(line.mid(lastOpen + 1, 1) == "@" && line.mid(lastOpen + 2, 1) != "@")
 									continue;
+
 								line.insert(lastOpen + 1, "%<");
+
 								i += 2;
+
 								line.insert(i, "%>");
+
 								/*if (lastOpen+2 == i-1) {  // deactivated, feature request 888
 								    line.insert(i, QApplication::translate("CodeSnippet", "something"));
 								    i+=QApplication::translate("CodeSnippet", "something").length();
@@ -558,42 +717,55 @@ LatexPackage loadCwlFile(const QString fileName, LatexCompleterConfig *config, Q
 							}
 						}
 					}
-					if (line.startsWith("\\begin") || line.startsWith("\\end")) {
-						int i = line.indexOf("%<", 0);
-						line.replace(i, 2, "");
+
+					if(line.startsWith("\\begin") || line.startsWith("\\end")){
+
+						int i = line.indexOf("%<",0);
+
+						line.replace(i,2,"");
+
 						i = line.indexOf("%>", 0);
-						line.replace(i, 2, "");
-						if (line.endsWith("\\item"))
+
+						line.replace(i,2,"");
+
+						if(line.endsWith("\\item"))
 							line.chop(5);
 
 					}
 				}
 
                 CodeSnippet cs = CodeSnippet(line);
+
                 uint hash = qHash(line);
+
                 CodeSnippetList::iterator it = std::lower_bound(words.begin(), words.end(), cs);
-                if (it == words.end() || it->index!=hash) {
+
+                if(it == words.end() || it -> index != hash){
+
                     CodeSnippetList::iterator it = std::lower_bound(words.begin(), words.end(), cs);
 					it = words.insert(it, cs);
+					
 					int len = line.length();
-					it->index = hash;
-					it->snippetLength = len;
-					it->usageCount = uncommon ? -1 : 0;
-					it->type = type;
-					if (config) {
-						QList<QPair<int, int> >res = config->usage.values(hash);
-						foreach (const PairIntInt &elem, res) {
-							if (elem.first == it->snippetLength) {
-								it->usageCount = elem.second;
+					
+					it -> index = hash;
+					it -> snippetLength = len;
+					it -> usageCount = uncommon ? -1 : 0;
+					it -> type = type;
+					
+					if(config){
+
+						const auto usage = config -> usage.values(hash);
+						
+						for(const auto & elem : usage)
+							if(elem.first == it -> snippetLength){
+								it -> usageCount = elem.second;
 								break;
 							}
-						}
 					}
 				}
 			}
 		}
 	} else {
-		//qDebug() << "Completion file not found:" << fileName;
 		package.packageName = "<notFound>";
 		package.notFound = true;
 	}
@@ -604,74 +776,139 @@ LatexPackage loadCwlFile(const QString fileName, LatexCompleterConfig *config, Q
 }
 
 
-Token::TokenType tokenTypeFromCwlArg(QString arg, QString definition)
-{
+std::map<QString,Token::TokenType> multiTokens {
+	{ "%short title" , Token::shorttitle } ,
+	{ "%definition"  , Token::definition } ,
+	{ "%plain"       , Token::generalArg } ,
+	{ "%keyvals"     , Token::keyValArg  } ,
+	{ "%ref"         , Token::labelRef   } ,
+	{ "%formula"     , Token::formula    } ,
+	{ "%labeldef"    , Token::label      } ,
+	{ "%title"       , Token::title      } ,
+	{ "%l"           , Token::width      } ,
+	{ "%text"        , Token::text       } ,
+	{ "%todo"        , Token::todo       } ,
+	{ "%cmd"         , Token::def        }
+};
+
+
+std::map<QString,Token::TokenType> simpleTokens {
+	{ "default"        , Token::optionalArgDefinition } ,
+	{ "verbatimSymbol" , Token::verbatimStart         } ,
+	{ "options"        , Token::packageoption         } ,
+	{ "class"          , Token::documentclass         } ,
+	{ "labellist"      , Token::labelRefList          } ,
+	{ "args"           , Token::defArgNumber          } ,
+	{ "beamertheme"    , Token::beamertheme           } ,
+	{ "short title"    , Token::shorttitle            } ,
+	{ "def"            , Token::definition            } ,
+	{ "definition"     , Token::definition            } ,
+	{ "begdef"         , Token::definition            } ,
+	{ "enddef"         , Token::definition            } ,
+	{ "citekey"        , Token::newBibItem            } ,
+	{ "keyvals"        , Token::keyValArg             } ,
+	{ "%<options%>"    , Token::keyValArg             } ,
+	{ "placement"      , Token::placement             } ,
+	{ "position"       , Token::placement             } ,
+	{ "imagefile"      , Token::imagefile             } ,
+	{ "newlength"      , Token::defWidth              } ,
+	{ "key"            , Token::labelRef              } ,
+	{ "key1"           , Token::labelRef              } ,
+	{ "key2"           , Token::labelRef              } ,
+	{ "formula"        , Token::formula               } ,
+	{ "package"        , Token::package               } ,
+	{ "bib files"      , Token::bibfile               } ,
+	{ "bib file"       , Token::bibfile               } ,
+	{ "bibid"          , Token::bibItem               } ,
+	{ "keylist"        , Token::bibItem               } ,
+	{ "cols"           , Token::colDef                } ,
+	{ "preamble"       , Token::colDef                } ,
+	{ "color"          , Token::color                 } ,
+	{ "width"          , Token::width                 } ,
+	{ "length"         , Token::width                 } ,
+	{ "height"         , Token::width                 } ,
+	{ "title"          , Token::title                 } ,
+	{ "file"           , Token::file                  } ,
+	{ "text"           , Token::text                  } ,
+	{ "command"        , Token::def                   } ,
+	{ "cmd"            , Token::def                   } ,
+};
+
+
+Token::TokenType tokenTypeFromCwlArg(QString arg,QString definition){
+	
 	int i = arg.indexOf('%');
+	
 	// type from suffix
-	if (i >= 0) {
-		QString suffix = arg.mid(i);
-		if (suffix == "%plain") return Token::generalArg;
-		if (suffix == "%text") return Token::text;
-		if (suffix == "%title") return Token::title;
-		if (suffix == "%short title") return Token::shorttitle;
-		if (suffix == "%todo") return Token::todo;
-		if (suffix == "%l") return Token::width;
-		if (suffix == "%cmd") return Token::def;
-        if (suffix == "%definition") return Token::definition;
-		if (suffix == "%formula") return Token::formula;
-		if (suffix == "%keyvals") return Token::keyValArg;
-		if ((suffix == "%envname") && definition.contains('N')) return Token::newTheorem;
-		if (suffix == "%ref") return Token::labelRef;
-		if (suffix == "%labeldef") return Token::label;
-		if (suffix == "%special") {
-			Token::TokenType type = Token::specialArg;
+
+	if(i >= 0){
+
+		const auto suffix = arg.mid(i);
+
+		if(multiTokens.contains(suffix))
+			return multiTokens.at(suffix);
+
+		if(suffix == "%special"){
+
 			arg.chop(8);
-			LatexParser *latexParserInstance = LatexParser::getInstancePtr();
-			if (latexParserInstance) {
-				if (!latexParserInstance->mapSpecialArgs.values().contains("%" + arg)) {
-					int cnt = latexParserInstance->mapSpecialArgs.count();
-					latexParserInstance->mapSpecialArgs.insert(cnt, "%" + arg);
-					type = Token::TokenType(type + cnt);
+
+			auto parser = LatexParser::getInstancePtr();
+
+			if(parser){
+
+				auto arguments = parser -> mapSpecialArgs;
+
+				if(!arguments.values().contains("%" + arg)){
+					const int count = arguments.count();
+					arguments.insert(count,"%" + arg);
+					return Token::TokenType(Token::specialArg + count);
 				}
 			}
-			return type;
+
+			return Token::specialArg;
 		}
+
+		if(suffix == "%envname" && definition.contains('N'))
+			return Token::newTheorem;
 	}
-	// type from name
-	if (arg == "text") return Token::text;
-	if (arg == "title") return Token::title;
-	if (arg == "short title" ) return Token::shorttitle;
-	if (arg == "package") return Token::package;
-	if (arg == "cols" || arg == "preamble") return Token::colDef;
-	if (arg == "color") return Token::color;
-	if (arg == "width" || arg == "length" || arg == "height") return Token::width;
-	if (arg == "bib files" || arg == "bib file") return Token::bibfile;
-	if (arg == "command" || arg == "cmd") return Token::def;
-	if (arg == "def" || arg == "definition" || arg == "begdef" || arg == "enddef") return Token::definition; // actual definition: \newcommand def defArgNumber definition
-	if (arg == "args") return Token::defArgNumber;
-	if (arg == "citekey") return Token::newBibItem;
-	if (arg == "default") return Token::optionalArgDefinition;
-	if (arg == "newlength") return Token::defWidth;
-	if (arg == "file") return Token::file;
-	if (arg == "imagefile") return Token::imagefile;
-	if (arg.contains("URL")) return Token::url;
-	if (arg.contains("keys") || arg == "keyvals" || arg == "%<options%>") return Token::keyValArg;
-	if (arg == "options") return Token::packageoption;
-	if (arg == "class") return Token::documentclass;
-	if (arg == "formula") return Token::formula;
-	if (arg == "beamertheme") return Token::beamertheme;
-	if (arg == "keylist" || arg == "bibid") return Token::bibItem;
-	if (arg == "placement" || arg == "position") return Token::placement;
-	if (arg == "key"  && definition.contains('l')) return Token::label;
-	if (arg == "key" || arg == "key1" || arg == "key2") return Token::labelRef;
-	if ((arg == "envname" || arg == "environment name") && definition.contains('N')) return Token::newTheorem;
-	if ((arg == "label" || arg == "%<label%>") && definition.contains('r')) return Token::labelRef;  // reference with keyword label
-	if ((arg == "label" || arg == "%<label%>") && definition.contains('l')) return Token::label;
-	if (arg == "labellist") return Token::labelRefList;
-    if (arg == "verbatimSymbol") return Token::verbatimStart;
-	if (arg.contains("overlay specification")) return Token::overlay;
+
+
+	if(simpleTokens.contains(arg))
+		return simpleTokens.at(arg);
+
+	if(arg == "key" && definition.contains('l'))
+		return Token::label;
+	
+	if(arg == "envname" && definition.contains('N'))
+		return Token::newTheorem;
+		
+	if(arg == "environment name" && definition.contains('N'))
+		return Token::newTheorem;
+
+	if(arg == "label" && definition.contains('r'))
+		return Token::labelRef;
+		
+	if(arg == "%<label%>" && definition.contains('r'))
+		return Token::labelRef; 
+
+	if(arg == "label" && definition.contains('l'))
+		return Token::label;
+	
+	if(arg == "%<label%>" && definition.contains('l'))
+		return Token::label;
+	
+	if(arg.contains("overlay specification"))
+		return Token::overlay;
+
+	if(arg.contains("URL"))
+		return Token::url;
+
+	if(arg.contains("keys"))
+		return Token::keyValArg;
+
 	return Token::generalArg;
 }
+
 
 /*!
 \brief extract command defintion from cwl line
@@ -714,80 +951,118 @@ argument name | description
  * \param definition context information right of '#'
  * \return command definition
  */
-CommandDescription extractCommandDef(QString line, QString definition)
-{
-	QRegExp rxCom("^(\\\\\\w+\\*?)");
+
+
+const QRegExp rxCom("^(\\\\\\w+\\*?)");
+
+const QString 
+		specialChars = "{[(<",
+		specialChars2 = "}])>";
+
+CommandDescription extractCommandDef(QString line,QString definition){
+
 	int i = rxCom.indexIn(line);
+	
 	QString command = rxCom.cap();
+	
 	line = line.mid(command.length());
-	const QString specialChars = "{[(<";
-	const QString specialChars2 = "}])>";
-	CommandDescription cd;
-	if (line.isEmpty())
-		return cd;
-	QChar c = line.at(0);
+
+	if(line.isEmpty())
+		return CommandDescription();
+	
+	auto c = line.at(0);
 	int loop = 1;
-	while (specialChars.contains(c)) {
+
+	CommandDescription description;
+
+
+	while(specialChars.contains(c)){
+		
 		int j = specialChars.indexOf(c);
+
 		QChar closingChar = specialChars2.at(j);
+		
 		i = line.indexOf(closingChar);
+		
 		QString arg = line.mid(1, i - 1);
-		Token::TokenType type = Token::generalArg; // assume that unknown argument is not a text
-		if (loop == 1 && command == "\\begin") {
+		
+		// assume that unknown argument is not a text
+
+		auto type = Token::generalArg;
+		
+		if(loop == 1 && command == "\\begin"){
 			type = Token::beginEnv;
-		} else if (loop == 1 && command == "\\end") {
+		} else
+		if(loop == 1 && command == "\\end"){
 			type = Token::env;
 		} else {
-			type = tokenTypeFromCwlArg(arg, definition);
+			type = tokenTypeFromCwlArg(arg,definition);
 		}
-		if (!arg.isEmpty()) { //ignore empty arguments
-			switch (j) {
+
+		// ignore empty arguments
+
+		if(!arg.isEmpty()){
+			switch(j){
 			case 0:
-				cd.args = cd.args + 1;
-				cd.argTypes.append(type);
+				description.args = description.args + 1;
+				description.argTypes.append(type);
 				break;
 			case 1:
-				cd.optionalArgs = cd.optionalArgs + 1;
-				cd.optTypes.append(type);
+				description.optionalArgs = description.optionalArgs + 1;
+				description.optTypes.append(type);
 				break;
 			case 2:
-				cd.bracketArgs = cd.bracketArgs + 1;
-				cd.bracketTypes.append(type);
+				description.bracketArgs = description.bracketArgs + 1;
+				description.bracketTypes.append(type);
 				break;
 			case 3:
-				cd.overlayArgs = cd.overlayArgs + 1;
-				cd.overlayTypes.append(type);
+				description.overlayArgs = description.overlayArgs + 1;
+				description.overlayTypes.append(type);
 				break;
 			default:
 				break;
 			}
 		}
-		if (i < 0)
+
+		if(i < 0)
 			break;
+		
 		line = line.mid(i + 1);
-		if (line.isEmpty())
+		
+		if(line.isEmpty())
 			break;
+		
 		c = line.at(0);
+		
 		loop++;
 	}
-	return cd;
+
+	return description;
 }
 
-CommandDescription extractCommandDefKeyVal(QString line, QString &key)
-{
-	CommandDescription cd;
+
+CommandDescription extractCommandDefKeyVal(QString line,QString & key){
+
 	int i = line.indexOf("#");
-	if (i < 0)
-		return cd;
+	
+	if(i < 0)
+		return CommandDescription();
+	
 	key = line.left(i);
-	QString vals = line.mid(i + 1);
-	if (vals == "#L") {
-		cd.args = 1;
-		cd.argTypes << Token::width;
+	auto values = line.mid(i + 1);
+
+	
+	CommandDescription description;
+
+	if(values == "#L"){
+		description.args = 1;
+		description.argTypes << Token::width;
 	}
-	if (vals == "#l") {
-		cd.args = 1;
-		cd.argTypes << Token::label;
+	
+	if(values == "#l"){
+		description.args = 1;
+		description.argTypes << Token::label;
 	}
-	return cd;
+	
+	return description;
 }
