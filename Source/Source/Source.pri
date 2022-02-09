@@ -47,6 +47,7 @@ SOURCES += \
     $$PWD/Encoding.cpp \
     $$PWD/Main.cpp \
     $$PWD/App.cpp \
+    $$PWD/ScriptEngine.cpp \
     $$PWD/MathAssistant.cpp \
     $$PWD/FindInDirs.cpp \
     $$PWD/SVN.cpp \

@@ -103,7 +103,6 @@ SOURCES += \
     $$PWD/quickbeamerdialog.cpp \
     $$PWD/quickdocumentdialog.cpp \
     $$PWD/randomtextgenerator.cpp \
-    $$PWD/scriptengine.cpp \
     $$PWD/searchquery.cpp \
     $$PWD/searchresultmodel.cpp \
     $$PWD/searchresultwidget.cpp \
