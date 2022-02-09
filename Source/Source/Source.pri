@@ -8,6 +8,7 @@ SOURCES += \
     $$PWD/Dialogs/Encoding.cpp \
     $$PWD/Dialogs/Tabbing.cpp \
     $$PWD/Dialogs/UniversalInput.cpp \
+    $$PWD/Dialogs/TexDocument.cpp \
     $$PWD/Dialogs/Array.cpp
 
 

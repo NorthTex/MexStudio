@@ -110,7 +110,6 @@ SOURCES += \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
     $$PWD/templateselector.cpp \
-    $$PWD/texdocdialog.cpp \
     $$PWD/thesaurusdialog.cpp \
     $$PWD/titledpanel.cpp \
     $$PWD/toolwidgets.cpp \
