@@ -7,6 +7,7 @@ SOURCES += \
     $$PWD/Dialogs/Tab.cpp \
     $$PWD/Dialogs/Encoding.cpp \
     $$PWD/Dialogs/Tabbing.cpp \
+    $$PWD/Dialogs/UniversalInput.cpp \
     $$PWD/Dialogs/Array.cpp
 
 

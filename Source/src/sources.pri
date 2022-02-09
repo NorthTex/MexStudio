@@ -115,7 +115,6 @@ SOURCES += \
     $$PWD/titledpanel.cpp \
     $$PWD/toolwidgets.cpp \
     $$PWD/unicodeinsertion.cpp \
-    $$PWD/universalinputdialog.cpp \
     $$PWD/unixutils.cpp \
     $$PWD/usermenudialog.cpp \
     $$PWD/userquickdialog.cpp \
