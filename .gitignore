@@ -1,11 +1,11 @@
  
-texstudio.pro.user
-TeXStudio.files
-TeXStudio.cxxflags
-TeXStudio.creator
-TeXStudio.cflags
-TeXStudio.config
-TeXStudio.includes
-TeXStudio.creator.user
-src/git_revision.cpp
-.vscode/*
+Source/texstudio.pro.user
+Source/TeXStudio.files
+Source/TeXStudio.cxxflags
+Source/TeXStudio.creator
+Source/TeXStudio.cflags
+Source/TeXStudio.config
+Source/TeXStudio.includes
+Source/TeXStudio.creator.user
+Source/src/git_revision.cpp
+Source/.vscode/**

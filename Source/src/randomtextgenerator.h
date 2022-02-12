@@ -37,6 +37,8 @@ class RandomTextGenerator : public QDialog {
 		void newWordForText(const QString & w);
 		void newWordForStream(const QString & w);
 
+	std::tuple<bool,int> findConfig() const;
+
 	private slots:
 
 		void generateText();

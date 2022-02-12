@@ -6103,18 +6103,31 @@ void Texstudio::analyseTextFormDestroyed()
  * \brief generate random text
  * convienience function
  */
-void Texstudio::generateRandomText()
-{
-	if (!currentEditorView()) {
-		UtilsUi::txsWarning(tr("The random text generator constructs new texts from existing words, so you have to open some text files"));
+
+const auto
+	message_randomText = 
+		"The random text generator constructs new texts from "
+		"existing words, so you have to open some text files";
+
+void Texstudio::generateRandomText(){
+
+	if(currentEditorView()){
+		
+		QStringList lines;
+
+		for(const auto view : editors -> editors())
+			lines << view
+				-> editor
+				-> document()
+				-> textLines();
+
+		RandomTextGenerator generator(this,lines);
+		generator.exec();
+		
 		return;
 	}
 
-	QStringList allLines;
-	foreach (LatexEditorView *edView, editors->editors())
-		allLines << edView->editor->document()->textLines();
-	RandomTextGenerator generator(this, allLines);
-	generator.exec();
+	UtilsUi::txsWarning(tr(message_randomText));
 }
 
 //////////////// MESSAGES - LOG FILE///////////////////////

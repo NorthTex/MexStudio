@@ -55,6 +55,7 @@ SOURCES += \
     $$PWD/SVN.cpp \
     $$PWD/Speller.cpp \
     $$PWD/LogEditor.cpp \
+    $$PWD/RandomTextGenerator.cpp \
     $$PWD/LogHighlighter.cpp \
     $$PWD/FileSelector.cpp \
     $$PWD/FileDialog.cpp \
