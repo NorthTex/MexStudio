@@ -37,6 +37,9 @@ SOURCES += \
 SOURCES += \
     $$PWD/Cursor/History.cpp
 
+SOURCES += \
+    $$PWD/Search/Query.cpp
+
 
 SOURCES += \
     $$PWD/Bookmark.cpp \
