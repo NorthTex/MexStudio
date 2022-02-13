@@ -84,7 +84,6 @@ SOURCES += \
     $$PWD/codesnippet.cpp \
     $$PWD/configdialog.cpp \
     $$PWD/configmanager.cpp \
-    $$PWD/cursorposition.cpp \
     $$PWD/diff/diff_match_patch.cpp \
     $$PWD/diffoperations.cpp \
     $$PWD/flowlayout.cpp \

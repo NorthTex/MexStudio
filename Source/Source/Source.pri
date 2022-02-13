@@ -35,6 +35,7 @@ SOURCES += \
     $$PWD/SymbolPanel/ListModel.cpp
 
 SOURCES += \
+    $$PWD/Cursor/Position.cpp \
     $$PWD/Cursor/History.cpp
 
 SOURCES += \
