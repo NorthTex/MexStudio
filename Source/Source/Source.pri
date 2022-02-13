@@ -38,7 +38,8 @@ SOURCES += \
     $$PWD/Cursor/History.cpp
 
 SOURCES += \
-    $$PWD/Search/Query.cpp
+    $$PWD/Search/Query.cpp \
+    $$PWD/Search/Result.cpp
 
 
 SOURCES += \
