@@ -39,6 +39,8 @@ SOURCES += \
     $$PWD/Cursor/History.cpp
 
 SOURCES += \
+    $$PWD/Search/ResultWidget.cpp \
+    $$PWD/Search/TreeDelegate.cpp \
     $$PWD/Search/Query.cpp \
     $$PWD/Search/Result.cpp
 
