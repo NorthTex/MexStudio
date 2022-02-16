@@ -101,7 +101,6 @@ SOURCES += \
     $$PWD/qmetautils.cpp \
     $$PWD/quickbeamerdialog.cpp \
     $$PWD/quickdocumentdialog.cpp \
-    $$PWD/smallUsefulFunctions.cpp \
     $$PWD/styleanimator.cpp \
     $$PWD/stylehelper.cpp \
     $$PWD/templateselector.cpp \

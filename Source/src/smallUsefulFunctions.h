@@ -99,7 +99,7 @@ QList<int> indicesOf(const QString &line, const QString &word, Qt::CaseSensitivi
 QList<int> indicesOf(const QString &line, const QRegularExpression &rx);
 
 /// add Environment to QNFA DOM
-void addEnvironmentToDom(QDomDocument &doc, const QString &EnvironName, const QString &EnvironMode, bool completeParentheses=true);
+// void addEnvironmentToDom(QDomDocument &doc, const QString &EnvironName, const QString &EnvironMode, bool completeParentheses=true);
 void addStructureCommandsToDom(QDomDocument &doc , const QHash<QString, QSet<QString> > &possibleCommands);
 
 QString intListToStr(const QList<int> &ints);

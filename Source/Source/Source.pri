@@ -59,6 +59,7 @@ SOURCES += \
     $$PWD/ScriptEngine.cpp \
     $$PWD/MathAssistant.cpp \
     $$PWD/FindInDirs.cpp \
+    $$PWD/Misc.cpp \
     $$PWD/SVN.cpp \
     $$PWD/Speller.cpp \
     $$PWD/LogEditor.cpp \
