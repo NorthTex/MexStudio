@@ -107,7 +107,6 @@ SOURCES += \
     $$PWD/thesaurusdialog.cpp \
     $$PWD/titledpanel.cpp \
     $$PWD/toolwidgets.cpp \
-    $$PWD/unicodeinsertion.cpp \
     $$PWD/unixutils.cpp \
     $$PWD/usermenudialog.cpp \
     $$PWD/userquickdialog.cpp \

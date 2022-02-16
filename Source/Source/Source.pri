@@ -61,6 +61,7 @@ SOURCES += \
     $$PWD/FindInDirs.cpp \
     $$PWD/Misc.cpp \
     $$PWD/SVN.cpp \
+    $$PWD/UnicodeInsertion.cpp \
     $$PWD/Speller.cpp \
     $$PWD/LogEditor.cpp \
     $$PWD/RandomTextGenerator.cpp \
