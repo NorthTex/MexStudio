@@ -110,7 +110,6 @@ SOURCES += \
     $$PWD/unixutils.cpp \
     $$PWD/usermenudialog.cpp \
     $$PWD/userquickdialog.cpp \
-    $$PWD/utilsUI.cpp \
     $$PWD/webpublishdialog.cpp \
     $$PWD/xmltagslistwidget.cpp
 

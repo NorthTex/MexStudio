@@ -71,6 +71,7 @@ SOURCES += \
     $$PWD/TextAnalysis.cpp \
     $$PWD/TabWidget.cpp \
     $$PWD/ExecuteProgram.cpp \
+    $$PWD/UIUtils.cpp \
     $$PWD/SyntaxCheck.cpp \
     $$PWD/Help.cpp \
     $$PWD/UtilsVersion.cpp \
