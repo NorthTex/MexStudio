@@ -15,7 +15,7 @@
 
 #include "qstatuspanel.h"
 #include "utilsSystem.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 /*!
 	\file qstatuspanel.cpp

@@ -1,6 +1,6 @@
 #include "symbollistview.h"
 #include "symbollistmodel.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 
 SymbolListView::SymbolListView(QWidget * parent) 

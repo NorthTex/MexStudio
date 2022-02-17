@@ -11,7 +11,7 @@
  ***************************************************************************/
 
 #include "Dialogs/Array.hpp"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 
 ArrayDialog::ArrayDialog(QWidget * parent,const char * name)

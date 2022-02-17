@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 #include "configmanagerinterface.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 
 #include "Dialogs/QuickDocument.hpp"

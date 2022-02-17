@@ -1,9 +1,9 @@
 
 #include "randomtextgenerator.h"
 #include "latexparser/latexreader.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 #include "ui_randomtextgenerator.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 
 RandomTextGenerator::RandomTextGenerator(QWidget * widget,const QStringList & lines)

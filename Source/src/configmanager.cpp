@@ -11,7 +11,7 @@
 #include "codesnippet.h"
 #include "updatechecker.h"
 #include "utilsVersion.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 #include <QDomElement>
 

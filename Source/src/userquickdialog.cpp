@@ -14,7 +14,7 @@
 #include <QDebug>
 
 #include "Dialogs/UserQuick.hpp"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 UserQuickDialog::UserQuickDialog(QWidget *parent, const QStringList &ids , const QStringList &usualNames, const QStringList &usualCommands)
 	: QDialog( parent)

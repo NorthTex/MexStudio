@@ -14,7 +14,7 @@
 ****************************************************************************/
 
 #include "qlinenumberpanel.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 /*!
 	\file qlinenumberpanel.cpp

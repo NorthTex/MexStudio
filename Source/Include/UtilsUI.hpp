@@ -3,6 +3,12 @@
 
 
 #include <QString>
+#include <QToolButton>
+#include <QMessageBox>
+#include <QTreeView>
+#include <QTreeWidgetItem>
+#include <QDir>
+#include <QProcess>
 
 
 namespace UtilsUi {

@@ -32,6 +32,7 @@ HEADERS +=                              \
     $$PWD/SearchQuery.hpp \
     $$PWD/ExecProgram.hpp \
     $$PWD/GrammarCheckConfig.hpp \
+    $$PWD/UtilsUI.hpp \
     $$PWD/LabelSearchQuery.hpp \
     $$PWD/Bookmarks.hpp                 \
     $$PWD/DirectoryReader.hpp           \

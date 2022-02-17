@@ -3,7 +3,7 @@
 #ifndef QT_NO_DEBUG
 
 #include "mostQtHeaders.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 #include "tests/Util.hpp"
 #include <QtTest/QtTest>
 

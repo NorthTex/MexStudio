@@ -44,7 +44,7 @@
 #include "SearchQuery.hpp"
 #include "LabelSearchQuery.hpp"
 #include "fileselector.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 #include "utilsSystem.h"
 #include "minisplitter.h"
 #include "latexparser/argumentlist.h"

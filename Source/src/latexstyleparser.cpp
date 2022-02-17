@@ -1,7 +1,7 @@
 
 #include "latexparser/latexparser.h"
 #include "smallUsefulFunctions.h"
-#include "execprogram.h"
+#include "ExecProgram.hpp"
 
 #include "Latex/StyleParser.hpp"
 

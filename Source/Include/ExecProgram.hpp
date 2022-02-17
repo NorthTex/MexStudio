@@ -3,6 +3,7 @@
 
 
 #include <QString>
+#include <QProcess>
 
 
 class ExecProgram {

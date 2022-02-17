@@ -2,7 +2,7 @@
 #include "textanalysis.h"
 
 #include "smallUsefulFunctions.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 #include "latexparser/latexreader.h"
 
 #include "qeditor.h"

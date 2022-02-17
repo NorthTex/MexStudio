@@ -11,7 +11,7 @@
 
 #include "Dialogs/Letter.hpp"
 
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 LetterDialog::LetterDialog(QWidget *parent, const char *name)
 	: QDialog(parent)

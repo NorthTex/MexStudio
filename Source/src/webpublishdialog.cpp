@@ -12,7 +12,7 @@
 
 #include "webpublishdialog_config.h"
 #include "smallUsefulFunctions.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 
 #include "Dialogs/File.hpp"

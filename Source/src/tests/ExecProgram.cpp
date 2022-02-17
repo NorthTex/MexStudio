@@ -2,8 +2,8 @@
 
 #include "mostQtHeaders.h"
 
-#include "execprogram.h"
 #include "ExecProgram.hpp"
+#include "Include/ExecProgram.hpp"
 #include "tests/Util.hpp"
 #include <QtTest/QtTest>
 

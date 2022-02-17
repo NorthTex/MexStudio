@@ -1,6 +1,6 @@
 
 #include "kpathseaParser.h"
-#include "execprogram.h"
+#include "ExecProgram.hpp"
 
 PackageScanner::PackageScanner(QObject * parent) 
 	: SafeThread(parent) {

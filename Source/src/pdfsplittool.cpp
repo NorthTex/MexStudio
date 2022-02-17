@@ -2,7 +2,7 @@
 
 #include "pdfsplittool.h"
 #include "ui_pdfsplittool.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 #include "Dialogs/File.hpp"
 

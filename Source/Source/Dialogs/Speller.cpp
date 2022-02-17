@@ -10,7 +10,7 @@
 
 
 #include "smallUsefulFunctions.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 #include "qdocumentline.h"
 
 #include "Dialogs/Speller.hpp"

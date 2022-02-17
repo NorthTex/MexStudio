@@ -3,7 +3,7 @@
 #include "ui_cleandialog.h"
 
 #include "configmanager.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 
 QString CleanDialog::defaultExtensions = "log,aux,dvi,lof,lot,bit,idx,glo,bbl,bcf,ilg,toc,ind,out,blg,fdb_latexmk,fls,run.xml";

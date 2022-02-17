@@ -64,7 +64,6 @@ HEADERS += \
     $$PWD/updatechecker.h \
     $$PWD/usermacro.h \
     $$PWD/utilsSystem.h \
-    $$PWD/utilsUI.h \
     $$PWD/utilsVersion.h \
     $$PWD/universalinputdialog.h \
     $$PWD/webpublishdialog_config.h \

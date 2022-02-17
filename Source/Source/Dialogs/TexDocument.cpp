@@ -1,6 +1,6 @@
 
 #include "ui_texdocdialog.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 #include "Latex/Repository.hpp"
 #include "Dialogs/TexDoc.hpp"

@@ -30,7 +30,7 @@
 
 #include "qsimplecolorpicker.h"
 #include "utilsSystem.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 /*!
 	\ingroup dialogs

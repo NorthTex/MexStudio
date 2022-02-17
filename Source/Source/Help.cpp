@@ -1,7 +1,7 @@
 
 #include "Help.hpp"
 #include "buildmanager.h"
-#include "utilsUI.h"
+#include "Include/UtilsUI.hpp"
 
 #include "Dialogs/TexDoc.hpp"
 

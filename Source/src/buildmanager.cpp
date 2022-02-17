@@ -3,7 +3,7 @@
 #include "smallUsefulFunctions.h"
 #include "configmanagerinterface.h"
 #include "utilsSystem.h"
-#include "execprogram.h"
+#include "ExecProgram.hpp"
 #include "findindirs.h"
 
 #include "Dialogs/UserQuick.hpp"
