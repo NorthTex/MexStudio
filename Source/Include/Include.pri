@@ -28,6 +28,7 @@ HEADERS +=                              \
     $$PWD/BidiExtender.hpp              \
     $$PWD/SessionList.hpp               \
     $$PWD/TexStudio.hpp                 \
+    $$PWD/Help.hpp                 \
     $$PWD/SpellerUtility.hpp            \
     $$PWD/SearchQuery.hpp \
     $$PWD/ExecProgram.hpp \
