@@ -81,7 +81,6 @@ SOURCES += \
     $$PWD/bidiextender.cpp \
     $$PWD/buildmanager.cpp \
     $$PWD/cleandialog.cpp \
-    $$PWD/codesnippet.cpp \
     $$PWD/configdialog.cpp \
     $$PWD/configmanager.cpp \
     $$PWD/diff/diff_match_patch.cpp \

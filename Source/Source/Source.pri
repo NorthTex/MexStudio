@@ -78,6 +78,7 @@ SOURCES += \
     $$PWD/UpdateChecker.cpp \
     $$PWD/UtilsSystem.cpp \
     $$PWD/MiniSplitter.cpp \
+    $$PWD/CodeSnippet.cpp \
     $$PWD/macrobrowserui.cpp \
     $$PWD/UserMacro.cpp \
     $$PWD/KPathSeaParser.cpp \
