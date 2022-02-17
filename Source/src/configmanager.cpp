@@ -5,7 +5,6 @@
 #include "latexcompleter_config.h"
 #include "webpublishdialog_config.h"
 #include "insertgraphics_config.h"
-#include "grammarcheck_config.h"
 #include "PDFDocument_config.h"
 #include "terminal_config.h"
 #include "Include/Encoding.hpp"
@@ -19,6 +18,7 @@
 #include "Latex/EditorView.hpp"
 #include "Latex/Package.hpp"
 #include "Latex/EditorViewConfig.hpp"
+#include "GrammarCheckConfig.hpp"
 
 #include "Dialogs/File.hpp"
 

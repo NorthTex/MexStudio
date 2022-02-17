@@ -8,7 +8,7 @@
 
 
 //TODO: move this away
-#include "grammarcheck_config.h"
+#include "GrammarCheckConfig.hpp"
 class QDocumentLineHandle;
 class LatexDocument;
 

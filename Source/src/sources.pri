@@ -26,7 +26,6 @@ HEADERS += \
     $$PWD/flowlayout.h \
     $$PWD/git.h \
     $$PWD/grammarcheck.h \
-    $$PWD/grammarcheck_config.h \
     $$PWD/Help.hpp \
     #$$PWD/icondelegate.h \
     $$PWD/insertgraphics.h \
