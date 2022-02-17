@@ -30,6 +30,7 @@ HEADERS +=                              \
     $$PWD/TexStudio.hpp                 \
     $$PWD/SpellerUtility.hpp            \
     $$PWD/SearchQuery.hpp \
+    $$PWD/ExecProgram.hpp \
     $$PWD/LabelSearchQuery.hpp \
     $$PWD/Bookmarks.hpp                 \
     $$PWD/DirectoryReader.hpp           \

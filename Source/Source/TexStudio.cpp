@@ -53,7 +53,7 @@
 #include "latexparser/latexparsing.h"
 #include "symbollistmodel.h"
 #include "symbolwidget.h"
-#include "execprogram.h"
+#include "ExecProgram.hpp"
 
 #include "Session.hpp"
 #include "TexStudio.hpp"
