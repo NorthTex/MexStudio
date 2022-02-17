@@ -66,6 +66,7 @@ SOURCES += \
     $$PWD/LogEditor.cpp \
     $$PWD/RandomTextGenerator.cpp \
     $$PWD/LogHighlighter.cpp \
+    $$PWD/QMetaUtils.cpp \
     $$PWD/FileSelector.cpp \
     $$PWD/FileDialog.cpp \
     $$PWD/TextAnalysis.cpp \
