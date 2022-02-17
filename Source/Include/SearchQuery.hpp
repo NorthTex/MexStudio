@@ -2,13 +2,11 @@
 #define Header_SearchQuery
 
 
-#include "mostQtHeaders.h"
 #include "searchresultmodel.h"
 #include "qdocument.h"
 #include "qdocumentline_p.h"
 
-
-class LatexDocument;
+#include "Latex/Document.hpp"
 
 
 class SearchQuery : public QObject {
@@ -22,20 +20,19 @@ class SearchQuery : public QObject {
 	public:
 
 		enum SearchFlag {
-			NoFlags				= 0x0000,
-			SearchParams		= 0x00FF,
-			IsCaseSensitive		= 0x0001,
-			IsWord				= 0x0002,
-			IsRegExp			= 0x0004,
-
-			SearchCapabilities	= 0xFF00,
-			ScopeChangeAllowed	= 0x0100,
-			ReplaceAllowed		= 0x0200,
-			SearchAgainAllowed	= 0x0400,
+			SearchCapabilities	= 0xFF00 ,
+			ScopeChangeAllowed	= 0x0100 ,
+			SearchAgainAllowed	= 0x0400 ,
+			IsCaseSensitive		= 0x0001 ,
+			ReplaceAllowed		= 0x0200 ,
+			SearchParams		= 0x00FF ,
+			IsRegExp			= 0x0004 ,
+			NoFlags				= 0x0000 ,
+			IsWord				= 0x0002 ,
 		};
 
 
-		Q_DECLARE_FLAGS(SearchFlags, SearchFlag)
+		Q_DECLARE_FLAGS(SearchFlags,SearchFlag)
 
 
 		enum Scope {
@@ -101,20 +98,6 @@ class SearchQuery : public QObject {
 
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SearchQuery::SearchFlags)
-
-
-class LabelSearchQuery : public SearchQuery {
-
-	Q_OBJECT
-
-	public:
-
-		LabelSearchQuery(QString label);
-
-		virtual void run(LatexDocument *);
-		virtual void replaceAll();
-
-};
 
 
 #endif

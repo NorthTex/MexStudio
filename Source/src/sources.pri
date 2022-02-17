@@ -46,7 +46,6 @@ HEADERS += \
     $$PWD/qmetautils.h \
     $$PWD/randomtextgenerator.h \
     $$PWD/scriptengine.h \
-    $$PWD/searchquery.h \
     $$PWD/searchresultmodel.h \
     $$PWD/searchresultwidget.h \
     $$PWD/smallUsefulFunctions.h \

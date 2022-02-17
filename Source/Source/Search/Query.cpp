@@ -1,4 +1,5 @@
-#include "searchquery.h"
+#include "SearchQuery.hpp"
+#include "LabelSearchQuery.hpp"
 #include "buildmanager.h"
 #include "Latex/Document.hpp"
 
@@ -216,7 +217,7 @@ void SearchQuery::replaceAll(){
 }
 
 
-LabelSearchQuery::LabelSearchQuery(QString label) 
+LabelSearchQuery::LabelSearchQuery(QString label)
 	: SearchQuery(label,label,IsWord | IsCaseSensitive | SearchAgainAllowed | ReplaceAllowed) {
 
 	mModel = new LabelSearchResultModel(this);
@@ -231,14 +232,14 @@ LabelSearchQuery::LabelSearchQuery(QString label)
 void LabelSearchQuery::run(LatexDocument * document){
 
 	mModel -> removeAllSearches();
-	
+
 	const auto query = searchExpression();
 
 	auto usages = document -> getLabels(query);
 	usages += document -> getRefs(query);
-	
+
 	QHash<QDocument *,QList<QDocumentLineHandle *>> usagesByDocument;
-	
+
 	for(auto use : usages.keys()) {
 		const auto document = use -> document();
 		auto uses = usagesByDocument[document];
@@ -258,11 +259,11 @@ void LabelSearchQuery::replaceAll(){
 	auto searches = mModel -> getSearches();
 	auto oldLabel = searchExpression();
 	auto newLabel = mModel -> replacementText();
-	
+
 	for(auto & search : searches){
-		
+
 		auto document = qobject_cast<LatexDocument *>(search.doc.data());
-		
+
 		if(document)
 			document -> replaceLabelsAndRefs(oldLabel,newLabel);
 	}

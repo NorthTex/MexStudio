@@ -29,6 +29,8 @@ HEADERS +=                              \
     $$PWD/SessionList.hpp               \
     $$PWD/TexStudio.hpp                 \
     $$PWD/SpellerUtility.hpp            \
+    $$PWD/SearchQuery.hpp \
+    $$PWD/LabelSearchQuery.hpp \
     $$PWD/Bookmarks.hpp                 \
     $$PWD/DirectoryReader.hpp           \
     $$PWD/App.hpp               \

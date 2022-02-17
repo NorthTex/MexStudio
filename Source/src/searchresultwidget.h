@@ -2,7 +2,7 @@
 #define Header_SearchResult_Widget
 
 #include "mostQtHeaders.h"
-#include "searchquery.h"
+#include "SearchQuery.hpp"
 #include "qdocumentsearch.h"
 #include "qdocument.h"
 
