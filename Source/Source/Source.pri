@@ -101,6 +101,7 @@ SOURCES += \
     $$PWD/Latex/Completer.cpp \
     $$PWD/Latex/Repository.cpp \
     $$PWD/Latex/Package.cpp \
+    $$PWD/Latex/LogWidget.cpp \
     $$PWD/Latex/StructureEntry.cpp \
     $$PWD/Latex/StructureEntryIterator.cpp \
     $$PWD/Latex/Log.cpp

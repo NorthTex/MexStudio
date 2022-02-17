@@ -91,7 +91,6 @@ SOURCES += \
     #$$PWD/icondelegate.cpp \
     $$PWD/insertgraphics.cpp \
     $$PWD/latexeditorview.cpp \
-    $$PWD/latexlogwidget.cpp \
     $$PWD/latexoutputfilter.cpp \
     $$PWD/latexstyleparser.cpp \
     $$PWD/letterdialog.cpp \
