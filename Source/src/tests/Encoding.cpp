@@ -1,6 +1,6 @@
 #ifndef QT_NO_DEBUG
 
-#include "Encoding.hpp"
+#include "tests/Encoding.hpp"
 #include "Include/Encoding.hpp"
 
 

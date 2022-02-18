@@ -31,7 +31,7 @@
 #include "templateselector.h"
 #include "templatemanager.h"
 #include "Dialogs/About.hpp"
-#include "encodingdialog.h"
+#include "Dialogs/EncodingDialog.hpp"
 #include "Include/Encoding.hpp"
 #include "randomtextgenerator.h"
 #include "qsearchreplacepanel.h"

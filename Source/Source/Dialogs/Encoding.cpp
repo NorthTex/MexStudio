@@ -1,5 +1,5 @@
 
-#include "encodingdialog.h"
+#include "Dialogs/EncodingDialog.hpp"
 #include "Include/Encoding.hpp"
 
 

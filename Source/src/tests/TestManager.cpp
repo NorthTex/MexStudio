@@ -5,7 +5,7 @@
 #include "LatexParserTest.hpp"
 #include "TestToken.hpp"
 #include "LatexParsing.hpp"
-#include "Encoding.hpp"
+#include "tests/Encoding.hpp"
 #include "ExecProgram.hpp"
 #include "BuildManager.hpp"
 #include "CodeSnippet.hpp"

@@ -15,6 +15,7 @@ HEADERS += \
     $$PWD/Dialogs/File.hpp \
     $$PWD/Dialogs/Tab.hpp \
     $$PWD/Dialogs/QuickDocument.hpp \
+    $$PWD/Dialogs/EncodingDialog.hpp \
     $$PWD/Dialogs/QuickBeamer.hpp \
     $$PWD/Dialogs/Array.hpp
 

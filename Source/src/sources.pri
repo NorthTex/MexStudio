@@ -20,7 +20,6 @@ HEADERS += \
     $$PWD/diff/diff_match_patch.h \
     $$PWD/diffoperations.h \
     $$PWD/editors.h \
-    $$PWD/encodingdialog.h \
     $$PWD/fileselector.h \
     $$PWD/findindirs.h \
     $$PWD/flowlayout.h \
