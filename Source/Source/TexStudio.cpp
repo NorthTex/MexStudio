@@ -27,7 +27,7 @@
 #include "findindirs.h"
 #include "Dialogs/Array.hpp"
 #include "BibTex/Dialog.hpp"
-#include "mathassistant.h"
+#include "MathAssistant.hpp"
 #include "templateselector.h"
 #include "templatemanager.h"
 #include "Dialogs/About.hpp"

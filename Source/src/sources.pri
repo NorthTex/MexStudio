@@ -33,7 +33,6 @@ HEADERS += \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \
     $$PWD/loghighlighter.h \
     $$PWD/manhattanstyle.h \
-    $$PWD/mathassistant.h \
     $$PWD/minisplitter.h \
     $$PWD/modifiedQObject.h \
     $$PWD/mostQtHeaders.h \

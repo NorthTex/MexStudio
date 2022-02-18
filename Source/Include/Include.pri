@@ -32,6 +32,7 @@ HEADERS +=                              \
     $$PWD/Help.hpp                 \
     $$PWD/SpellerUtility.hpp            \
     $$PWD/Editors.hpp \
+    $$PWD/MathAssistant.hpp \
     $$PWD/EditorChangeProxy.hpp \
     $$PWD/SearchQuery.hpp \
     $$PWD/ExecProgram.hpp \

@@ -2,7 +2,7 @@
 #define Header_MathAssistant
 
 
-#include "mostQtHeaders.h"
+#include <QProcess>
 
 
 class MathAssistant : public QObject {

@@ -1,4 +1,4 @@
-#include "mathassistant.h"
+#include "MathAssistant.hpp"
 #include "smallUsefulFunctions.h"
 #include <QMutex>
 
