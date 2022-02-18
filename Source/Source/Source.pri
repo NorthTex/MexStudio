@@ -52,6 +52,7 @@ SOURCES += \
     $$PWD/DirectoryReader.cpp \
     $$PWD/FileChooser.cpp \
     $$PWD/Editors.cpp \
+    $$PWD/EditorChangeProxy.cpp \
     $$PWD/Git.cpp \
     $$PWD/Encoding.cpp \
     $$PWD/Main.cpp \

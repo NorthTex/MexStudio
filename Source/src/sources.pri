@@ -19,7 +19,6 @@ HEADERS += \
     $$PWD/cursorposition.h \
     $$PWD/diff/diff_match_patch.h \
     $$PWD/diffoperations.h \
-    $$PWD/editors.h \
     $$PWD/fileselector.h \
     $$PWD/findindirs.h \
     $$PWD/flowlayout.h \

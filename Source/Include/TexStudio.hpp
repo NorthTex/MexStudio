@@ -27,7 +27,7 @@
 #include "textanalysis.h"
 #include "toolwidgets.h"
 #include "txstabwidget.h"
-#include "editors.h"
+#include "Editors.hpp"
 #include "searchresultwidget.h"
 #include "unicodeinsertion.h"
 #include "tablemanipulation.h"
@@ -795,7 +795,6 @@ class Texstudio : public QMainWindow {
 		void imgPreview(const QString &fn);
 };
 
-//Q_DECLARE_METATYPE(Texstudio *)
 
 #endif
 

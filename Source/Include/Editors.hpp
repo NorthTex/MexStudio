@@ -1,11 +1,14 @@
 #ifndef Header_Editors
 #define Header_Editors
 
-#include "mostQtHeaders.h"
 
-class TxsTabWidget;
-class LatexEditorView;
+#include "Latex/EditorView.hpp"
+#include "txstabwidget.h"
+#include "EditorChangeProxy.hpp"
+
+
 class EditorChangeProxy;
+
 
 class Editors : public QWidget {
 
@@ -29,8 +32,13 @@ class Editors : public QWidget {
 
 	protected:
 
-		void insertEditor(LatexEditorView *,TxsTabWidget * = nullptr /*current*/,int pos = -1 /*append*/,bool asCurrent = true);
 		void removeEditor(LatexEditorView *,TxsTabWidget *);
+		
+		void insertEditor(LatexEditorView *,
+			TxsTabWidget * = nullptr , // Current
+			int pos = -1 , // Append
+			bool asCurrent = true
+		);
 
 	public:
 
@@ -88,39 +96,6 @@ class Editors : public QWidget {
 		QSplitter * splitter;
 
 		int currentGroupIndex;
-
-};
-
-
-
-class EditorChangeProxy : public QObject {
-
-	Q_OBJECT
-
-	public:
-
-		EditorChangeProxy(Editors *);
-
-		void release();
-		bool block();
-
-	signals:
-
-		void currentEditorChanged();
-		void listOfEditorsChanged();
-
-	public slots:
-
-		void currentEditorChange();
-		void listOfEditorsChange();
-
-	private:
-
-		QList<LatexEditorView *> listOfEditorsAtBlock;
-		LatexEditorView * currentEditorAtBlock;
-		Editors *editors;
-
-		bool blocked;
 
 };
 

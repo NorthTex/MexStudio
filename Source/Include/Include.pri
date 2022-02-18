@@ -31,6 +31,8 @@ HEADERS +=                              \
     $$PWD/TexStudio.hpp                 \
     $$PWD/Help.hpp                 \
     $$PWD/SpellerUtility.hpp            \
+    $$PWD/Editors.hpp \
+    $$PWD/EditorChangeProxy.hpp \
     $$PWD/SearchQuery.hpp \
     $$PWD/ExecProgram.hpp \
     $$PWD/GrammarCheckConfig.hpp \
