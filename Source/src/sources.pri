@@ -39,7 +39,6 @@ HEADERS += \
     $$PWD/randomtextgenerator.h \
     $$PWD/scriptengine.h \
     $$PWD/searchresultmodel.h \
-    $$PWD/searchresultwidget.h \
     $$PWD/smallUsefulFunctions.h \
     $$PWD/styleanimator.h \
     $$PWD/stylehelper.h \

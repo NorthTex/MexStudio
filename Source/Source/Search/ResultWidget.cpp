@@ -1,5 +1,6 @@
 
-#include "searchresultwidget.h"
+#include "Search/ResultWidget.hpp"
+#include "Search/TreeDelegate.hpp"
 #include "configmanagerinterface.h"
 #include "Latex/Document.hpp"
 

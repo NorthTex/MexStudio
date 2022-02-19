@@ -13,7 +13,7 @@
 
 #include "titledpanel.h"
 #include "LogEditor.hpp"
-#include "searchresultwidget.h"
+#include "Search/ResultWidget.hpp"
 
 
 #include "Latex/Log.hpp"

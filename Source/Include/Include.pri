@@ -25,6 +25,10 @@ HEADERS +=                              \
     $$PWD/Debug/Logger.hpp
 
 HEADERS +=                              \
+    $$PWD/Search/TreeDelegate.hpp            \
+    $$PWD/Search/ResultWidget.hpp
+
+HEADERS +=                              \
     $$PWD/PackageScanner.hpp           \
     $$PWD/KpathSeaParser.hpp           \
     $$PWD/MiktexPackageScanner.hpp           \

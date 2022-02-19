@@ -28,7 +28,7 @@
 #include "toolwidgets.h"
 #include "TxsTabWidget.hpp"
 #include "Editors.hpp"
-#include "searchresultwidget.h"
+#include "Search/ResultWidget.hpp"
 #include "unicodeinsertion.h"
 #include "tablemanipulation.h"
 #include "PDFDocument.h"
