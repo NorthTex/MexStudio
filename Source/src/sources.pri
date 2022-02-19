@@ -54,7 +54,6 @@ HEADERS += \
     $$PWD/textanalysis.h \
     $$PWD/titledpanel.h \
     $$PWD/toolwidgets.h \
-    $$PWD/txstabwidget.h \
     $$PWD/unicodeinsertion.h \
     $$PWD/unixutils.h \
     $$PWD/updatechecker.h \

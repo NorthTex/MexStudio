@@ -31,6 +31,8 @@ HEADERS +=                              \
     $$PWD/TexStudio.hpp                 \
     $$PWD/Help.hpp                 \
     $$PWD/SpellerUtility.hpp            \
+    $$PWD/TxsTabWidget.hpp \
+    $$PWD/ChangeAwareTabBar.hpp \
     $$PWD/Editors.hpp \
     $$PWD/MathAssistant.hpp \
     $$PWD/EditorChangeProxy.hpp \

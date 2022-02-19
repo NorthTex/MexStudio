@@ -1,5 +1,5 @@
 #include "Editors.hpp"
-#include "txstabwidget.h"
+#include "TxsTabWidget.hpp"
 #include "mostQtHeaders.h"
 #include "utilsSystem.h"
 #include "minisplitter.h"

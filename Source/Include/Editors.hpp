@@ -3,7 +3,7 @@
 
 
 #include "Latex/EditorView.hpp"
-#include "txstabwidget.h"
+#include "TxsTabWidget.hpp"
 #include "EditorChangeProxy.hpp"
 
 

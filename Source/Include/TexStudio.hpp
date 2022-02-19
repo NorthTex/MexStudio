@@ -26,7 +26,7 @@
 #include "xmltagslistwidget.h"
 #include "textanalysis.h"
 #include "toolwidgets.h"
-#include "txstabwidget.h"
+#include "TxsTabWidget.hpp"
 #include "Editors.hpp"
 #include "searchresultwidget.h"
 #include "unicodeinsertion.h"

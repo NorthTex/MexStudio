@@ -1,4 +1,5 @@
-#include "txstabwidget.h"
+#include "TxsTabWidget.hpp"
+#include "ChangeAwareTabBar.hpp"
 #include "smallUsefulFunctions.h"
 
 #include "Latex/Document.hpp"
