@@ -28,7 +28,6 @@ HEADERS += \
     $$PWD/insertgraphics.h \
     $$PWD/insertgraphics_config.h \
     $$PWD/latexcompleter_config.h \
-    $$PWD/latexcompleter_p.h \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \
     $$PWD/loghighlighter.h \
     $$PWD/manhattanstyle.h \

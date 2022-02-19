@@ -1,4 +1,4 @@
-#include "latexcompleter_p.h"
+#include "Latex/CompletionListModel.hpp"
 #include "latexcompleter_config.h"
 
 #include "usermacro.h"

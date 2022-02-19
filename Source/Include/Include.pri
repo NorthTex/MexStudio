@@ -67,6 +67,7 @@ HEADERS +=                              \
     $$PWD/Latex/Structure.hpp           \
     $$PWD/Latex/Completer.hpp           \
     $$PWD/Latex/Reference.hpp           \
+    $$PWD/Latex/CompletionListModel.hpp           \
     $$PWD/Latex/LogWidget.hpp           \
     $$PWD/Latex/Document.hpp            \
     $$PWD/Latex/Package.hpp             \

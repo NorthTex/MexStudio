@@ -1,8 +1,7 @@
-#ifndef Header_Latex_Completer_P
-#define Header_Latex_Completer_P
+#ifndef Header_Latex_CompletionListModel
+#define Header_Latex_CompletionListModel
 
 
-#include "mostQtHeaders.h"
 #include "codesnippet.h"
 #include "latexcompleter_config.h"
 #include <set>
