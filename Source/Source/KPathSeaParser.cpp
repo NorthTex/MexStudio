@@ -1,5 +1,7 @@
 
-#include "kpathseaParser.h"
+#include "KpathSeaParser.hpp"
+#include "PackageScanner.hpp"
+#include "MiktexPackageScanner.hpp"
 #include "ExecProgram.hpp"
 
 PackageScanner::PackageScanner(QObject * parent) 

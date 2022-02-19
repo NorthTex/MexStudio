@@ -27,7 +27,6 @@ HEADERS += \
     #$$PWD/icondelegate.h \
     $$PWD/insertgraphics.h \
     $$PWD/insertgraphics_config.h \
-    $$PWD/kpathseaParser.h \
     $$PWD/latexcompleter_config.h \
     $$PWD/latexcompleter_p.h \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \

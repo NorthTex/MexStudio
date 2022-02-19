@@ -25,6 +25,9 @@ HEADERS +=                              \
     $$PWD/Debug/Logger.hpp
 
 HEADERS +=                              \
+    $$PWD/PackageScanner.hpp           \
+    $$PWD/KpathSeaParser.hpp           \
+    $$PWD/MiktexPackageScanner.hpp           \
     $$PWD/DblClickMenubar.hpp           \
     $$PWD/BidiExtender.hpp              \
     $$PWD/SessionList.hpp               \
