@@ -2,7 +2,6 @@
 #include "FileChooser.hpp"
 #include "smallUsefulFunctions.h"
 #include "qdocumentsearch.h"
-#include "scriptobject.h"
 #include "buildmanager.h"
 #include "PDFDocument.h"
 #include "usermacro.h"
@@ -14,7 +13,6 @@
 
 Q_DECLARE_METATYPE(BuildManager *)
 Q_DECLARE_METATYPE(RunCommandFlags)
-Q_DECLARE_METATYPE(SubScriptObject *)
 Q_DECLARE_METATYPE(QList<LatexDocument *>)
 
 #ifndef NO_POPPLER_PREVIEW
