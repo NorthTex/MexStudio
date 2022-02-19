@@ -6,6 +6,7 @@ SOURCES += \
     $$PWD/Dialogs/MakeTemplate.cpp \
     $$PWD/Dialogs/Tab.cpp \
     $$PWD/Dialogs/Encoding.cpp \
+    $$PWD/Dialogs/Clean.cpp \
     $$PWD/Dialogs/Tabbing.cpp \
     $$PWD/Dialogs/UniversalInput.cpp \
     $$PWD/Dialogs/TexDocument.cpp \

@@ -68,7 +68,6 @@ SOURCES += \
     $$PWD/additionaltranslations.cpp \
     $$PWD/bidiextender.cpp \
     $$PWD/buildmanager.cpp \
-    $$PWD/cleandialog.cpp \
     $$PWD/configdialog.cpp \
     $$PWD/configmanager.cpp \
     $$PWD/diff/diff_match_patch.cpp \
