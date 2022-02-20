@@ -1,5 +1,6 @@
-#ifndef Header_Terminal_Config
-#define Header_Terminal_Config
+#ifndef Header_TerminalConfig
+#define Header_TerminalConfig
+
 
 #include <QString>
 #include <QFont>
@@ -10,6 +11,7 @@
 class InternalTerminalConfig {
 
 	public:
+
 	#ifdef INTERNAL_TERMINAL
 
 		// terminal
@@ -52,5 +54,6 @@ class InternalTerminalConfig {
 
 	#endif
 };
+
 
 #endif

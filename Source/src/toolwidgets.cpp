@@ -4,7 +4,7 @@
 #include "smallUsefulFunctions.h"
 #include "utilsSystem.h"
 #include "configmanagerinterface.h"
-#include "terminal_config.h"
+#include "TerminalConfig.hpp"
 
 void adjustScrollBar(QScrollBar *scrollBar, double factor)
 {

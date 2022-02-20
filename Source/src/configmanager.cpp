@@ -6,7 +6,7 @@
 #include "webpublishdialog_config.h"
 #include "insertgraphics_config.h"
 #include "PDFDocument_config.h"
-#include "terminal_config.h"
+#include "TerminalConfig.hpp"
 #include "Include/Encoding.hpp"
 #include "codesnippet.h"
 #include "updatechecker.h"

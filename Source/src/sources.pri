@@ -56,8 +56,7 @@ HEADERS += \
     $$PWD/universalinputdialog.h \
     $$PWD/webpublishdialog_config.h \
     $$PWD/xmltagslistwidget.h \
-    $$PWD/macrobrowserui.h \
-    $$PWD/terminal_config.h
+    $$PWD/macrobrowserui.h
 
 SOURCES += \
     $$PWD/aboutdialog.cpp \
