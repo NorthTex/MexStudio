@@ -19,6 +19,15 @@ HEADERS += \
     $$PWD/Dialogs/QuickBeamer.hpp \
     $$PWD/Dialogs/Array.hpp
 
+HEADERS += \
+    $$PWD/Template/Template.hpp \
+    $$PWD/Template/Local/File.hpp \
+    $$PWD/Template/Local/Latex.hpp \
+    $$PWD/Template/Local/Table.hpp \
+    $$PWD/Template/Local/Resource/File.hpp \
+    $$PWD/Template/Local/Resource/Latex.hpp \
+    $$PWD/Template/Local/Resource/Table.hpp
+
 
 HEADERS +=                              \
     $$PWD/Debug/Guardian.hpp            \

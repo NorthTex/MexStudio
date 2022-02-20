@@ -1,5 +1,6 @@
 
-#include "templatemanager_p.h"
+#include "templatemanager.h"
+#include "Template/Template.hpp"
 
 
 TemplateHandle::TemplateHandle(const TemplateHandle & handle) 

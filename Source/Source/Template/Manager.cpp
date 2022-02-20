@@ -1,6 +1,7 @@
 
 #include "templatemanager.h"
-#include "templatemanager_p.h"
+#include "Template/Local/Resource/Latex.hpp"
+#include "Template/Local/Resource/Table.hpp"
 #include "templateselector.h"
 #include "mostQtHeaders.h"
 #include "configmanager.h"

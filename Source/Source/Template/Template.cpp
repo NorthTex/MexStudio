@@ -1,5 +1,5 @@
 
-#include "templatemanager_p.h"
+#include "Template/Template.hpp"
 #include <Include/UtilsUI.hpp>
 #include <JlCompress.h>
 

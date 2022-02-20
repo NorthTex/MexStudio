@@ -1,5 +1,5 @@
 
-#include "templatemanager_p.h"
+#include "Template/Local/Resource/File.hpp"
 
 
 LocalFileTemplateResource::LocalFileTemplateResource(

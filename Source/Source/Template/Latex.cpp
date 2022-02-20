@@ -1,5 +1,5 @@
 
-#include "templatemanager_p.h"
+#include "Template/Local/Latex.hpp"
 #include <Include/UtilsUI.hpp>
 #include "smallUsefulFunctions.h"
 #include <QJsonDocument>

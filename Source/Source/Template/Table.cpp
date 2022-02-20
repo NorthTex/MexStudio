@@ -1,5 +1,5 @@
 
-#include "templatemanager_p.h"
+#include "Template/Local/Table.hpp"
 #include <QJsonDocument>
 #include <Include/UtilsUI.hpp>
 
