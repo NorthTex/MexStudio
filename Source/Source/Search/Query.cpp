@@ -2,6 +2,7 @@
 #include "LabelSearchQuery.hpp"
 #include "buildmanager.h"
 #include "Latex/Document.hpp"
+#include "Search/LabelResultModel.hpp"
 
 
 SearchQuery::SearchQuery(QString expr,QString replaceText,SearchFlags flags) 
@@ -202,7 +203,7 @@ void SearchQuery::replaceAll(){
 							int offset = 0;
 							
 							for(const auto & match : results){
-								cursor -> select(line,offset + match.pos,line,offset + match.pos + match.length);
+								cursor -> select(line,offset + match.position,line,offset + match.position + match.length);
 								cursor -> replaceSelectedText(replaceText);
 								offset += replaceText.length() - match.length;
 							}

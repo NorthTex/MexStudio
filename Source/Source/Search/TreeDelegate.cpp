@@ -108,14 +108,14 @@ void SearchTreeDelegate::paint(
 		
 		// text before match
 
-		QString part = text.mid(pos,match.pos - pos);
+		QString part = text.mid(pos,match.position - pos);
 		int w = UtilsUi::getFmWidth(painter -> fontMetrics(),part);
 		painter -> drawText(r,Qt::AlignLeft | Qt::AlignTop | Qt::TextSingleLine,part);
 		r.setLeft(r.left() + w + 1);
 
 		// matched text
 		
-		part = text.mid(match.pos,match.length);
+		part = text.mid(match.position,match.length);
 		w = UtilsUi::getFmWidth(painter -> fontMetrics(),part);
 		painter -> save();
         
@@ -131,7 +131,7 @@ void SearchTreeDelegate::paint(
 
 		r.setLeft(r.left() + w + 1);
 		
-		pos = match.pos + match.length;
+		pos = match.position + match.length;
 	}
 
 	if(pos < text.length()){

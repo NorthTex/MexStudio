@@ -37,7 +37,6 @@ HEADERS += \
     $$PWD/pdfsplittool.h \
     $$PWD/qmetautils.h \
     $$PWD/scriptengine.h \
-    $$PWD/searchresultmodel.h \
     $$PWD/smallUsefulFunctions.h \
     $$PWD/styleanimator.h \
     $$PWD/stylehelper.h \

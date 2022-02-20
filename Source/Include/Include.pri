@@ -38,6 +38,10 @@ HEADERS +=                              \
 
 HEADERS +=                              \
     $$PWD/Search/TreeDelegate.hpp            \
+    $$PWD/Search/Info.hpp            \
+    $$PWD/Search/Match.hpp            \
+    $$PWD/Search/LabelResultModel.hpp            \
+    $$PWD/Search/ResultModel.hpp            \
     $$PWD/Search/ResultWidget.hpp
 
 HEADERS +=                              \

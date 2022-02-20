@@ -2,7 +2,7 @@
 #define Header_SearchQuery
 
 
-#include "searchresultmodel.h"
+#include "Search/ResultModel.hpp"
 #include "qdocument.h"
 #include "qdocumentline_p.h"
 

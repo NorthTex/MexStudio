@@ -1,5 +1,6 @@
 
-#include "searchresultmodel.h"
+#include "Search/ResultModel.hpp"
+#include "Search/LabelResultModel.hpp"
 #include "qdocument.h"
 #include "qdocumentsearch.h"
 #include "smallUsefulFunctions.h"
@@ -426,9 +427,9 @@ QString SearchResultModel::prepareReplacedText(const QDocumentLine & docline) co
 		if(mIsRegExp)
 			continue;
 			
-		result = result.left(offset + match.pos) + 
+		result = result.left(offset + match.position) +
 			"<b>" + mReplacementText + "</b>" + 
-			result.mid(match.pos + match.length + offset);
+			result.mid(match.position + match.length + offset);
 
 		// 7 is the length of the html tags.
 		offset += mReplacementText.length() - match.length + 7; 
@@ -460,7 +461,7 @@ QList<SearchMatch> SearchResultModel::getSearchMatches(const QDocumentLine & doc
 			break;
 
 		SearchMatch match;
-		match.pos = index;
+		match.position = index;
 		match.length = regex.matchedLength();
 		
 		result << match;
@@ -592,7 +593,7 @@ QList<SearchMatch> LabelSearchResultModel::getSearchMatches(const QDocumentLine 
 
 	std::remove_if(matches.begin(),matches.end(),[ & ](const auto & match){
 
-		const auto position = match.pos;
+		const auto position = match.position;
 		const auto first = position - 1;
 
 		if(first < 0)
