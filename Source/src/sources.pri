@@ -36,7 +36,6 @@ HEADERS += \
     $$PWD/mostQtHeaders.h \
     $$PWD/pdfsplittool.h \
     $$PWD/qmetautils.h \
-    $$PWD/randomtextgenerator.h \
     $$PWD/scriptengine.h \
     $$PWD/searchresultmodel.h \
     $$PWD/smallUsefulFunctions.h \

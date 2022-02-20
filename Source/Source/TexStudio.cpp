@@ -34,7 +34,7 @@
 #include "Dialogs/About.hpp"
 #include "Dialogs/EncodingDialog.hpp"
 #include "Include/Encoding.hpp"
-#include "randomtextgenerator.h"
+#include "RandomTextGenerator.hpp"
 #include "qsearchreplacepanel.h"
 #include "latexcompleter_config.h"
 #include "insertgraphics.h"

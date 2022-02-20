@@ -1,5 +1,5 @@
 
-#include "randomtextgenerator.h"
+#include "RandomTextGenerator.hpp"
 #include "latexparser/latexreader.h"
 #include "Include/UtilsUI.hpp"
 #include "ui_randomtextgenerator.h"

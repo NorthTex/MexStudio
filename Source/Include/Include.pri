@@ -55,6 +55,7 @@ HEADERS +=                              \
     $$PWD/Editors.hpp \
     $$PWD/MathAssistant.hpp \
     $$PWD/EditorChangeProxy.hpp \
+    $$PWD/RandomTextGenerator.hpp \
     $$PWD/SearchQuery.hpp \
     $$PWD/ExecProgram.hpp \
     $$PWD/GrammarCheckConfig.hpp \
