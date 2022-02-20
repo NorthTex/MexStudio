@@ -20,7 +20,10 @@ HEADERS += \
     $$PWD/Dialogs/Array.hpp
 
 HEADERS += \
+    $$PWD/Template/Handle.hpp \
+    $$PWD/Template/Manager.hpp \
     $$PWD/Template/Template.hpp \
+    $$PWD/Template/AbstractResource.hpp \
     $$PWD/Template/Local/File.hpp \
     $$PWD/Template/Local/Latex.hpp \
     $$PWD/Template/Local/Table.hpp \

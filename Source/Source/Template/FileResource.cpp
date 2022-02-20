@@ -1,6 +1,9 @@
 
 #include "Template/Local/Resource/File.hpp"
 
+#include <QDir>
+#include <QFileInfo>
+
 
 LocalFileTemplateResource::LocalFileTemplateResource(
 	QString path,

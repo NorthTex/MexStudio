@@ -1,5 +1,5 @@
 
-#include "templatemanager.h"
+#include "Template/Manager.hpp"
 #include "Template/Local/Resource/Latex.hpp"
 #include "Template/Local/Resource/Table.hpp"
 #include "templateselector.h"

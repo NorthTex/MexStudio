@@ -13,7 +13,8 @@
 #define Header_Template_Selector
 
 #include "mostQtHeaders.h"
-#include "templatemanager.h"
+#include "Template/Handle.hpp"
+#include "Template/AbstractResource.hpp"
 #include "ui_templateselector.h"
 
 

@@ -2,7 +2,14 @@
 #include "Template/Template.hpp"
 #include <Include/UtilsUI.hpp>
 #include <JlCompress.h>
+#include <QCoreApplication>
 
+
+
+Template::~Template(){
+	for(auto handle : handles)
+		handle -> setTmpl(0);
+}
 
 const auto warning_nonEmpty = 
 	"The target folder is not empty. It is recommended to instantiate "

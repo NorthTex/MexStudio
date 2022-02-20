@@ -2,7 +2,14 @@
 #define Header_Template
 
 
-#include "templatemanager.h"
+#include "Template/Handle.hpp"
+#include <QList>
+#include <QString>
+#include <QDate>
+#include <QPixmap>
+
+
+class TemplateHandle;
 
 
 class Template {
@@ -13,10 +20,7 @@ class Template {
 
 	public:
 
-		virtual ~Template(){
-			for(auto handle : handles)
-				handle -> setTmpl(0);
-		}
+		virtual ~Template();
 
 		#define getter(name,type) \
 			virtual type name() const { return type(); }

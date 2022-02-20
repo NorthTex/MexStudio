@@ -1,5 +1,6 @@
 
 #include "Template/Local/Table.hpp"
+#include "Template/Manager.hpp"
 #include <QJsonDocument>
 #include <Include/UtilsUI.hpp>
 

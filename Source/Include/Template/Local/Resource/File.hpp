@@ -2,8 +2,14 @@
 #define Header_Template_Local_Resource_File
 
 
-#include "templatemanager.h"
+#include "Template/AbstractResource.hpp"
+#include "Template/Handle.hpp"
 #include "Template/Local/File.hpp"
+
+#include <QIcon>
+#include <QString>
+#include <QList>
+#include <QObject>
 
 
 class LocalFileTemplateResource : public QObject , public AbstractTemplateResource {

@@ -45,7 +45,6 @@ HEADERS += \
     $$PWD/svn.h \
     $$PWD/syntaxcheck.h \
     $$PWD/tablemanipulation.h \
-    $$PWD/templatemanager.h \
     $$PWD/templateselector.h \
     $$PWD/textanalysis.h \
     $$PWD/titledpanel.h \

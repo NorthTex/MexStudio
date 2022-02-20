@@ -14,6 +14,8 @@
 
 #include "Debug/Guardian.hpp"
 
+#include "Template/Manager.hpp"
+
 #include "smallUsefulFunctions.h"
 
 #include "cleandialog.h"
@@ -29,7 +31,6 @@
 #include "BibTex/Dialog.hpp"
 #include "MathAssistant.hpp"
 #include "templateselector.h"
-#include "templatemanager.h"
 #include "Dialogs/About.hpp"
 #include "Dialogs/EncodingDialog.hpp"
 #include "Include/Encoding.hpp"

@@ -1,5 +1,6 @@
 
 #include "Template/Local/Latex.hpp"
+#include "Template/Manager.hpp"
 #include <Include/UtilsUI.hpp>
 #include "smallUsefulFunctions.h"
 #include <QJsonDocument>
