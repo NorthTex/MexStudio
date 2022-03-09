@@ -1,6 +1,12 @@
 #include "utilsSystem.h"
 
-#include "pdfsplittool.h"
+
+#include "PDF/MultiProcessX.hpp"
+#include "PDF/SplitMergeTool.hpp"
+#include "PDF/SplitMergePDFPages.hpp"
+#include "PDF/SplitMerge.hpp"
+#include "PDF/SplitMergeGS.hpp"
+
 #include "ui_pdfsplittool.h"
 #include "Include/UtilsUI.hpp"
 

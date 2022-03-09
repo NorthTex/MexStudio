@@ -33,7 +33,6 @@ HEADERS += \
     $$PWD/minisplitter.h \
     $$PWD/modifiedQObject.h \
     $$PWD/mostQtHeaders.h \
-    $$PWD/pdfsplittool.h \
     $$PWD/qmetautils.h \
     $$PWD/scriptengine.h \
     $$PWD/smallUsefulFunctions.h \

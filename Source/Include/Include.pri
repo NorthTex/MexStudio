@@ -83,6 +83,13 @@ HEADERS += \
     $$PWD/Wrapper/Connect.hpp
 
 HEADERS +=                              \
+    $$PWD/PDF/SplitMergePDFPages.hpp    \
+    $$PWD/PDF/SplitMergeTool.hpp        \
+    $$PWD/PDF/MultiProcessX.hpp         \
+    $$PWD/PDF/SplitMergeGS.hpp          \
+    $$PWD/PDF/SplitMerge.hpp
+    
+HEADERS +=                              \
     $$PWD/Latex/EditorViewConfig.hpp    \
     $$PWD/Latex/OutputFilter.hpp        \
     $$PWD/Latex/StyleParser.hpp         \

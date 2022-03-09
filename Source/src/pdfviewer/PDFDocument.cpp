@@ -43,7 +43,12 @@
 #include "minisplitter.h"
 #include "titledpanel.h"
 
-#include "pdfsplittool.h"
+#include "PDF/SplitMerge.hpp"
+#include "PDF/SplitMergeGS.hpp"
+#include "PDF/SplitMergePDFPages.hpp"
+#include "PDF/SplitMergeTool.hpp"
+#include "PDF/MultiProcessX.hpp"
+
 
 #include "Dialogs/File.hpp"
 
