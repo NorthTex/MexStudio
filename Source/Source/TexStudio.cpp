@@ -37,7 +37,6 @@
 #include "RandomTextGenerator.hpp"
 #include "qsearchreplacepanel.h"
 #include "latexcompleter_config.h"
-#include "insertgraphics.h"
 #include "scriptengine.h"
 #include "grammarcheck.h"
 #include "qmetautils.h"
@@ -75,7 +74,7 @@
 
 
 
-
+#include "InsertGraphics.hpp"
 
 
 #include "Latex/EditorView.hpp"

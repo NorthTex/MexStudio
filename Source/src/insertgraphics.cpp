@@ -10,7 +10,8 @@
  ***************************************************************************/
 
 #include "mostQtHeaders.h"
-#include "insertgraphics.h"
+#include "PlacementValidator.hpp"
+#include "InsertGraphics.hpp"
 #include "insertgraphics_config.h"
 
 

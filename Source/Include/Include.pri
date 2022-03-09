@@ -61,6 +61,8 @@ HEADERS +=                              \
     $$PWD/EditorChangeProxy.hpp \
     $$PWD/RandomTextGenerator.hpp \
     $$PWD/SearchQuery.hpp \
+    $$PWD/InsertGraphics.hpp \
+    $$PWD/PlacementValidator.hpp \
     $$PWD/TerminalConfig.hpp \
     $$PWD/ExecProgram.hpp \
     $$PWD/GrammarCheckConfig.hpp \

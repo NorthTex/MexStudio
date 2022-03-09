@@ -25,7 +25,6 @@ HEADERS += \
     $$PWD/git.h \
     $$PWD/grammarcheck.h \
     #$$PWD/icondelegate.h \
-    $$PWD/insertgraphics.h \
     $$PWD/insertgraphics_config.h \
     $$PWD/latexcompleter_config.h \
     $$PWD/libqmarkedscrollbar/src/markedscrollbar.h \
