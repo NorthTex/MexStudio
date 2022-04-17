@@ -101,6 +101,9 @@ SOURCES += \
     $$PWD/Template/FileResource.cpp
 
 SOURCES += \
+    $$PWD/Studio/MenuBar.cpp
+
+SOURCES += \
     $$PWD/Latex/Document.cpp \
     $$PWD/Latex/Completer.cpp \
     $$PWD/Latex/Repository.cpp \

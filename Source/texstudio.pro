@@ -84,6 +84,10 @@ QT += \
     qml
 
 
+INCLUDEPATH += /usr/include/boost/
+LIBS += -L/usr/include/boost/
+
+
 #versionGreaterOrEqual($$QT_VERSION, "6.0.0") {
     QT += core5compat
 #}

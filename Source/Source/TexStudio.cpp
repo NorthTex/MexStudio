@@ -756,61 +756,6 @@ void Texstudio::setupDockWidgets()
     sidePanelSplitter->restoreState(configManager.getOption("GUI/sidePanelSplitter/state").toByteArray());
 }
 
-void Texstudio::updateToolBarMenu(const QString &menuName)
-{
-	QMenu *menu = configManager.getManagedMenu(menuName);
-	if (!menu) return;
-	LatexEditorView *edView = currentEditorView();
-    foreach (const ManagedToolBar &tb, configManager.managedToolBars){
-        if (tb.toolbar && tb.actualActions.contains(menuName)){
-            foreach (QObject *w, tb.toolbar->children()){
-				if (w->property("menuID").toString() == menuName) {
-					QToolButton *combo = qobject_cast<QToolButton *>(w);
-					REQUIRE(combo);
-
-					QStringList actionTexts;
-					QList<QIcon> actionIcons;
-					int defaultIndex = -1;
-					foreach (const QAction *act, menu->actions())
-						if (!act->isSeparator()) {
-							actionTexts.append(act->text());
-							actionIcons.append(act->icon());
-							if (menuName == "main/view/documents" && edView == act->data().value<LatexEditorView *>()) {
-								defaultIndex = actionTexts.length() - 1;
-							}
-						}
-
-					//qDebug() << "**" << actionTexts;
-					UtilsUi::createComboToolButton(tb.toolbar, actionTexts, actionIcons, -1, this, SLOT(callToolButtonAction()), defaultIndex, combo);
-
-					if (menuName == "main/view/documents") {
-						// workaround to select the current document
-						// combobox uses separate actions. So we have to get the current action from the menu (by comparing its data()
-						// attribute to the currentEditorView(). Then map it to a combobox action using the index.
-						// TODO: should this menu be provided by Editors?
-						LatexEditorView *edView = currentEditorView();
-						foreach (QAction* act, menu->actions()) {
-							qDebug() << act->data().value<LatexEditorView *>() << combo;
-							if (edView == act->data().value<LatexEditorView *>()) {
-								int i = menu->actions().indexOf(act);
-								qDebug() << i << combo->menu()->actions().length();
-								if (i < 0 || i>= combo->menu()->actions().length()) continue;
-								foreach (QAction *act, menu->actions()) {
-									qDebug() << "menu" << act->text();
-								}
-								foreach (QAction *act, combo->menu()->actions()) {
-									qDebug() << "cmb" << act->text();
-								}
-
-								combo->setDefaultAction(combo->menu()->actions()[i]);
-							}
-						}
-					}
-				}
-            }
-        }
-    }
-}
 
 // we different native shortcuts on OSX and Win/Linux
 // note: in particular many key combination with arrows are reserved for text navigation in OSX
